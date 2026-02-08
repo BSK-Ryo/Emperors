@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOMEN'S TEAM | Emperor's Basketball Team</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'emperor-red': '#8B0000',
+                        'emperor-dark': '#0a0a0a',
+                        'emperor-gray': '#1a1a1a',
+                        'line-green': '#06C755',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        oswald: ['"Oswald"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-emperor-dark text-gray-200 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-emperor-dark/95 border-b border-emperor-red/30 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <img src="emperors-logo.png" alt="Emperor's Logo" class="h-16 w-auto">
+                        <span class="font-oswald text-2xl font-bold text-white tracking-wider">EMPEROR'S</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">HOME</a>
+                        <a href="index.html#about" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">ABOUT</a>
+                        <a href="men-team.html" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MENS TEAMS</a>
+                        <a href="women-team.html" class="text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">WOMAN TEAMS</a>
+                        <a href="index.html#schedule" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">SCHEDULE</a>
+                        <a href="index.html#monthly-schedule" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MONTHLY</a>
+                        <a href="index.html#contact" class="bg-emperor-red hover:bg-red-800 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors duration-300">CONTACT</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i data-lucide="menu" class="h-8 w-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-emperor-gray border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">HOME</a>
+                <a href="index.html#about" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">ABOUT</a>
+                <a href="men-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MENS TEAMS</a>
+                <a href="women-team.html" class="block bg-emperor-red/20 text-emperor-red px-3 py-2 rounded-md text-base font-bold">WOMAN TEAMS</a>
+                <a href="index.html#schedule" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">SCHEDULE</a>
+                <a href="index.html#monthly-schedule" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MONTHLY</a>
+                <a href="index.html#contact" class="block text-emperor-red font-bold px-3 py-2 rounded-md text-base">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="emperors女子集合写真.jpg" alt="Women's Team" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-emperor-red/20 to-emperor-dark"></div>
+        </div>
+        <div class="relative z-10 text-center px-4">
+            <p class="font-oswald text-lg md:text-xl text-emperor-red tracking-[0.3em] mb-4 font-bold">
+                EMPEROR'S BASKETBALL TEAM
+            </p>
+            <h1 class="font-oswald text-5xl md:text-7xl font-bold text-white text-shadow tracking-tight">
+                WOMEN'S TEAM
+            </h1>
+            <div class="w-24 h-1 bg-emperor-red mx-auto mt-6"></div>
+        </div>
+    </section>
+
+    <!-- Team Overview -->
+    <section class="py-20 bg-emperor-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="rounded-lg overflow-hidden shadow-2xl border border-gray-800">
+                    <img src="emperors女子集合写真.jpg" alt="Women's Team" class="w-full h-full object-cover">
+                </div>
+                <div class="space-y-6">
+                    <h2 class="font-oswald text-3xl font-bold text-white">ABOUT WOMEN'S TEAM</h2>
+                    <div class="w-16 h-1 bg-emperor-red"></div>
+                    <p class="text-gray-400 leading-relaxed">
+                        チームワークと楽しさを大切に活動中。
+                        ブランクがある方から現役バリバリの方まで、互いに高め合いながら勝利を目指しています。
+                    </p>
+                    <p class="text-gray-400 leading-relaxed">
+                        練習試合も積極的に募集中。
+                        人数が集まれば女子単独ゲームも実施し、実戦経験を積んでいます。
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="border-l-4 border-emperor-red pl-4">
+                            <span class="block text-3xl font-oswald font-bold text-white">15名</span>
+                            <span class="text-xs text-gray-500">MEMBERS</span>
+                        </div>
+                        <div class="border-l-4 border-emperor-red pl-4">
+                            <span class="block text-3xl font-oswald font-bold text-white">練習試合</span>
+                            <span class="text-xs text-gray-500">募集中</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Members Roster -->
+    <section class="py-20 bg-emperor-gray relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-emperor-red/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-emperor-red/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold text-white mb-4">ROSTER</h2>
+                <div class="w-24 h-1 bg-emperor-red mx-auto mb-6"></div>
+                <p class="text-gray-400">2025-2026 SEASON MEMBERS</p>
+            </div>
+
+            <!-- Members Grid -->
+            <div id="members-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Members will be rendered by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-10 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <img src="emperors-logo.png" alt="Emperor's Logo" class="h-16 w-auto">
+                <span class="font-oswald text-xl font-bold text-white tracking-wider">EMPEROR'S</span>
+            </div>
+
+            <div class="flex space-x-6 text-gray-400 mb-4 md:mb-0 items-center">
+                <a href="#" class="hover:text-emperor-red transition-colors flex items-center space-x-1">
+                    <i data-lucide="instagram" class="h-6 w-6"></i>
+                    <span class="text-xs font-bold">Instagram</span>
+                </a>
+                <a href="#" class="hover:text-line-green transition-colors flex items-center space-x-1">
+                    <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 5.86 2 10.62c0 2.42 1.15 4.6 3.03 6.13-.13.56-.47 1.99-.54 2.27-.08.34.18.44.38.21.05-.05 3.06-2.07 3.39-2.3.62.17 1.28.26 1.96.26 5.52 0 10-3.86 10-8.62S17.52 2 12 2zm1.96 11.23h-4.32c-.3 0-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h3.78c.3 0 .54.24.54.54s-.24.54-.54.54zm2.84-2.88h-1.63v1.63c0 .3-.24.54-.54.54s-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h1.63c.3 0 .54.24.54.54s-.24.54-.54.54z"/>
+                    </svg>
+                    <span class="text-xs font-bold">LINE</span>
+                </a>
+            </div>
+
+            <div class="text-gray-600 text-sm">
+                &copy; 2024 Emperor's Basketball Team. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Member Data (placeholder - replace with real data later)
+        const MEMBERS_DATA = [
+            { number: 0,  nameEn: "HANAKO SATO",       nameJa: "佐藤 花子",   position: "PG" },
+            { number: 1,  nameEn: "YUKI TANAKA",       nameJa: "田中 由紀",   position: "SG" },
+            { number: 2,  nameEn: "MIKA SUZUKI",       nameJa: "鈴木 美香",   position: "SF" },
+            { number: 3,  nameEn: "AYAKA YAMADA",      nameJa: "山田 彩花",   position: "PG" },
+            { number: 4,  nameEn: "RISA WATANABE",     nameJa: "渡辺 理沙",   position: "C"  },
+            { number: 5,  nameEn: "SAKURA ITO",        nameJa: "伊藤 さくら", position: "SG" },
+            { number: 6,  nameEn: "NANA TAKAHASHI",    nameJa: "高橋 奈々",   position: "SF" },
+            { number: 7,  nameEn: "MAI KOBAYASHI",     nameJa: "小林 舞",     position: "PF" },
+            { number: 8,  nameEn: "YUMI YOSHIDA",      nameJa: "吉田 由美",   position: "PG" },
+            { number: 9,  nameEn: "HINA YAMAMOTO",     nameJa: "山本 陽菜",   position: "SG" },
+            { number: 10, nameEn: "AIKO NAKAMURA",     nameJa: "中村 愛子",   position: "C"  },
+            { number: 11, nameEn: "MISAKI OGAWA",      nameJa: "小川 美咲",   position: "SF" },
+            { number: 12, nameEn: "KANA MATSUMOTO",    nameJa: "松本 佳奈",   position: "PF" },
+            { number: 13, nameEn: "CHIKA INOUE",       nameJa: "井上 千夏",   position: "SG" },
+            { number: 14, nameEn: "RINA KIMURA",       nameJa: "木村 里奈",   position: "PF" },
+        ];
+
+        // Render member cards
+        function renderMembers() {
+            const grid = document.getElementById('members-grid');
+            grid.innerHTML = '';
+
+            MEMBERS_DATA.forEach(member => {
+                const card = document.createElement('div');
+                card.className = 'group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-red/50 transition-all duration-300';
+
+                const numberPadded = String(member.number).padStart(2, '0');
+
+                card.innerHTML = `
+                    <div class="aspect-[3/4] overflow-hidden relative bg-emperor-gray">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="user" class="h-16 w-16 md:h-20 md:w-20 text-gray-700"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-emperor-dark via-transparent to-transparent"></div>
+                        <div class="absolute top-3 left-3">
+                            <span class="font-oswald text-4xl md:text-5xl font-bold text-white/20 group-hover:text-emperor-red/40 transition-colors duration-300">
+                                ${numberPadded}
+                            </span>
+                        </div>
+                        <div class="absolute top-3 right-3">
+                            <span class="bg-emperor-red/80 text-white text-xs font-bold px-2 py-1 rounded">
+                                ${member.position}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <div class="flex items-baseline justify-between mb-1">
+                            <h3 class="font-oswald text-sm md:text-lg font-bold text-white group-hover:text-emperor-red transition-colors duration-300 truncate mr-2">
+                                ${member.nameEn}
+                            </h3>
+                            <span class="font-oswald text-xs md:text-sm text-emperor-red font-bold shrink-0">#${numberPadded}</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-gray-500">${member.nameJa}</p>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            // Re-init Lucide icons for dynamically created elements
+            lucide.createIcons();
+        }
+
+        // Initialize
+        lucide.createIcons();
+        renderMembers();
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

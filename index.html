@@ -65,8 +65,8 @@
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="#home" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">HOME</a>
                         <a href="#about" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">ABOUT</a>
-                        <a href="#teams" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MENS TEAMS</a>
-                        <a href="#teams" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">WOMAN TEAMS</a>
+                        <a href="men-team.html" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MENS TEAMS</a>
+                        <a href="women-team.html" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">WOMAN TEAMS</a>
                         <a href="#schedule" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">SCHEDULE</a>
                         <a href="#monthly-schedule" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MONTHLY</a>
                         <a href="#contact" class="bg-emperor-red hover:bg-red-800 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors duration-300">CONTACT</a>
@@ -87,7 +87,8 @@
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <a href="#home" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">HOME</a>
                 <a href="#about" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">ABOUT</a>
-                <a href="#teams" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">TEAMS</a>
+                <a href="men-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MENS TEAMS</a>
+                <a href="women-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">WOMAN TEAMS</a>
                 <a href="#schedule" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">SCHEDULE</a>
                 <a href="#monthly-schedule" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MONTHLY</a>
                 <a href="#contact" class="block text-emperor-red font-bold px-3 py-2 rounded-md text-base">CONTACT</a>
@@ -170,18 +171,18 @@
 
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Men's Team -->
-                <div class="group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-red/50 transition-all duration-300">
+                <a href="men-team.html" class="group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-red/50 transition-all duration-300 block">
                     <div class="h-64 overflow-hidden relative">
                         <div class="absolute inset-0 bg-gradient-to-t from-emperor-dark to-transparent z-10"></div>
-                        <!-- 
+                        <!--
                              【画像設定について】
                              src="emperors男子集合写真.jpg" に設定しています。
                              プレビュー環境等で画像が見つからない場合の予備として、onerrorで仮画像を設定しています。
                         -->
-                        <img 
-                            src="emperors男子集合写真.jpg" 
+                        <img
+                            src="emperors男子集合写真.jpg"
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1515523110800-941516dbbe33?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';"
-                            alt="Men's Team" 
+                            alt="Men's Team"
                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                         >
                     </div>
@@ -200,23 +201,27 @@
                             <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> 練習のスタッツを元にした戦術・役割</li>
                             <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> リーグ戦参加中</li>
                         </ul>
+                        <span class="inline-flex items-center text-emperor-red group-hover:text-red-400 font-bold text-sm transition-colors duration-300">
+                            VIEW ROSTER
+                            <i data-lucide="arrow-right" class="h-4 w-4 ml-2"></i>
+                        </span>
                     </div>
-                </div>
+                </a>
 
                 <!-- Women's Team -->
-                <div class="group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-red/50 transition-all duration-300">
+                <a href="women-team.html" class="group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-red/50 transition-all duration-300 block">
                     <div class="h-64 overflow-hidden relative">
                         <div class="absolute inset-0 bg-gradient-to-t from-emperor-dark to-transparent z-10"></div>
-                        <!-- 
+                        <!--
                              【画像設定について】
                              src="emperors女子集合写真.jpg" に設定しています。
                              プレビューで表示されない場合のために、onerrorで仮画像を表示する設定を入れています。
                              実際の運用では同じフォルダに "emperors女子集合写真.jpg" を置いてください。
                         -->
-                        <img 
-                            src="emperors女子集合写真.jpg" 
+                        <img
+                            src="emperors女子集合写真.jpg"
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1526509867162-5b0c0d1b4b33?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';"
-                            alt="Women's Team" 
+                            alt="Women's Team"
                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                         >
                     </div>
@@ -233,8 +238,12 @@
                             <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> 人数が集まれば女子単独ゲーム実施</li>
                             <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> 練習試合募集中</li>
                         </ul>
+                        <span class="inline-flex items-center text-emperor-red group-hover:text-red-400 font-bold text-sm transition-colors duration-300">
+                            VIEW ROSTER
+                            <i data-lucide="arrow-right" class="h-4 w-4 ml-2"></i>
+                        </span>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -242,10 +251,11 @@
     <!-- Schedule & Access -->
     <section id="schedule" class="py-20 bg-emperor-dark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Schedule -->
-                <div class="lg:col-span-2">
-                    <h3 class="font-oswald text-3xl font-bold text-white mb-6 border-l-4 border-emperor-red pl-4">SCHEDULE</h3>
+            <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-16">
+                        <h2 class="font-oswald text-4xl font-bold text-white mb-4">PRACTICE</h2>
+                        <div class="w-24 h-1 bg-emperor-red mx-auto"></div>
+                    </div>
                     <div class="bg-emperor-gray rounded-xl p-6 border border-gray-800">
                         <div class="space-y-4">
                             <!-- Schedule Item: Main Practice -->
@@ -289,84 +299,67 @@
                                     </ul>
                                 </p>
                             </div>
-
                         </div>
-                        <p class="mt-4 text-xs text-gray-500">* スケジュールは施設の予約状況により変更になる場合があります。</p>
                     </div>
-                </div>
             </div>
         </div>
     </section>
 
     <!-- Monthly Schedule Section -->
     <section id="monthly-schedule" class="py-20 bg-emperor-gray relative overflow-hidden">
-        <!-- Background Decorations -->
         <div class="absolute top-0 left-0 -ml-20 -mt-20 w-96 h-96 bg-emperor-red/5 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 right-0 -mr-20 -mb-20 w-96 h-96 bg-emperor-red/5 rounded-full blur-3xl"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
-                <h2 class="font-oswald text-4xl font-bold text-white mb-4">今月の予定</h2>
+                <h2 class="font-oswald text-4xl font-bold text-white mb-4">CALENDAR</h2>
                 <div class="w-24 h-1 bg-emperor-red mx-auto mb-6"></div>
                 <p class="text-gray-400">THIS MONTH'S SCHEDULE</p>
             </div>
 
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Calendar -->
-                <div class="lg:col-span-1">
-                    <div class="bg-emperor-dark rounded-xl p-6 border border-gray-800 sticky top-24">
-                        <!-- Month Navigation -->
-                        <div class="flex items-center justify-between mb-4">
-                            <button id="prev-month" class="text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-gray-800">
-                                <i data-lucide="chevron-left" class="h-5 w-5"></i>
-                            </button>
-                            <h4 id="calendar-month-title" class="font-oswald text-xl font-bold text-white"></h4>
-                            <button id="next-month" class="text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-gray-800">
-                                <i data-lucide="chevron-right" class="h-5 w-5"></i>
-                            </button>
+            <div class="max-w-md mx-auto">
+                <div class="bg-emperor-dark rounded-xl p-6 border border-gray-800">
+                    <!-- Month Navigation -->
+                    <div class="flex items-center justify-between mb-4">
+                        <button id="prev-month" class="text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-gray-800">
+                            <i data-lucide="chevron-left" class="h-5 w-5"></i>
+                        </button>
+                        <h4 id="calendar-month-title" class="font-oswald text-xl font-bold text-white"></h4>
+                        <button id="next-month" class="text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-gray-800">
+                            <i data-lucide="chevron-right" class="h-5 w-5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Day of Week Headers -->
+                    <div class="grid grid-cols-7 gap-1 mb-2">
+                        <div class="text-center text-xs font-bold text-red-400">日</div>
+                        <div class="text-center text-xs font-bold text-gray-500">月</div>
+                        <div class="text-center text-xs font-bold text-gray-500">火</div>
+                        <div class="text-center text-xs font-bold text-gray-500">水</div>
+                        <div class="text-center text-xs font-bold text-gray-500">木</div>
+                        <div class="text-center text-xs font-bold text-gray-500">金</div>
+                        <div class="text-center text-xs font-bold text-blue-400">土</div>
+                    </div>
+
+                    <!-- Calendar Grid -->
+                    <div id="calendar-grid" class="grid grid-cols-7 gap-1"></div>
+
+                    <!-- Legend -->
+                    <div class="mt-4 pt-4 border-t border-gray-800 space-y-2">
+                        <div class="flex items-center text-xs text-gray-400">
+                            <span class="w-3 h-3 bg-emperor-red/40 border border-emperor-red/60 rounded mr-2 inline-block"></span>
+                            練習日
                         </div>
-
-                        <!-- Day of Week Headers -->
-                        <div class="grid grid-cols-7 gap-1 mb-2">
-                            <div class="text-center text-xs font-bold text-red-400">日</div>
-                            <div class="text-center text-xs font-bold text-gray-500">月</div>
-                            <div class="text-center text-xs font-bold text-gray-500">火</div>
-                            <div class="text-center text-xs font-bold text-gray-500">水</div>
-                            <div class="text-center text-xs font-bold text-gray-500">木</div>
-                            <div class="text-center text-xs font-bold text-gray-500">金</div>
-                            <div class="text-center text-xs font-bold text-blue-400">土</div>
-                        </div>
-
-                        <!-- Calendar Grid -->
-                        <div id="calendar-grid" class="grid grid-cols-7 gap-1"></div>
-
-                        <!-- Legend -->
-                        <div class="mt-4 pt-4 border-t border-gray-800 space-y-2">
-                            <div class="flex items-center text-xs text-gray-400">
-                                <span class="w-3 h-3 bg-emperor-red/40 border border-emperor-red/60 rounded mr-2 inline-block"></span>
-                                練習日
-                            </div>
-                            <div class="flex items-center text-xs text-gray-400">
-                                <span class="w-3 h-3 bg-yellow-500/30 border border-yellow-500/60 rounded mr-2 inline-block"></span>
-                                試合・イベント
-                            </div>
+                        <div class="flex items-center text-xs text-gray-400">
+                            <span class="w-3 h-3 bg-yellow-500/30 border border-yellow-500/60 rounded mr-2 inline-block"></span>
+                            試合・イベント
                         </div>
                     </div>
-                </div>
-
-                <!-- Event Cards -->
-                <div class="lg:col-span-2">
-                    <div id="monthly-events" class="grid sm:grid-cols-2 gap-4">
-                        <!-- JS-generated event cards go here -->
-                    </div>
-                    <p id="no-events-msg" class="hidden text-center text-gray-500 py-12">
-                        この月の予定はまだ登録されていません。
-                    </p>
                 </div>
             </div>
 
             <p class="mt-8 text-center text-xs text-gray-500">
-                * スケジュールは施設の予約状況により変更になる場合があります。最新情報はLINEグループにてご確認ください。
+                * 練習会場はLINEやInstagram、下記フォームにお問い合わせ時にお伝えいたします。
             </p>
         </div>
     </section>
@@ -374,9 +367,9 @@
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gradient-to-b from-emperor-gray to-emperor-dark">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="font-oswald text-4xl font-bold text-white mb-4">JOIN US</h2>
+            <h2 class="font-oswald text-4xl font-bold text-white mb-4">CONTACT</h2>
             <p class="text-gray-400 mb-10">
-                練習参加、練習試合の申し込み、その他お問い合わせはこちらから。<br>
+                練習参加、練習試合の申し込み、その他お問い合わせはこちら、もしくはLINE・Instagramでご連絡ください！<br>
                 新しい仲間、対戦相手を常に募集しています！
             </p>
 
@@ -389,7 +382,7 @@
                     <div>
                         <label for="category" class="block text-sm font-medium text-gray-400 mb-1">お問い合わせ内容</label>
                         <select id="category" class="w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emperor-red focus:ring-1 focus:ring-emperor-red transition-colors">
-                            <option>チームへの参加希望</option>
+                            <option>練習への参加希望</option>
                             <option>練習試合の申し込み</option>
                             <option>その他</option>
                         </select>
@@ -459,30 +452,20 @@
         (function() {
             // Schedule Data - 月ごとの予定をここで管理
             const SCHEDULE_DATA = {
-                '2026-02-04': { type: 'practice', venue: '札苗中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-06': { type: 'practice', venue: '栄南中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-10': { type: 'practice', venue: '東栄中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-12': { type: 'practice', venue: '篠路中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-14': { type: 'practice', venue: '北辰中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-17': { type: 'practice', venue: '太平中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-19': { type: 'practice', venue: '札苗中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-21': { type: 'practice', venue: '栄南中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-25': { type: 'practice', venue: '東栄中学校', time: '19:15-21:30', label: '通常練習' },
-                '2026-02-27': { type: 'practice', venue: '篠路中学校', time: '19:15-21:30', label: '通常練習' },
+                '2026-02-03': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
+                '2026-02-05': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
+                '2026-02-10': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
+                '2026-02-12': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
+                '2026-02-17': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
+                '2026-02-21': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
+                '2026-02-24': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
             };
 
             const calendarGrid = document.getElementById('calendar-grid');
             const monthTitle = document.getElementById('calendar-month-title');
-            const eventsContainer = document.getElementById('monthly-events');
-            const noEventsMsg = document.getElementById('no-events-msg');
             let currentDate = new Date();
 
             function pad(n) { return String(n).padStart(2, '0'); }
-
-            function getDayLabel(date) {
-                const days = ['日', '月', '火', '水', '木', '金', '土'];
-                return days[date.getDay()];
-            }
 
             function renderCalendar(year, month) {
                 monthTitle.textContent = year + '年' + (month + 1) + '月';
@@ -495,7 +478,7 @@
                 // Empty cells before 1st
                 for (let i = 0; i < firstDay; i++) {
                     const cell = document.createElement('div');
-                    cell.className = 'h-9';
+                    cell.className = 'h-10';
                     calendarGrid.appendChild(cell);
                 }
 
@@ -506,7 +489,7 @@
                     const cell = document.createElement('div');
                     const dayOfWeek = new Date(year, month, day).getDay();
 
-                    let classes = 'h-9 flex items-center justify-center text-sm rounded-lg ';
+                    let classes = 'h-10 flex items-center justify-center text-sm rounded-lg ';
 
                     if (event) {
                         if (event.type === 'practice') {
@@ -533,63 +516,13 @@
                     cell.textContent = day;
 
                     if (event) {
-                        cell.title = event.label + ' | ' + event.venue + ' ' + event.time;
+                        cell.title = event.label + ' | ' + event.time;
                     }
 
                     calendarGrid.appendChild(cell);
                 }
 
                 // Re-init Lucide icons for newly created elements
-                lucide.createIcons();
-
-                // Render event cards
-                renderEventCards(year, month);
-            }
-
-            function renderEventCards(year, month) {
-                eventsContainer.innerHTML = '';
-                const events = [];
-
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dateStr = year + '-' + pad(month + 1) + '-' + pad(day);
-                    if (SCHEDULE_DATA[dateStr]) {
-                        events.push({ date: dateStr, day: day, ...SCHEDULE_DATA[dateStr] });
-                    }
-                }
-
-                if (events.length === 0) {
-                    noEventsMsg.classList.remove('hidden');
-                    return;
-                }
-                noEventsMsg.classList.add('hidden');
-
-                events.forEach(function(ev) {
-                    const dateObj = new Date(year, month, ev.day);
-                    const dayLabel = getDayLabel(dateObj);
-
-                    const badgeClass = ev.type === 'practice'
-                        ? 'bg-gradient-to-r from-emperor-red to-red-600'
-                        : 'bg-gradient-to-r from-yellow-600 to-yellow-500';
-                    const badgeText = ev.type === 'practice' ? 'PRACTICE' : 'GAME';
-
-                    const card = document.createElement('div');
-                    card.className = 'bg-emperor-dark rounded-xl p-5 border border-gray-800 hover:border-emperor-red/30 transition-colors';
-                    card.innerHTML =
-                        '<div class="flex items-center justify-between mb-3">' +
-                            '<span class="' + badgeClass + ' text-white text-xs font-bold px-3 py-1 rounded">' + badgeText + '</span>' +
-                            '<span class="text-gray-500 text-sm font-oswald">' + (month + 1) + '/' + ev.day + ' (' + dayLabel + ')</span>' +
-                        '</div>' +
-                        '<h4 class="text-white font-bold mb-2">' + ev.label + '</h4>' +
-                        '<div class="space-y-1 text-sm text-gray-400">' +
-                            '<p class="flex items-center"><i data-lucide="clock" class="h-4 w-4 mr-2 text-emperor-red"></i>' + ev.time + '</p>' +
-                            '<p class="flex items-center"><i data-lucide="map-pin" class="h-4 w-4 mr-2 text-emperor-red"></i>' + ev.venue + '</p>' +
-                        '</div>';
-
-                    eventsContainer.appendChild(card);
-                });
-
-                // Re-init Lucide icons for event card icons
                 lucide.createIcons();
             }
 
