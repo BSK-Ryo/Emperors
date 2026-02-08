@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emperor's Basketball Team | 札幌市東区・北区</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'emperor-red': '#8B0000',      /* 濃い赤 */
+                        'emperor-dark': '#0a0a0a',     /* ほぼ黒 */
+                        'emperor-gray': '#1a1a1a',     /* ダークグレー */
+                        'line-green': '#06C755',       /* LINE Green */
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        oswald: ['"Oswald"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(139, 0, 0, 0.4)), url('emperors-fv.png');
+            
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-emperor-dark text-gray-200 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-emperor-dark/95 border-b border-emperor-red/30 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center space-x-2">
+                        <img src="emperors-logo.png" alt="Emperor's Logo" class="h-16 w-auto">
+                        <span class="font-oswald text-2xl font-bold text-white tracking-wider">EMPEROR'S</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">HOME</a>
+                        <a href="#about" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">ABOUT</a>
+                        <a href="#teams" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">TEAMS</a>
+                        <a href="#schedule" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">SCHEDULE</a>
+                        <a href="#contact" class="bg-emperor-red hover:bg-red-800 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors duration-300">CONTACT</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i data-lucide="menu" class="h-8 w-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-emperor-gray border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">HOME</a>
+                <a href="#about" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">ABOUT</a>
+                <a href="#teams" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">TEAMS</a>
+                <a href="#schedule" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">SCHEDULE</a>
+                <a href="#contact" class="block text-emperor-red font-bold px-3 py-2 rounded-md text-base">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg h-screen flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-emperor-dark"></div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <h2 class="font-oswald text-xl md:text-3xl text-emperor-red tracking-[0.2em] mb-4 font-bold uppercase">Sapporo Higashi-ku & Kita-ku</h2>
+            <h1 class="font-oswald text-6xl md:text-8xl font-bold text-white mb-6 text-shadow tracking-tighter">EMPEROR'S</h1>
+            <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed">
+                札幌市東区・北区から頂点を目指す、情熱と誇りの社会人バスケチーム。
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#teams" class="bg-emperor-red hover:bg-red-800 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-900/50">
+                    TEAM INFO
+                </a>
+                <a href="#contact" class="bg-transparent border-2 border-white hover:bg-white hover:text-emperor-dark text-white font-bold py-4 px-8 rounded-full transition-all duration-300">
+                    JOIN US
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="h-10 w-10 text-white/50"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-emperor-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold text-white mb-4">ABOUT US</h2>
+                <div class="w-24 h-1 bg-emperor-red mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="rounded-lg overflow-hidden shadow-2xl border border-gray-800">
+                    <img src="emperors男子エンジン.jpg" alt="Basketball Hoop" class="w-full h-full object-cover">
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold text-white">札幌市東区・北区を中心に活動中</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Emperor's（エンペラーズ）は、バスケットボールを愛するメンバーが集まり、北海道札幌市の東区と北区の体育館を拠点に活動しています。
+                    </p>
+                    <p class="text-gray-400 leading-relaxed">
+                        夫婦で参加している仲間も多く、切磋琢磨し支え合いながら日々練習しています。
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="border-l-4 border-emperor-red pl-4">
+                            <span class="block text-3xl font-oswald font-bold text-white">20XX</span>
+                            <span class="text-sm text-gray-500">ESTABLISHED</span>
+                        </div>
+                        <div class="border-l-4 border-emperor-red pl-4">
+                            <span class="block text-3xl font-oswald font-bold text-white">27名</span>
+                            <span class="text-xs text-gray-500">MEMBERS<br>※2025年2月時点</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teams Section -->
+    <section id="teams" class="py-20 bg-emperor-gray relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-emperor-red/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-emperor-red/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold text-white mb-4">OUR TEAMS</h2>
+                <div class="w-24 h-1 bg-emperor-red mx-auto mb-6"></div>
+                <p class="text-gray-400">Emperor'sは男女合同で練習を行っています</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Men's Team -->
+                <div class="group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-red/50 transition-all duration-300">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-gradient-to-t from-emperor-dark to-transparent z-10"></div>
+                        <!-- 
+                             【画像設定について】
+                             src="emperors男子集合写真.jpg" に設定しています。
+                             プレビュー環境等で画像が見つからない場合の予備として、onerrorで仮画像を設定しています。
+                        -->
+                        <img 
+                            src="emperors男子集合写真.jpg" 
+                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1515523110800-941516dbbe33?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';"
+                            alt="Men's Team" 
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        >
+                    </div>
+                    <div class="p-8 relative z-20 -mt-12">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-3xl font-oswald font-bold text-white">MEN'S TEAM</h3>
+                            <i data-lucide="swords" class="text-emperor-red h-8 w-8"></i>
+                        </div>
+                        <p class="text-gray-400 mb-6">
+                            スピードとパワーを兼ね備えたプレーを追求。
+                            市民大会上位入賞を目指し、実戦形式の練習を中心に行っています。<br>
+                            ※平均身長低めなので社会人の中でもRun＆Gun気味の戦術
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                            <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> 人数が集まれば男子単独ゲーム実施</li>
+                            <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> 練習のスタッツを元にした戦術・役割</li>
+                            <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> リーグ戦参加中</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Women's Team -->
+                <div class="group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-red/50 transition-all duration-300">
+                    <div class="h-64 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-gradient-to-t from-emperor-dark to-transparent z-10"></div>
+                        <!-- 
+                             【画像設定について】
+                             src="emperors女子集合写真.jpg" に設定しています。
+                             プレビューで表示されない場合のために、onerrorで仮画像を表示する設定を入れています。
+                             実際の運用では同じフォルダに "emperors女子集合写真.jpg" を置いてください。
+                        -->
+                        <img 
+                            src="emperors女子集合写真.jpg" 
+                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1526509867162-5b0c0d1b4b33?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';"
+                            alt="Women's Team" 
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        >
+                    </div>
+                    <div class="p-8 relative z-20 -mt-12">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-3xl font-oswald font-bold text-white">WOMEN'S TEAM</h3>
+                            <i data-lucide="heart-handshake" class="text-emperor-red h-8 w-8"></i>
+                        </div>
+                        <p class="text-gray-400 mb-6">
+                            チームワークと楽しさを大切に活動中。
+                            ブランクがある方から現役バリバリの方まで、互いに高め合いながら勝利を目指しています。
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-300 mb-6">
+                            <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> 人数が集まれば女子単独ゲーム実施</li>
+                            <li class="flex items-center"><i data-lucide="check" class="h-4 w-4 text-emperor-red mr-2"></i> 練習試合募集中</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule & Access -->
+    <section id="schedule" class="py-20 bg-emperor-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Schedule -->
+                <div class="lg:col-span-2">
+                    <h3 class="font-oswald text-3xl font-bold text-white mb-6 border-l-4 border-emperor-red pl-4">SCHEDULE</h3>
+                    <div class="bg-emperor-gray rounded-xl p-6 border border-gray-800">
+                        <div class="space-y-4">
+                            <!-- Schedule Item: Main Practice -->
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-emperor-dark rounded-lg border border-gray-800 hover:border-emperor-red/30 transition-colors">
+                                <div class="flex items-center mb-2 sm:mb-0">
+                                    <div class="bg-gradient-to-r from-emperor-red to-red-600 text-white text-xs font-bold px-2 py-1 rounded mr-3">PRACTICE</div>
+                                    <span class="text-white font-bold text-lg">火・木・土 のうち週2回</span>
+                                </div>
+                                <div class="text-gray-400 text-sm flex items-center">
+                                    <i data-lucide="clock" class="h-4 w-4 mr-1"></i> 19:15 - 21:30
+                                    <span class="mx-3 text-gray-600">|</span>
+                                    <i data-lucide="map-pin" class="h-4 w-4 mr-1"></i> 東区・北区 体育館
+                                </div>
+                            </div>
+                            
+                            <!-- Game Format Info -->
+                            <div class="p-4 bg-emperor-dark/50 rounded-lg border border-gray-800">
+                                <h4 class="text-white font-bold mb-2 flex items-center">
+                                    <i data-lucide="info" class="h-4 w-4 text-emperor-red mr-2"></i>
+                                    ゲーム形式について
+                                </h4>
+                                <p class="text-gray-400 text-sm leading-relaxed">
+                                    基本的に男女同日に集まって練習を行います。<br>
+                                    参加人数が揃った場合は、混合ではなく<span class="text-white font-bold">「男子ゲーム」→「女子ゲーム」</span>のように交互に試合を行います。<br>
+                                    月に数回、男女ともに練習試合を行なっています。
+                                </p>
+                                <h4 class="text-white font-bold mb-2 flex items-center">
+                                    <i data-lucide="info" class="h-4 w-4 text-emperor-red mr-2"></i>
+                                    練習場所について
+                                </h4>
+                                <p class="text-gray-400 text-sm leading-relaxed">
+                                    東区・北区の小・中学校の学校開放を利用しています。<br>
+                                   例） 2026年2月の練習場所<br>
+                                    <ul>
+                                        <li>札苗中学校(東区)</li>
+                                        <li>栄南中学校(東区)</li>
+                                        <li>東栄中学校(東区)</li>
+                                        <li>篠路中学校(北区)</li>
+                                        <li>北辰中学校(北区)</li>
+                                        <li>太平中学校(北区)</li>
+                                    </ul>
+                                </p>
+                            </div>
+
+                        </div>
+                        <p class="mt-4 text-xs text-gray-500">* スケジュールは施設の予約状況により変更になる場合があります。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-b from-emperor-gray to-emperor-dark">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="font-oswald text-4xl font-bold text-white mb-4">JOIN US</h2>
+            <p class="text-gray-400 mb-10">
+                練習参加、練習試合の申し込み、その他お問い合わせはこちらから。<br>
+                新しい仲間、対戦相手を常に募集しています！
+            </p>
+
+            <form class="bg-emperor-dark p-8 rounded-2xl shadow-xl border border-gray-800">
+                <div class="grid grid-cols-1 gap-6 text-left">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-400 mb-1">お名前</label>
+                        <input type="text" id="name" class="w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emperor-red focus:ring-1 focus:ring-emperor-red transition-colors" placeholder="山田 太郎">
+                    </div>
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-400 mb-1">お問い合わせ内容</label>
+                        <select id="category" class="w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emperor-red focus:ring-1 focus:ring-emperor-red transition-colors">
+                            <option>チームへの参加希望</option>
+                            <option>練習試合の申し込み</option>
+                            <option>その他</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-400 mb-1">メッセージ</label>
+                        <textarea id="message" rows="4" class="w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emperor-red focus:ring-1 focus:ring-emperor-red transition-colors" placeholder="バスケ歴やポジションなどを簡単にご記入ください。"></textarea>
+                    </div>
+                    <button type="button" class="w-full bg-emperor-red hover:bg-red-800 text-white font-bold py-4 rounded-lg transition-colors duration-300 shadow-lg shadow-red-900/30">
+                        送信する
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-10 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <img src="emperors-logo.png" alt="Emperor's Logo" class="h-16 w-auto">
+                <span class="font-oswald text-xl font-bold text-white tracking-wider">EMPEROR'S</span>
+            </div>
+            
+            <div class="flex space-x-6 text-gray-400 mb-4 md:mb-0 items-center">
+                <a href="#" class="hover:text-emperor-red transition-colors flex items-center space-x-1">
+                    <i data-lucide="instagram" class="h-6 w-6"></i>
+                    <span class="text-xs font-bold">Instagram</span>
+                </a>
+                <a href="#" class="hover:text-line-green transition-colors flex items-center space-x-1">
+                     <!-- Custom LINE Icon SVG -->
+                    <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 5.86 2 10.62c0 2.42 1.15 4.6 3.03 6.13-.13.56-.47 1.99-.54 2.27-.08.34.18.44.38.21.05-.05 3.06-2.07 3.39-2.3.62.17 1.28.26 1.96.26 5.52 0 10-3.86 10-8.62S17.52 2 12 2zm1.96 11.23h-4.32c-.3 0-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h3.78c.3 0 .54.24.54.54s-.24.54-.54.54zm2.84-2.88h-1.63v1.63c0 .3-.24.54-.54.54s-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h1.63c.3 0 .54.24.54.54s-.24.54-.54.54z"/>
+                    </svg>
+                    <span class="text-xs font-bold">LINE</span>
+                </a>
+            </div>
+
+            <div class="text-gray-600 text-sm">
+                &copy; 2024 Emperor's Basketball Team. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
