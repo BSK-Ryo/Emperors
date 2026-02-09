@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALLERY | Emperor's Basketball Team</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'emperor-red': '#8B0000',
+                        'emperor-dark': '#0a0a0a',
+                        'emperor-gray': '#1a1a1a',
+                        'line-green': '#06C755',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        oswald: ['"Oswald"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-emperor-dark text-gray-200 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-emperor-dark/95 border-b border-emperor-red/30 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <img src="image/emperors-logo.png" alt="Emperor's Logo" class="h-16 w-auto">
+                        <span class="font-oswald text-2xl font-bold text-white tracking-wider">EMPEROR'S</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="index.html" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">HOME</a>
+                        <a href="index.html#about" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">ABOUT</a>
+                        <a href="index.html#news" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">NEWS</a>
+                        <div class="relative group">
+                            <button class="text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold flex items-center">
+                                TEAMS
+                                <i data-lucide="chevron-down" class="h-4 w-4 ml-1"></i>
+                            </button>
+                            <div class="absolute top-full left-0 mt-1 w-48 bg-emperor-gray border border-gray-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <a href="men-team.html" class="block px-4 py-3 text-sm font-bold text-gray-300 hover:text-white hover:bg-emperor-red/20 rounded-t-lg transition-colors">MENS TEAM</a>
+                                <a href="women-team.html" class="block px-4 py-3 text-sm font-bold text-gray-300 hover:text-white hover:bg-emperor-red/20 transition-colors">WOMENS TEAM</a>
+                                <a href="gallery.html" class="block px-4 py-3 text-sm font-bold text-emperor-red bg-emperor-red/10 rounded-b-lg">GALLERY</a>
+                            </div>
+                        </div>
+                        <a href="index.html#join" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">JOIN US</a>
+                        <a href="index.html#monthly-schedule" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MONTHLY</a>
+                        <a href="index.html#contact" class="bg-emperor-red hover:bg-red-800 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors duration-300">CONTACT</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i data-lucide="menu" class="h-8 w-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-emperor-gray border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">HOME</a>
+                <a href="index.html#about" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">ABOUT</a>
+                <a href="index.html#news" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">NEWS</a>
+                <div class="pl-3 border-l-2 border-emperor-red/30 ml-2 space-y-1">
+                    <span class="block px-3 py-1 text-xs font-bold text-gray-500 uppercase tracking-wider">Teams</span>
+                    <a href="men-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MENS TEAM</a>
+                    <a href="women-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">WOMENS TEAM</a>
+                    <a href="gallery.html" class="block bg-emperor-red/20 text-emperor-red px-3 py-2 rounded-md text-base font-bold">GALLERY</a>
+                </div>
+                <a href="index.html#join" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">JOIN US</a>
+                <a href="index.html#monthly-schedule" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MONTHLY</a>
+                <a href="index.html#contact" class="block text-emperor-red font-bold px-3 py-2 rounded-md text-base">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="relative h-[40vh] md:h-[50vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-emperor-gray">
+            <div class="absolute inset-0 bg-gradient-to-b from-emperor-red/10 via-emperor-dark to-emperor-dark"></div>
+        </div>
+        <div class="relative z-10 text-center px-4">
+            <p class="font-oswald text-lg md:text-xl text-emperor-red tracking-[0.3em] mb-4 font-bold">
+                EMPEROR'S BASKETBALL TEAM
+            </p>
+            <h1 class="font-oswald text-5xl md:text-7xl font-bold text-white text-shadow tracking-tight">
+                GALLERY
+            </h1>
+            <div class="w-24 h-1 bg-emperor-red mx-auto mt-6"></div>
+        </div>
+    </section>
+
+    <!-- Category Filter -->
+    <section class="py-6 bg-emperor-dark border-b border-gray-800 sticky top-20 z-40 backdrop-blur-sm bg-emperor-dark/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-3" id="gallery-filters">
+                <button class="gallery-filter-btn active bg-emperor-red text-white text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="all">ALL</button>
+                <button class="gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-red/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="練習">練習</button>
+                <button class="gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-red/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="試合">試合</button>
+                <button class="gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-red/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="イベント">イベント</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Grid -->
+    <section class="py-16 bg-emperor-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Photos rendered by JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="gallery-empty" class="hidden text-center py-20">
+                <i data-lucide="image" class="h-16 w-16 text-gray-700 mx-auto mb-4"></i>
+                <p class="text-gray-500 text-lg">写真は準備中です</p>
+                <p class="text-gray-600 text-sm mt-2">Coming Soon...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-10">
+            <i data-lucide="x" class="h-8 w-8"></i>
+        </button>
+        <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors z-10 p-2">
+            <i data-lucide="chevron-left" class="h-10 w-10"></i>
+        </button>
+        <button id="lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors z-10 p-2">
+            <i data-lucide="chevron-right" class="h-10 w-10"></i>
+        </button>
+        <div class="max-w-5xl max-h-[85vh] px-4 mx-auto flex flex-col items-center justify-center">
+            <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg">
+            <p id="lightbox-caption" class="text-center text-gray-400 mt-4 text-sm"></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black py-10 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="image/emperors-logo.png" alt="Emperor's Logo" class="h-16 w-auto">
+                    <span class="font-oswald text-xl font-bold text-white tracking-wider">EMPEROR'S</span>
+                </div>
+
+                <div class="flex space-x-6 text-gray-400 mb-4 md:mb-0 items-center">
+                    <a href="#" class="hover:text-emperor-red transition-colors flex items-center space-x-1">
+                        <i data-lucide="instagram" class="h-6 w-6"></i>
+                        <span class="text-xs font-bold">Instagram</span>
+                    </a>
+                    <a href="#" class="hover:text-line-green transition-colors flex items-center space-x-1">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 5.86 2 10.62c0 2.42 1.15 4.6 3.03 6.13-.13.56-.47 1.99-.54 2.27-.08.34.18.44.38.21.05-.05 3.06-2.07 3.39-2.3.62.17 1.28.26 1.96.26 5.52 0 10-3.86 10-8.62S17.52 2 12 2zm1.96 11.23h-4.32c-.3 0-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h3.78c.3 0 .54.24.54.54s-.24.54-.54.54zm2.84-2.88h-1.63v1.63c0 .3-.24.54-.54.54s-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h1.63c.3 0 .54.24.54.54s-.24.54-.54.54z"/>
+                        </svg>
+                        <span class="text-xs font-bold">LINE</span>
+                    </a>
+                </div>
+
+                <div class="text-gray-600 text-sm">
+                    &copy; 2024 Emperor's Basketball Team. All rights reserved.
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-900 text-center">
+                <a href="privacy.html" class="text-gray-600 hover:text-gray-400 text-xs transition-colors">プライバシーポリシー</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // ========================================
+        // Gallery
+        // ========================================
+        (function() {
+            // Gallery Data
+            // 写真を追加する場合は以下の配列にオブジェクトを追加してください
+            // 例: { src: 'image/gallery/practice-01.jpg', category: '練習', caption: '2026年1月 通常練習' }
+            const GALLERY_DATA = [];
+
+            // プレースホルダー（GALLERY_DATAが空の場合に表示）
+            const PLACEHOLDER_GALLERY = [
+                { src: 'image/emperors男子集合写真.jpg', category: '練習', caption: '男子チーム集合写真' },
+                { src: 'image/emperors女子集合写真.jpg', category: '大会', caption: '女子チーム集合写真' },
+                { src: 'image/emperors男子エンジン.jpg', category: '大会', caption: 'エンジン（円陣）' },
+            ];
+
+            let currentFilter = 'all';
+            let currentLightboxIndex = 0;
+            let filteredPhotos = [];
+
+            function getActivePhotos() {
+                const data = GALLERY_DATA.length > 0 ? GALLERY_DATA : PLACEHOLDER_GALLERY;
+                if (currentFilter === 'all') return data;
+                return data.filter(p => p.category === currentFilter);
+            }
+
+            function renderGallery() {
+                const grid = document.getElementById('gallery-grid');
+                const empty = document.getElementById('gallery-empty');
+                grid.innerHTML = '';
+
+                filteredPhotos = getActivePhotos();
+
+                if (filteredPhotos.length === 0) {
+                    grid.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    return;
+                }
+
+                grid.classList.remove('hidden');
+                empty.classList.add('hidden');
+
+                filteredPhotos.forEach((photo, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'group relative aspect-square overflow-hidden rounded-xl bg-emperor-gray border border-gray-800 hover:border-emperor-red/50 transition-all duration-300 cursor-pointer';
+                    item.innerHTML = `
+                        <img src="${photo.src}" alt="${photo.caption}"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                            <p class="text-white text-sm font-bold">${photo.caption}</p>
+                            <span class="text-emperor-red text-xs">${photo.category}</span>
+                        </div>
+                    `;
+                    item.addEventListener('click', () => openLightbox(index));
+                    grid.appendChild(item);
+                });
+
+                lucide.createIcons();
+            }
+
+            // Filter functionality
+            document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.gallery-filter-btn').forEach(b => {
+                        b.classList.remove('active', 'bg-emperor-red', 'text-white');
+                        b.classList.add('bg-emperor-gray', 'border', 'border-gray-700', 'text-gray-400');
+                    });
+                    btn.classList.add('active', 'bg-emperor-red', 'text-white');
+                    btn.classList.remove('bg-emperor-gray', 'border-gray-700', 'text-gray-400');
+                    currentFilter = btn.dataset.filter;
+                    renderGallery();
+                });
+            });
+
+            // Lightbox
+            function openLightbox(index) {
+                currentLightboxIndex = index;
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.remove('hidden');
+                lightbox.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+                updateLightbox();
+            }
+
+            function closeLightbox() {
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.add('hidden');
+                lightbox.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+
+            function updateLightbox() {
+                const photo = filteredPhotos[currentLightboxIndex];
+                document.getElementById('lightbox-img').src = photo.src;
+                document.getElementById('lightbox-img').alt = photo.caption;
+                document.getElementById('lightbox-caption').textContent = photo.caption;
+            }
+
+            document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+            document.getElementById('lightbox-prev').addEventListener('click', () => {
+                currentLightboxIndex = (currentLightboxIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+                updateLightbox();
+            });
+            document.getElementById('lightbox-next').addEventListener('click', () => {
+                currentLightboxIndex = (currentLightboxIndex + 1) % filteredPhotos.length;
+                updateLightbox();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox.classList.contains('hidden')) return;
+
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') {
+                    currentLightboxIndex = (currentLightboxIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+                    updateLightbox();
+                }
+                if (e.key === 'ArrowRight') {
+                    currentLightboxIndex = (currentLightboxIndex + 1) % filteredPhotos.length;
+                    updateLightbox();
+                }
+            });
+
+            // Close lightbox on background click
+            document.getElementById('lightbox').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('lightbox')) closeLightbox();
+            });
+
+            // Initialize
+            renderGallery();
+        })();
+    </script>
+</body>
+</html>

@@ -62,11 +62,21 @@
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
+                    <div class="ml-10 flex items-center space-x-8">
                         <a href="#home" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">HOME</a>
                         <a href="#about" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">ABOUT</a>
-                        <a href="men-team.html" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MENS TEAMS</a>
-                        <a href="women-team.html" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">WOMAN TEAMS</a>
+                        <a href="#news" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">NEWS</a>
+                        <div class="relative group">
+                            <button class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold flex items-center">
+                                TEAMS
+                                <i data-lucide="chevron-down" class="h-4 w-4 ml-1"></i>
+                            </button>
+                            <div class="absolute top-full left-0 mt-1 w-48 bg-emperor-gray border border-gray-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <a href="men-team.html" class="block px-4 py-3 text-sm font-bold text-gray-300 hover:text-white hover:bg-emperor-red/20 rounded-t-lg transition-colors">MENS TEAM</a>
+                                <a href="women-team.html" class="block px-4 py-3 text-sm font-bold text-gray-300 hover:text-white hover:bg-emperor-red/20 transition-colors">WOMENS TEAM</a>
+                                <a href="gallery.html" class="block px-4 py-3 text-sm font-bold text-gray-300 hover:text-white hover:bg-emperor-red/20 rounded-b-lg transition-colors">GALLERY</a>
+                            </div>
+                        </div>
                         <a href="#join" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">JOIN US</a>
                         <a href="#monthly-schedule" class="hover:text-emperor-red transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MONTHLY</a>
                         <a href="#contact" class="bg-emperor-red hover:bg-red-800 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors duration-300">CONTACT</a>
@@ -87,8 +97,13 @@
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <a href="#home" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">HOME</a>
                 <a href="#about" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">ABOUT</a>
-                <a href="men-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MENS TEAMS</a>
-                <a href="women-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">WOMAN TEAMS</a>
+                <a href="#news" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">NEWS</a>
+                <div class="pl-3 border-l-2 border-emperor-red/30 ml-2 space-y-1">
+                    <span class="block px-3 py-1 text-xs font-bold text-gray-500 uppercase tracking-wider">Teams</span>
+                    <a href="men-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MENS TEAM</a>
+                    <a href="women-team.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">WOMENS TEAM</a>
+                    <a href="gallery.html" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">GALLERY</a>
+                </div>
                 <a href="#join" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">JOIN US</a>
                 <a href="#monthly-schedule" class="block hover:bg-emperor-red hover:text-white px-3 py-2 rounded-md text-base font-medium">MONTHLY</a>
                 <a href="#contact" class="block text-emperor-red font-bold px-3 py-2 rounded-md text-base">CONTACT</a>
@@ -152,6 +167,24 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news" class="py-20 bg-emperor-gray relative overflow-hidden">
+        <div class="absolute top-0 left-0 -ml-20 -mt-20 w-96 h-96 bg-emperor-red/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 -mr-20 -mb-20 w-96 h-96 bg-emperor-red/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold text-white mb-4">NEWS</h2>
+                <div class="w-24 h-1 bg-emperor-red mx-auto mb-6"></div>
+                <p class="text-gray-400">最新のお知らせ</p>
+            </div>
+
+            <div id="news-container" class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <!-- JS will render news cards here -->
             </div>
         </div>
     </section>
@@ -399,6 +432,15 @@
                                         <li>太平中学校(北区)</li>
                                     </ul>
                                 </p>
+                                <p></p>
+                                <h4 class="text-white font-bold mb-2 flex items-center">
+                                    <i data-lucide="info" class="h-4 w-4 text-emperor-red mr-2"></i>
+                                    ⚠️注意事項⚠️
+                                </h4>
+                                <p class="text-gray-400 text-sm leading-relaxed">
+                                    その日のメンバーやゲストの参加状況によって、参加をお断りさせていただくことがございます。<br>  
+                                    別日に優先的に参加いただけるようにはさせていただきますが、上記ご了承くださいませ。         
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -416,6 +458,94 @@
                     <p class="mt-6 text-gray-500 text-sm">
                         ※また男女共に練習試合も募集しておりますので、<br class="hidden sm:inline">そちらの方もぜひぜひ連絡お待ちしております！
                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-emperor-dark">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold text-white mb-4">FAQ</h2>
+                <div class="w-24 h-1 bg-emperor-red mx-auto mb-6"></div>
+                <p class="text-gray-400">よくある質問</p>
+            </div>
+
+            <div class="space-y-4" id="faq-accordion">
+                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
+                        <span class="flex items-center">
+                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-red mr-3 flex-shrink-0"></i>
+                            <span class="text-white font-bold">初心者でも大丈夫ですか？</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-red transition-all duration-300 faq-icon"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
+                            練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
+                        <span class="flex items-center">
+                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-red mr-3 flex-shrink-0"></i>
+                            <span class="text-white font-bold">見学だけでもOKですか？</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-red transition-all duration-300 faq-icon"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
+                            もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
+                        <span class="flex items-center">
+                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-red mr-3 flex-shrink-0"></i>
+                            <span class="text-white font-bold">必要な道具はありますか？</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-red transition-all duration-300 faq-icon"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
+                            バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
+                        <span class="flex items-center">
+                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-red mr-3 flex-shrink-0"></i>
+                            <span class="text-white font-bold">年齢制限はありますか？</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-red transition-all duration-300 faq-icon"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
+                            高校生以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
+                        <span class="flex items-center">
+                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-red mr-3 flex-shrink-0"></i>
+                            <span class="text-white font-bold">掛け持ちは可能ですか？</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-red transition-all duration-300 faq-icon"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
+                            原則として他チームとの掛け持ちは不可とさせていただいています。Emperor'sに所属して一緒にバスケを楽しんでいただける方を募集しています。
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -517,28 +647,32 @@
 
     <!-- Footer -->
     <footer class="bg-black py-10 border-t border-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <div class="flex items-center mb-4 md:mb-0">
-                <img src="image/emperors-logo.png" alt="Emperor's Logo" class="h-16 w-auto">
-                <span class="font-oswald text-xl font-bold text-white tracking-wider">EMPEROR'S</span>
-            </div>
-            
-            <div class="flex space-x-6 text-gray-400 mb-4 md:mb-0 items-center">
-                <a href="#" class="hover:text-emperor-red transition-colors flex items-center space-x-1">
-                    <i data-lucide="instagram" class="h-6 w-6"></i>
-                    <span class="text-xs font-bold">Instagram</span>
-                </a>
-                <a href="#" class="hover:text-line-green transition-colors flex items-center space-x-1">
-                     <!-- Custom LINE Icon SVG -->
-                    <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.48 2 2 5.86 2 10.62c0 2.42 1.15 4.6 3.03 6.13-.13.56-.47 1.99-.54 2.27-.08.34.18.44.38.21.05-.05 3.06-2.07 3.39-2.3.62.17 1.28.26 1.96.26 5.52 0 10-3.86 10-8.62S17.52 2 12 2zm1.96 11.23h-4.32c-.3 0-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h3.78c.3 0 .54.24.54.54s-.24.54-.54.54zm2.84-2.88h-1.63v1.63c0 .3-.24.54-.54.54s-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h1.63c.3 0 .54.24.54.54s-.24.54-.54.54z"/>
-                    </svg>
-                    <span class="text-xs font-bold">LINE</span>
-                </a>
-            </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="image/emperors-logo.png" alt="Emperor's Logo" class="h-16 w-auto">
+                    <span class="font-oswald text-xl font-bold text-white tracking-wider">EMPEROR'S</span>
+                </div>
 
-            <div class="text-gray-600 text-sm">
-                &copy; 2024 Emperor's Basketball Team. All rights reserved.
+                <div class="flex space-x-6 text-gray-400 mb-4 md:mb-0 items-center">
+                    <a href="#" class="hover:text-emperor-red transition-colors flex items-center space-x-1">
+                        <i data-lucide="instagram" class="h-6 w-6"></i>
+                        <span class="text-xs font-bold">Instagram</span>
+                    </a>
+                    <a href="#" class="hover:text-line-green transition-colors flex items-center space-x-1">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 5.86 2 10.62c0 2.42 1.15 4.6 3.03 6.13-.13.56-.47 1.99-.54 2.27-.08.34.18.44.38.21.05-.05 3.06-2.07 3.39-2.3.62.17 1.28.26 1.96.26 5.52 0 10-3.86 10-8.62S17.52 2 12 2zm1.96 11.23h-4.32c-.3 0-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h3.78c.3 0 .54.24.54.54s-.24.54-.54.54zm2.84-2.88h-1.63v1.63c0 .3-.24.54-.54.54s-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h1.63c.3 0 .54.24.54.54s-.24.54-.54.54z"/>
+                        </svg>
+                        <span class="text-xs font-bold">LINE</span>
+                    </a>
+                </div>
+
+                <div class="text-gray-600 text-sm">
+                    &copy; 2024 Emperor's Basketball Team. All rights reserved.
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-900 text-center">
+                <a href="privacy.html" class="text-gray-600 hover:text-gray-400 text-xs transition-colors">プライバシーポリシー</a>
             </div>
         </div>
     </footer>
@@ -561,6 +695,96 @@
                 menu.classList.add('hidden');
             });
         });
+
+        // ========================================
+        // News Section
+        // ========================================
+        (function() {
+            const NEWS_DATA = [
+                {
+                    date: '2026-02-01',
+                    category: '募集',
+                    title: '2026年度 新メンバー募集中！',
+                    summary: '男女ともに新しい仲間を募集しています。経験者の方、ぜひ一度練習に参加してみてください。',
+                },
+                {
+                    date: '2026-01-20',
+                    category: '試合結果',
+                    title: '冬季リーグ第3節 結果報告',
+                    summary: '男子チームが接戦を制し勝利。詳細はLINE・Instagramにて。',
+                },
+                {
+                    date: '2026-01-10',
+                    category: 'イベント',
+                    title: '新年会を開催しました',
+                    summary: 'メンバーで集まり新年を祝いました。今年もよろしくお願いします！',
+                },
+            ];
+
+            const categoryColors = {
+                '試合結果': 'bg-emperor-red',
+                '募集': 'bg-green-700',
+                'イベント': 'bg-yellow-600',
+                'お知らせ': 'bg-blue-700',
+            };
+
+            const container = document.getElementById('news-container');
+            NEWS_DATA.slice(0, 3).forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-red/50 transition-all duration-300 p-6 flex flex-col';
+                const badgeColor = categoryColors[item.category] || 'bg-gray-600';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="${badgeColor} text-white text-xs font-bold px-3 py-1 rounded-full">${item.category}</span>
+                        <span class="text-xs text-gray-500">${item.date}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">${item.title}</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mt-auto">${item.summary}</p>
+                `;
+                container.appendChild(card);
+            });
+        })();
+
+        // ========================================
+        // FAQ Accordion
+        // ========================================
+        (function() {
+            const faqItems = document.querySelectorAll('.faq-toggle');
+
+            faqItems.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('.faq-icon');
+                    const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+                    // Close all other items
+                    faqItems.forEach(otherButton => {
+                        if (otherButton !== button) {
+                            otherButton.setAttribute('aria-expanded', 'false');
+                            otherButton.nextElementSibling.style.maxHeight = null;
+                            otherButton.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                            otherButton.closest('.faq-item').classList.remove('border-emperor-red/50');
+                            otherButton.closest('.faq-item').classList.add('border-gray-800');
+                        }
+                    });
+
+                    // Toggle current item
+                    if (isOpen) {
+                        button.setAttribute('aria-expanded', 'false');
+                        content.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                        button.closest('.faq-item').classList.remove('border-emperor-red/50');
+                        button.closest('.faq-item').classList.add('border-gray-800');
+                    } else {
+                        button.setAttribute('aria-expanded', 'true');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                        button.closest('.faq-item').classList.remove('border-gray-800');
+                        button.closest('.faq-item').classList.add('border-emperor-red/50');
+                    }
+                });
+            });
+        })();
 
         // ========================================
         // Monthly Calendar
