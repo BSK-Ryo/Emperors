@@ -21,6 +21,12 @@ active_nav: "home"
             background-clip: text;
             filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.8));
         }
+        @media (max-width: 767px) {
+            .hero-bg {
+                background-attachment: scroll;
+                background-position: center center;
+            }
+        }
     </style>
 
     <!-- Hero Section -->
@@ -51,8 +57,9 @@ active_nav: "home"
     <section id="about" class="py-20 bg-emperor-dark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="font-oswald text-4xl font-bold text-white mb-4">ABOUT US</h2>
-                <div class="w-24 h-1 bg-emperor-orange mx-auto"></div>
+                <h2 class="text-4xl font-bold text-white mb-4">私たちについて</h2>
+                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-2"></div>
+                <p class="font-oswald text-sm text-gray-500 tracking-widest uppercase">ABOUT US</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -89,9 +96,9 @@ active_nav: "home"
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
-                <h2 class="font-oswald text-4xl font-bold text-white mb-4">NEWS</h2>
-                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-6"></div>
-                <p class="text-gray-400">最新のお知らせ</p>
+                <h2 class="text-4xl font-bold text-white mb-4">ニュース</h2>
+                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-2"></div>
+                <p class="font-oswald text-sm text-gray-500 tracking-widest uppercase">NEWS</p>
             </div>
 
             <div id="news-container" class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -108,8 +115,9 @@ active_nav: "home"
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
-                <h2 class="font-oswald text-4xl font-bold text-white mb-4">OUR TEAMS</h2>
-                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-6"></div>
+                <h2 class="text-4xl font-bold text-white mb-4">チーム紹介</h2>
+                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-2"></div>
+                <p class="font-oswald text-sm text-gray-500 tracking-widest uppercase mb-4">OUR TEAMS</p>
                 <p class="text-gray-400">Emperor'sは男女合同で練習を行っています</p>
             </div>
 
@@ -199,10 +207,9 @@ active_nav: "home"
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
-                <h2 class="font-oswald text-4xl font-bold text-white mb-4">JOIN US</h2>
-                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-6"></div>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                </p>
+                <h2 class="text-4xl font-bold text-white mb-4">加入について</h2>
+                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-2"></div>
+                <p class="font-oswald text-sm text-gray-500 tracking-widest uppercase">JOIN US</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
@@ -381,9 +388,9 @@ active_nav: "home"
     <section id="faq" class="py-20 bg-emperor-dark">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="font-oswald text-4xl font-bold text-white mb-4">FAQ</h2>
-                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-6"></div>
-                <p class="text-gray-400">よくある質問</p>
+                <h2 class="text-4xl font-bold text-white mb-4">よくある質問</h2>
+                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-2"></div>
+                <p class="font-oswald text-sm text-gray-500 tracking-widest uppercase">FAQ</p>
             </div>
 
             <div class="space-y-4" id="faq-accordion">
@@ -461,6 +468,21 @@ active_nav: "home"
                         </div>
                     </div>
                 </div>
+
+                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
+                        <span class="flex items-center">
+                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-orange mr-3 flex-shrink-0"></i>
+                            <span class="text-white font-bold">他のチームに在籍しているのですが、練習のみ参加しても良いですか？</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
+                            全然大丈夫です！実際に「他のチームに在籍しているけど、Emperor'sの方が練習場所が近い」という理由で参加してくれている方もいらっしゃいます。ぜひお声がけください。
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -472,9 +494,9 @@ active_nav: "home"
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
-                <h2 class="font-oswald text-4xl font-bold text-white mb-4">2026年2月の練習予定</h2>
-                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-6"></div>
-                <p class="text-gray-400">THIS MONTH'S SCHEDULE</p>
+                <h2 class="text-4xl font-bold text-white mb-4">今月の予定</h2>
+                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-2"></div>
+                <p class="font-oswald text-sm text-gray-500 tracking-widest uppercase">MONTHLY SCHEDULE</p>
             </div>
 
             <div class="max-w-md mx-auto">
@@ -527,10 +549,11 @@ active_nav: "home"
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gradient-to-b from-emperor-gray to-emperor-dark">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="font-oswald text-4xl font-bold text-white mb-4">CONTACT</h2>
+            <h2 class="text-4xl font-bold text-white mb-4">問い合わせ</h2>
+            <div class="w-24 h-1 bg-emperor-orange mx-auto mb-2"></div>
+            <p class="font-oswald text-sm text-gray-500 tracking-widest uppercase mb-6">CONTACT</p>
             <p class="text-gray-400 mb-10">
-                練習参加、練習試合の申し込み、その他お問い合わせはこちら、もしくはLINE・Instagramでご連絡ください！<br>
-                新しい仲間、対戦相手を常に募集しています！
+                練習参加・練習試合の申し込みはこちら！新しい仲間、対戦相手を常に募集しています！
             </p>
 
             <form class="bg-emperor-dark p-8 rounded-2xl shadow-xl border border-gray-800">
