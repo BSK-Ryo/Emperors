@@ -5,7 +5,7 @@
                 <div class="flex items-center">
                     <a href="{{ '/' | relative_url }}" class="flex items-center space-x-2">
                         <img src="{{ '/image/logo.png' | relative_url }}" alt="Emperor's Logo" class="h-24 w-auto">
-                        <span class="font-oswald text-2xl font-bold text-white tracking-wider">EMPEROR'S</span>
+                        <span class="font-oswald text-2xl font-bold text-white tracking-wider">Emperor's</span>
                     </a>
                 </div>
 
@@ -13,22 +13,22 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-center space-x-8">
                         <a href="{{ '/' | relative_url }}" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">HOME</a>
-                        <a href="{{ '/' | relative_url }}#about" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">ABOUT</a>
-                        <a href="{{ '/' | relative_url }}#news" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">NEWS</a>
+                        <a href="{{ '/' | relative_url }}#about" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">私たちについて</a>
+                        <a href="{{ '/' | relative_url }}#news" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">ニュース</a>
                         <div class="relative group">
                             <button class="{% if page.active_nav == 'men-team' or page.active_nav == 'women-team' or page.active_nav == 'gallery' %}text-emperor-orange{% else %}hover:text-emperor-orange{% endif %} transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold flex items-center">
                                 TEAMS
                                 <i data-lucide="chevron-down" class="h-4 w-4 ml-1"></i>
                             </button>
                             <div class="absolute top-full left-0 mt-1 w-48 bg-emperor-gray border border-gray-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <a href="{{ '/men-team.html' | relative_url }}" class="block px-4 py-3 text-sm font-bold {% if page.active_nav == 'men-team' %}text-emperor-orange bg-emperor-orange/10{% else %}text-gray-300 hover:text-white hover:bg-emperor-orange/20{% endif %} rounded-t-lg transition-colors">MENS TEAM</a>
-                                <a href="{{ '/women-team.html' | relative_url }}" class="block px-4 py-3 text-sm font-bold {% if page.active_nav == 'women-team' %}text-emperor-orange bg-emperor-orange/10{% else %}text-gray-300 hover:text-white hover:bg-emperor-orange/20{% endif %} transition-colors">WOMENS TEAM</a>
+                                <a href="{{ '/men-team.html' | relative_url }}" class="block px-4 py-3 text-sm font-bold {% if page.active_nav == 'men-team' %}text-emperor-orange bg-emperor-orange/10{% else %}text-gray-300 hover:text-white hover:bg-emperor-orange/20{% endif %} rounded-t-lg transition-colors">男子メンバー</a>
+                                <a href="{{ '/women-team.html' | relative_url }}" class="block px-4 py-3 text-sm font-bold {% if page.active_nav == 'women-team' %}text-emperor-orange bg-emperor-orange/10{% else %}text-gray-300 hover:text-white hover:bg-emperor-orange/20{% endif %} transition-colors">女子メンバー</a>
                                 <a href="{{ '/gallery.html' | relative_url }}" class="block px-4 py-3 text-sm font-bold {% if page.active_nav == 'gallery' %}text-emperor-orange bg-emperor-orange/10{% else %}text-gray-300 hover:text-white hover:bg-emperor-orange/20{% endif %} rounded-b-lg transition-colors">GALLERY</a>
                             </div>
                         </div>
-                        <a href="{{ '/' | relative_url }}#join" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">JOIN US</a>
-                        <a href="{{ '/' | relative_url }}#monthly-schedule" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MONTHLY</a>
-                        <a href="{{ '/' | relative_url }}#contact" class="bg-emperor-orange hover:bg-orange-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors duration-300">CONTACT</a>
+                        <a href="{{ '/' | relative_url }}#join" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">加入について</a>
+                        <a href="{{ '/' | relative_url }}#monthly-schedule" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">今月の予定</a>
+                        <a href="{{ '/' | relative_url }}#contact" class="bg-emperor-orange hover:bg-orange-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors duration-300">問い合わせ</a>
                     </div>
                 </div>
 
@@ -45,17 +45,17 @@
         <div id="mobile-menu" class="hidden md:hidden bg-emperor-gray border-t border-gray-800">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <a href="{{ '/' | relative_url }}" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">HOME</a>
-                <a href="{{ '/' | relative_url }}#about" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">ABOUT</a>
-                <a href="{{ '/' | relative_url }}#news" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">NEWS</a>
+                <a href="{{ '/' | relative_url }}#about" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">私たちについて</a>
+                <a href="{{ '/' | relative_url }}#news" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">ニュース</a>
                 <div class="pl-3 border-l-2 border-emperor-orange/30 ml-2 space-y-1">
-                    <span class="block px-3 py-1 text-xs font-bold text-gray-500 uppercase tracking-wider">Teams</span>
-                    <a href="{{ '/men-team.html' | relative_url }}" class="block {% if page.active_nav == 'men-team' %}bg-emperor-orange/20 text-emperor-orange px-3 py-2 rounded-md text-base font-bold{% else %}hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium{% endif %}">MENS TEAM</a>
-                    <a href="{{ '/women-team.html' | relative_url }}" class="block {% if page.active_nav == 'women-team' %}bg-emperor-orange/20 text-emperor-orange px-3 py-2 rounded-md text-base font-bold{% else %}hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium{% endif %}">WOMENS TEAM</a>
-                    <a href="{{ '/gallery.html' | relative_url }}" class="block {% if page.active_nav == 'gallery' %}bg-emperor-orange/20 text-emperor-orange px-3 py-2 rounded-md text-base font-bold{% else %}hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium{% endif %}">GALLERY</a>
+                    <span class="block px-3 py-1 text-xs font-bold text-gray-500 uppercase tracking-wider">チームメンバー</span>
+                    <a href="{{ '/men-team.html' | relative_url }}" class="block {% if page.active_nav == 'men-team' %}bg-emperor-orange/20 text-emperor-orange px-3 py-2 rounded-md text-base font-bold{% else %}hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium{% endif %}">男子メンバー</a>
+                    <a href="{{ '/women-team.html' | relative_url }}" class="block {% if page.active_nav == 'women-team' %}bg-emperor-orange/20 text-emperor-orange px-3 py-2 rounded-md text-base font-bold{% else %}hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium{% endif %}">女子メンバー</a>
+                    <a href="{{ '/gallery.html' | relative_url }}" class="block {% if page.active_nav == 'gallery' %}bg-emperor-orange/20 text-emperor-orange px-3 py-2 rounded-md text-base font-bold{% else %}hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium{% endif %}">思い出</a>
                 </div>
-                <a href="{{ '/' | relative_url }}#join" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">JOIN US</a>
-                <a href="{{ '/' | relative_url }}#monthly-schedule" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">MONTHLY</a>
-                <a href="{{ '/' | relative_url }}#contact" class="block text-emperor-orange font-bold px-3 py-2 rounded-md text-base">CONTACT</a>
+                <a href="{{ '/' | relative_url }}#join" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">加入について</a>
+                <a href="{{ '/' | relative_url }}#monthly-schedule" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">今月の予定</a>
+                <a href="{{ '/' | relative_url }}#contact" class="block text-emperor-orange font-bold px-3 py-2 rounded-md text-base">問い合わせ</a>
             </div>
         </div>
     </nav>
