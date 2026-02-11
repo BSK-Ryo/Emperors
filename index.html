@@ -560,7 +560,7 @@ active_nav: "home"
                         <label for="message" class="block text-sm font-medium text-gray-400 mb-1">メッセージ</label>
                         <textarea id="message" rows="4" class="w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emperor-orange focus:ring-1 focus:ring-emperor-orange transition-colors" placeholder="バスケ歴やポジションなどを簡単にご記入ください。"></textarea>
                     </div>
-                    <button type="button" class="w-full bg-emperor-orange hover:bg-orange-700 text-white font-bold py-4 rounded-lg transition-colors duration-300 shadow-lg shadow-orange-900/30">
+                    <button type="button" onclick="sendContactEmail()" class="w-full bg-emperor-orange hover:bg-orange-700 text-white font-bold py-4 rounded-lg transition-colors duration-300 shadow-lg shadow-orange-900/30">
                         送信する
                     </button>
                 </div>
@@ -753,4 +753,29 @@ active_nav: "home"
             // Initial render
             renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
         })();
+
+        // ========================================
+        // Contact Form - mailto送信
+        // ========================================
+        function sendContactEmail() {
+            const name = document.getElementById('name').value.trim();
+            const category = document.getElementById('category').value;
+            const message = document.getElementById('message').value.trim();
+
+            if (!name) {
+                alert('お名前を入力してください。');
+                return;
+            }
+            if (!message) {
+                alert('メッセージを入力してください。');
+                return;
+            }
+
+            const subject = '[Emperor\'s] ' + category;
+            const body = '【お名前】\n' + name + '\n\n【お問い合わせ内容】\n' + category + '\n\n【メッセージ】\n' + message;
+
+            window.location.href = 'mailto:kasusaso_othinkun-4503@yahoo.co.jp'
+                + '?subject=' + encodeURIComponent(subject)
+                + '&body=' + encodeURIComponent(body);
+        }
     </script>
