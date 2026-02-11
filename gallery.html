@@ -28,9 +28,8 @@ active_nav: "gallery"
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-wrap justify-center gap-3" id="gallery-filters">
                 <button class="gallery-filter-btn active bg-emperor-orange text-white text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="all">ALL</button>
-                <button class="gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="練習">練習</button>
-                <button class="gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="試合">試合</button>
-                <button class="gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="イベント">イベント</button>
+                <button class="gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="大会">大会</button>
+                <button class="gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300" data-filter="思い出">思い出</button>
             </div>
         </div>
     </section>
@@ -74,13 +73,25 @@ active_nav: "gallery"
         // ========================================
         (function() {
             // Gallery Data
-            const GALLERY_DATA = [];
-
-            // プレースホルダー（GALLERY_DATAが空の場合に表示）
-            const PLACEHOLDER_GALLERY = [
+            const GALLERY_DATA = [
                 { src: 'image/emperors女子集合写真.jpg', category: '大会', caption: '女子チーム集合写真' },
                 { src: 'image/emperors男子エンジン.jpg', category: '大会', caption: 'エンジン（円陣）' },
+                { src: 'image/emperors男子集合写真.jpg', category: '大会', caption: '男子チーム集合写真' },
+                { src: "image/emperors-men's.jpg", category: '大会', caption: '男子チーム' },
+                { src: 'image/LINE_ALBUM_思い出_260212_1.jpg', category: '思い出', caption: '思い出 1' },
+                { src: 'image/LINE_ALBUM_思い出_260212_2.jpg', category: '思い出', caption: '思い出 2' },
+                { src: 'image/LINE_ALBUM_思い出_260212_3.jpg', category: '思い出', caption: '思い出 3' },
+                { src: 'image/LINE_ALBUM_思い出_260212_4.jpg', category: '思い出', caption: '思い出 4' },
+                { src: 'image/LINE_ALBUM_思い出_260212_5.jpg', category: '思い出', caption: '思い出 5' },
+                { src: 'image/LINE_ALBUM_思い出_260212_6.jpg', category: '思い出', caption: '思い出 6' },
+                { src: 'image/LINE_ALBUM_思い出_260212_7.jpg', category: '思い出', caption: '思い出 7' },
+                { src: 'image/LINE_ALBUM_思い出_260212_8.jpg', category: '思い出', caption: '思い出 8' },
+                { src: 'image/LINE_ALBUM_思い出_260212_9.jpg', category: '思い出', caption: '思い出 9' },
+                { src: 'image/LINE_ALBUM_思い出_260212_10.jpg', category: '思い出', caption: '思い出 10' },
             ];
+
+            // プレースホルダー（GALLERY_DATAが空の場合に表示）
+            const PLACEHOLDER_GALLERY = [];
 
             let currentFilter = 'all';
             let currentLightboxIndex = 0;
