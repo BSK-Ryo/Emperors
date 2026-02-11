@@ -1,0 +1,31 @@
+    <!-- Footer -->
+    <footer class="bg-black py-10 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="{{ '/image/logo.png' | relative_url }}" alt="Emperor's Logo" class="h-24 w-auto">
+                    <span class="font-oswald text-xl font-bold text-white tracking-wider">EMPEROR'S</span>
+                </div>
+
+                <div class="flex space-x-6 text-gray-400 mb-4 md:mb-0 items-center">
+                    <a href="#" class="hover:text-emperor-orange transition-colors flex items-center space-x-1">
+                        <i data-lucide="instagram" class="h-6 w-6"></i>
+                        <span class="text-xs font-bold">Instagram</span>
+                    </a>
+                    <a href="#" class="hover:text-line-green transition-colors flex items-center space-x-1">
+                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 5.86 2 10.62c0 2.42 1.15 4.6 3.03 6.13-.13.56-.47 1.99-.54 2.27-.08.34.18.44.38.21.05-.05 3.06-2.07 3.39-2.3.62.17 1.28.26 1.96.26 5.52 0 10-3.86 10-8.62S17.52 2 12 2zm1.96 11.23h-4.32c-.3 0-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h3.78c.3 0 .54.24.54.54s-.24.54-.54.54zm2.84-2.88h-1.63v1.63c0 .3-.24.54-.54.54s-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h1.63c.3 0 .54.24.54.54s-.24.54-.54.54z"/>
+                        </svg>
+                        <span class="text-xs font-bold">LINE</span>
+                    </a>
+                </div>
+
+                <div class="text-gray-600 text-sm">
+                    &copy; {{ site.time | date: '%Y' }} Emperor's Basketball Team. All rights reserved.
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-900 text-center">
+                <a href="{{ '/privacy.html' | relative_url }}" class="text-gray-600 hover:text-gray-400 text-xs transition-colors">プライバシーポリシー</a>
+            </div>
+        </div>
+    </footer>

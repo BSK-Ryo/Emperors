@@ -1,108 +1,11 @@
-<!DOCTYPE html>
-<html lang="ja" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WOMEN'S TEAM | Emperor's Basketball Team</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'emperor-orange': '#E65100',
-                        'emperor-dark': '#0a0a0a',
-                        'emperor-gray': '#1a1a1a',
-                        'line-green': '#06C755',
-                    },
-                    fontFamily: {
-                        sans: ['"Noto Sans JP"', 'sans-serif'],
-                        oswald: ['"Oswald"', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-        .text-shadow {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-    </style>
-</head>
-<body class="bg-emperor-dark text-gray-200 font-sans antialiased">
-
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-emperor-dark/95 border-b border-emperor-orange/30 backdrop-blur-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex items-center">
-                    <a href="index.html" class="flex items-center space-x-2">
-                        <img src="image/logo.png" alt="Emperor's Logo" class="h-24 w-auto">
-                        <span class="font-oswald text-2xl font-bold text-white tracking-wider">EMPEROR'S</span>
-                    </a>
-                </div>
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-center space-x-8">
-                        <a href="index.html" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">HOME</a>
-                        <a href="index.html#about" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">ABOUT</a>
-                        <a href="index.html#news" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">NEWS</a>
-                        <div class="relative group">
-                            <button class="text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold flex items-center">
-                                TEAMS
-                                <i data-lucide="chevron-down" class="h-4 w-4 ml-1"></i>
-                            </button>
-                            <div class="absolute top-full left-0 mt-1 w-48 bg-emperor-gray border border-gray-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                <a href="men-team.html" class="block px-4 py-3 text-sm font-bold text-gray-300 hover:text-white hover:bg-emperor-orange/20 rounded-t-lg transition-colors">MENS TEAM</a>
-                                <a href="women-team.html" class="block px-4 py-3 text-sm font-bold text-emperor-orange bg-emperor-orange/10">WOMENS TEAM</a>
-                                <a href="gallery.html" class="block px-4 py-3 text-sm font-bold text-gray-300 hover:text-white hover:bg-emperor-orange/20 rounded-b-lg transition-colors">GALLERY</a>
-                            </div>
-                        </div>
-                        <a href="index.html#join" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">JOIN US</a>
-                        <a href="index.html#monthly-schedule" class="hover:text-emperor-orange transition-colors duration-300 px-3 py-2 rounded-md text-sm font-bold">MONTHLY</a>
-                        <a href="index.html#contact" class="bg-emperor-orange hover:bg-orange-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors duration-300">CONTACT</a>
-                    </div>
-                </div>
-
-                <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
-                        <i data-lucide="menu" class="h-8 w-8"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-emperor-gray border-t border-gray-800">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">HOME</a>
-                <a href="index.html#about" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">ABOUT</a>
-                <a href="index.html#news" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">NEWS</a>
-                <div class="pl-3 border-l-2 border-emperor-orange/30 ml-2 space-y-1">
-                    <span class="block px-3 py-1 text-xs font-bold text-gray-500 uppercase tracking-wider">Teams</span>
-                    <a href="men-team.html" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">MENS TEAM</a>
-                    <a href="women-team.html" class="block bg-emperor-orange/20 text-emperor-orange px-3 py-2 rounded-md text-base font-bold">WOMENS TEAM</a>
-                    <a href="gallery.html" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">GALLERY</a>
-                </div>
-                <a href="index.html#join" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">JOIN US</a>
-                <a href="index.html#monthly-schedule" class="block hover:bg-emperor-orange hover:text-white px-3 py-2 rounded-md text-base font-medium">MONTHLY</a>
-                <a href="index.html#contact" class="block text-emperor-orange font-bold px-3 py-2 rounded-md text-base">CONTACT</a>
-            </div>
-        </div>
-    </nav>
+---
+layout: default
+title: "WOMEN'S TEAM"
+title_suffix: "Emperor's Basketball Team"
+description: "Emperor'sバスケットボールチーム女子チームのメンバー紹介。チームワークと楽しさを大切に、互いに高め合いながら勝利を目指しています。"
+og_image: "image/emperors女子集合写真.jpg"
+active_nav: "women-team"
+---
 
     <!-- Page Hero -->
     <section class="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
@@ -174,38 +77,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-black py-10 border-t border-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center mb-4 md:mb-0">
-                    <img src="image/logo.png" alt="Emperor's Logo" class="h-24 w-auto">
-                    <span class="font-oswald text-xl font-bold text-white tracking-wider">EMPEROR'S</span>
-                </div>
-
-                <div class="flex space-x-6 text-gray-400 mb-4 md:mb-0 items-center">
-                    <a href="#" class="hover:text-emperor-orange transition-colors flex items-center space-x-1">
-                        <i data-lucide="instagram" class="h-6 w-6"></i>
-                        <span class="text-xs font-bold">Instagram</span>
-                    </a>
-                    <a href="#" class="hover:text-line-green transition-colors flex items-center space-x-1">
-                        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C6.48 2 2 5.86 2 10.62c0 2.42 1.15 4.6 3.03 6.13-.13.56-.47 1.99-.54 2.27-.08.34.18.44.38.21.05-.05 3.06-2.07 3.39-2.3.62.17 1.28.26 1.96.26 5.52 0 10-3.86 10-8.62S17.52 2 12 2zm1.96 11.23h-4.32c-.3 0-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h3.78c.3 0 .54.24.54.54s-.24.54-.54.54zm2.84-2.88h-1.63v1.63c0 .3-.24.54-.54.54s-.54-.24-.54-.54V8.31c0-.3.24-.54.54-.54s.54.24.54.54v3.31h1.63c.3 0 .54.24.54.54s-.24.54-.54.54z"/>
-                        </svg>
-                        <span class="text-xs font-bold">LINE</span>
-                    </a>
-                </div>
-
-                <div class="text-gray-600 text-sm">
-                    &copy; 2024 Emperor's Basketball Team. All rights reserved.
-                </div>
-            </div>
-            <div class="mt-6 pt-6 border-t border-gray-900 text-center">
-                <a href="privacy.html" class="text-gray-600 hover:text-gray-400 text-xs transition-colors">プライバシーポリシー</a>
-            </div>
-        </div>
-    </footer>
-
     <script>
         // Member Data (placeholder - replace with real data later)
         const MEMBERS_DATA = [
@@ -273,22 +144,5 @@
         }
 
         // Initialize
-        lucide.createIcons();
         renderMembers();
-
-        // Mobile Menu Toggle
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
-        });
     </script>
-</body>
-</html>
