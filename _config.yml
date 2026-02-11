@@ -1,8 +1,8 @@
 # Site Settings
 title: "Emperor's Basketball Team"
 description: "Emperor's（エンペラーズ）は北海道札幌市東区・北区を拠点に活動する社会人バスケットボールチームです。男女ともにメンバー募集中！"
-url: ""
-baseurl: "/Emperors"
+url: "https://emperor-s.com"
+baseurl: ""
 author: "Emperor's Basketball Team"
 keywords: "バスケットボール, 札幌, 東区, 北区, 社会人バスケ, Emperor's, エンペラーズ"
 og_image: "image/emperors-fv.png"
