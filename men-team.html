@@ -71,7 +71,7 @@ active_nav: "men-team"
             </div>
 
             <!-- Members Grid -->
-            <div id="members-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <!-- Members will be rendered by JavaScript -->
             </div>
         </div>
@@ -80,19 +80,19 @@ active_nav: "men-team"
     <script>
         // Member Data
         const MEMBERS_DATA = [
-            { number: 0,  name: "キャプ",     position: "PF"   },
-            { number: 1,  name: "むね",   position: "PF/SF" },
-            { number: 2,  name: "かいと",       position: "PG"   },
-            { number: 3,  name: "しん",   position: "PF/C" },
-            { number: 4,  name: "せい",       position: "SG"   },
-            { number: 5,  name: "たむけん",   position: "G"    },
-            { number: 6,  name: "とよ",   position: "SG"   },
-            { number: 7,  name: "大北",   position: "SG"   },
-            { number: 8,  name: "深瀬",   position: "PF/C" },
-            { number: 9,  name: "みどー",     position: "PF"   },
-            { number: 10, name: "Jr",         position: "PF/C" },
-            { number: 11, name: "はるき",       position: "PF"   },
-            { number: 12, name: "ただ",   position: "G"    },
+            { number: 0,  name: "キャプ" },
+            { number: 1,  name: "むね" },
+            { number: 2,  name: "かいと" },
+            { number: 3,  name: "しん" },
+            { number: 4,  name: "せい" },
+            { number: 5,  name: "たむけん" },
+            { number: 6,  name: "とよ" },
+            { number: 7,  name: "大北" },
+            { number: 8,  name: "深瀬" },
+            { number: 9,  name: "みどー" },
+            { number: 10, name: "Jr" },
+            { number: 11, name: "はるき" },
+            { number: 12, name: "ただ" },
         ];
 
         // Render member cards
@@ -102,42 +102,28 @@ active_nav: "men-team"
 
             MEMBERS_DATA.forEach(member => {
                 const card = document.createElement('div');
-                card.className = 'group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-orange/50 transition-all duration-300';
+                card.className = 'group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-orange/50 transition-all duration-300 hover:shadow-lg hover:shadow-emperor-orange/10';
 
                 const numberPadded = String(member.number).padStart(2, '0');
 
                 card.innerHTML = `
-                    <div class="aspect-[3/4] overflow-hidden relative bg-emperor-gray">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i data-lucide="user" class="h-16 w-16 md:h-20 md:w-20 text-gray-700"></i>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-emperor-dark via-transparent to-transparent"></div>
-                        <div class="absolute top-3 left-3">
-                            <span class="font-oswald text-4xl md:text-5xl font-bold text-white/20 group-hover:text-emperor-orange/40 transition-colors duration-300">
+                    <div class="flex items-center p-4 md:p-5">
+                        <div class="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 bg-emperor-gray rounded-lg flex items-center justify-center border border-gray-700 group-hover:border-emperor-orange/50 group-hover:bg-emperor-orange/10 transition-all duration-300">
+                            <span class="font-oswald text-2xl md:text-3xl font-bold text-emperor-orange">
                                 ${numberPadded}
                             </span>
                         </div>
-                        <div class="absolute top-3 right-3">
-                            <span class="bg-emperor-orange/80 text-white text-xs font-bold px-2 py-1 rounded">
-                                ${member.position}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="p-3 md:p-4">
-                        <div class="flex items-baseline justify-between">
-                            <h3 class="text-sm md:text-lg font-bold text-white group-hover:text-emperor-orange transition-colors duration-300 truncate mr-2">
+                        <div class="ml-4 min-w-0">
+                            <h3 class="text-base md:text-lg font-bold text-white group-hover:text-emperor-orange transition-colors duration-300 truncate">
                                 ${member.name}
                             </h3>
-                            <span class="font-oswald text-xs md:text-sm text-emperor-orange font-bold shrink-0">#${numberPadded}</span>
+                            <span class="font-oswald text-xs text-gray-500">#${numberPadded}</span>
                         </div>
                     </div>
                 `;
 
                 grid.appendChild(card);
             });
-
-            // Re-init Lucide icons for dynamically created elements
-            lucide.createIcons();
         }
 
         // Initialize
