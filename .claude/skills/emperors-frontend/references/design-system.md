@@ -108,6 +108,6 @@ w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white fo
 |-----------|------|
 | emperors-fv.png | ヒーローセクション背景 |
 | emperors-logo.png | ナビ・フッターロゴ |
-| emperors男子集合写真.jpg | 男子チームカード |
+| emperors-men's.jpg | 男子チームカード |
 | emperors女子集合写真.jpg | 女子チームカード |
 | emperors男子エンジン.jpg | Aboutセクション |
