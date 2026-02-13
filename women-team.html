@@ -78,28 +78,19 @@ active_nav: "women-team"
     </section>
 
     <script>
-        // Member Data
-        const MEMBERS_DATA = [
-            { number: 0,  name: "めぐみん" },
-            { number: 1,  name: "ちづ" },
-            { number: 2,  name: "もりちゃん" },
-            { number: 3,  name: "あかり" },
-            { number: 4,  name: "ここな" },
-            { number: 5,  name: "ほのか" },
-            { number: 6,  name: "ゆーり" },
-            { number: 7,  name: "もえ" },
-            { number: 8,  name: "わたや" },
-            { number: 9,  name: "きら" },
-            { number: 10, name: "はる" },
-            { number: 11, name: "のあ" },
+        // Fallback Data
+        const FALLBACK_MEMBERS = [
+            { number: 0, name: "めぐみん" }, { number: 1, name: "ちづ" }, { number: 2, name: "もりちゃん" },
+            { number: 3, name: "あかり" }, { number: 4, name: "ここな" }, { number: 5, name: "ほのか" },
+            { number: 6, name: "ゆーり" }, { number: 7, name: "もえ" }, { number: 8, name: "わたや" },
+            { number: 9, name: "きら" }, { number: 10, name: "はる" }, { number: 11, name: "のあ" },
         ];
 
-        // Render member cards
-        function renderMembers() {
+        function renderMembers(data) {
             const grid = document.getElementById('members-grid');
             grid.innerHTML = '';
 
-            MEMBERS_DATA.forEach(member => {
+            data.forEach(member => {
                 const card = document.createElement('div');
                 card.className = 'group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-orange/50 transition-all duration-300 hover:shadow-lg hover:shadow-emperor-orange/10';
 
@@ -125,6 +116,26 @@ active_nav: "women-team"
             });
         }
 
-        // Initialize
-        renderMembers();
+        // Firestore連携
+        (async function() {
+            const cached = getCachedData('members_women');
+            if (cached) { renderMembers(cached); return; }
+
+            try {
+                const snapshot = await db.collection('members_women')
+                    .where('isActive', '==', true)
+                    .orderBy('order')
+                    .get();
+                const members = snapshot.docs.map(doc => doc.data());
+                if (members.length > 0) {
+                    setCachedData('members_women', members);
+                    renderMembers(members);
+                } else {
+                    renderMembers(FALLBACK_MEMBERS);
+                }
+            } catch (e) {
+                console.warn('Members fetch failed, using fallback:', e);
+                renderMembers(FALLBACK_MEMBERS);
+            }
+        })();
     </script>

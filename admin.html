@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理画面 | Emperor's CMS</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'emperor-orange': '#E65100',
+                        'emperor-dark': '#0a0a0a',
+                        'emperor-gray': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        oswald: ['"Oswald"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <style>
+        .tab-btn.active {
+            color: #E65100;
+            border-bottom-color: #E65100;
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .modal-overlay {
+            background: rgba(0,0,0,0.7);
+        }
+    </style>
+</head>
+<body class="bg-emperor-dark text-gray-200 font-sans antialiased min-h-screen">
+
+    <!-- ========================================
+         LOGIN SCREEN
+    ======================================== -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
+        <div class="w-full max-w-sm">
+            <div class="text-center mb-8">
+                <h1 class="font-oswald text-4xl font-bold text-white mb-2">Emperor's</h1>
+                <p class="text-gray-500 text-sm">管理画面</p>
+            </div>
+            <div class="bg-emperor-gray rounded-xl border border-gray-800 p-8">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">メールアドレス</label>
+                        <input type="email" id="login-email" class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emperor-orange transition-colors" placeholder="admin@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">パスワード</label>
+                        <input type="password" id="login-password" class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emperor-orange transition-colors" placeholder="********">
+                    </div>
+                    <div id="login-error" class="text-red-400 text-sm hidden"></div>
+                    <button onclick="handleLogin()" class="w-full bg-emperor-orange hover:bg-orange-700 text-white font-bold py-3 rounded-lg transition-colors">
+                        ログイン
+                    </button>
+                </div>
+            </div>
+            <p class="text-center text-gray-600 text-xs mt-4">
+                <a href="/" class="hover:text-gray-400 transition-colors">← サイトに戻る</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ========================================
+         DASHBOARD
+    ======================================== -->
+    <div id="dashboard" class="hidden">
+        <!-- Top Bar -->
+        <header class="bg-emperor-gray border-b border-gray-800 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
+            <div class="flex items-center space-x-3">
+                <span class="font-oswald text-xl font-bold text-white">Emperor's</span>
+                <span class="text-gray-500 text-sm">CMS</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span id="user-email" class="text-gray-400 text-sm hidden sm:block"></span>
+                <a href="/" class="text-gray-400 hover:text-white text-sm transition-colors">
+                    <i data-lucide="external-link" class="h-4 w-4 inline"></i> サイト表示
+                </a>
+                <button onclick="handleLogout()" class="text-gray-400 hover:text-red-400 text-sm transition-colors">
+                    <i data-lucide="log-out" class="h-4 w-4 inline"></i> ログアウト
+                </button>
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <div class="bg-emperor-gray border-b border-gray-800 px-4 overflow-x-auto">
+            <div class="flex space-x-1 min-w-max">
+                <button class="tab-btn active px-4 py-3 text-sm font-bold border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="news">
+                    <i data-lucide="newspaper" class="h-4 w-4 inline mr-1"></i> ニュース
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="schedule">
+                    <i data-lucide="calendar" class="h-4 w-4 inline mr-1"></i> スケジュール
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="men">
+                    <i data-lucide="users" class="h-4 w-4 inline mr-1"></i> 男子
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="women">
+                    <i data-lucide="users" class="h-4 w-4 inline mr-1"></i> 女子
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="gallery">
+                    <i data-lucide="image" class="h-4 w-4 inline mr-1"></i> ギャラリー
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="faq">
+                    <i data-lucide="help-circle" class="h-4 w-4 inline mr-1"></i> FAQ
+                </button>
+                <button class="tab-btn px-4 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="settings">
+                    <i data-lucide="settings" class="h-4 w-4 inline mr-1"></i> 設定
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content Area -->
+        <main class="max-w-5xl mx-auto px-4 py-8">
+
+            <!-- ========== NEWS TAB ========== -->
+            <div id="tab-news" class="tab-content">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-white">ニュース管理</h2>
+                    <button onclick="openNewsModal()" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i data-lucide="plus" class="h-4 w-4 inline mr-1"></i> 新規追加
+                    </button>
+                </div>
+                <div id="news-list" class="space-y-3">
+                    <div class="skeleton h-16 rounded-lg"></div>
+                    <div class="skeleton h-16 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- ========== SCHEDULE TAB ========== -->
+            <div id="tab-schedule" class="tab-content hidden">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-white">スケジュール管理</h2>
+                    <button onclick="openScheduleModal()" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i data-lucide="plus" class="h-4 w-4 inline mr-1"></i> 予定追加
+                    </button>
+                </div>
+                <div id="schedule-list" class="space-y-3">
+                    <div class="skeleton h-16 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- ========== MEN TAB ========== -->
+            <div id="tab-men" class="tab-content hidden">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-white">男子メンバー管理</h2>
+                    <button onclick="openMemberModal('members_men')" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i data-lucide="plus" class="h-4 w-4 inline mr-1"></i> メンバー追加
+                    </button>
+                </div>
+                <div id="men-list" class="space-y-3">
+                    <div class="skeleton h-16 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- ========== WOMEN TAB ========== -->
+            <div id="tab-women" class="tab-content hidden">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-white">女子メンバー管理</h2>
+                    <button onclick="openMemberModal('members_women')" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i data-lucide="plus" class="h-4 w-4 inline mr-1"></i> メンバー追加
+                    </button>
+                </div>
+                <div id="women-list" class="space-y-3">
+                    <div class="skeleton h-16 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- ========== GALLERY TAB ========== -->
+            <div id="tab-gallery" class="tab-content hidden">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-white">ギャラリー管理</h2>
+                    <button onclick="openGalleryModal()" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i data-lucide="plus" class="h-4 w-4 inline mr-1"></i> 写真追加
+                    </button>
+                </div>
+                <div id="gallery-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <div class="skeleton aspect-square rounded-lg"></div>
+                    <div class="skeleton aspect-square rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- ========== FAQ TAB ========== -->
+            <div id="tab-faq" class="tab-content hidden">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-white">FAQ管理</h2>
+                    <button onclick="openFaqModal()" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i data-lucide="plus" class="h-4 w-4 inline mr-1"></i> 質問追加
+                    </button>
+                </div>
+                <div id="faq-list" class="space-y-3">
+                    <div class="skeleton h-16 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- ========== SETTINGS TAB ========== -->
+            <div id="tab-settings" class="tab-content hidden">
+                <h2 class="text-2xl font-bold text-white mb-6">サイト設定</h2>
+                <div class="bg-emperor-gray rounded-xl border border-gray-800 p-6 space-y-4 max-w-lg">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">全メンバー数（表示用）</label>
+                        <input type="text" id="setting-memberCount" class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emperor-orange transition-colors" placeholder="27名">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">男子メンバー数（表示用）</label>
+                        <input type="text" id="setting-menCount" class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emperor-orange transition-colors" placeholder="13名">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">女子メンバー数（表示用）</label>
+                        <input type="text" id="setting-womenCount" class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emperor-orange transition-colors" placeholder="15名">
+                    </div>
+                    <button onclick="saveSettings()" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-6 py-2 rounded-lg text-sm transition-colors">
+                        保存
+                    </button>
+                    <div id="settings-saved" class="text-green-400 text-sm hidden">保存しました</div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold text-white mb-4">データ移行ツール</h3>
+                    <p class="text-gray-400 text-sm mb-4">初回セットアップ時に、既存のハードコードデータをFirestoreに移行します。<br>※既にデータがある場合は重複登録されるのでご注意ください。</p>
+                    <button onclick="migrateData()" id="migrate-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold px-6 py-2 rounded-lg text-sm transition-colors">
+                        データを移行する
+                    </button>
+                    <div id="migrate-status" class="text-sm mt-2 hidden"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ========================================
+         MODAL (shared)
+    ======================================== -->
+    <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center modal-overlay">
+        <div class="bg-emperor-gray rounded-xl border border-gray-800 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between p-6 border-b border-gray-800">
+                <h3 id="modal-title" class="text-lg font-bold text-white"></h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="h-5 w-5"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6">
+                <!-- Dynamic form content -->
+            </div>
+            <div class="flex justify-end space-x-3 p-6 border-t border-gray-800">
+                <button onclick="closeModal()" class="px-4 py-2 text-gray-400 hover:text-white text-sm transition-colors">キャンセル</button>
+                <button id="modal-save-btn" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-6 py-2 rounded-lg text-sm transition-colors">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         CONFIRM DIALOG
+    ======================================== -->
+    <div id="confirm-dialog" class="fixed inset-0 z-[110] hidden items-center justify-center modal-overlay">
+        <div class="bg-emperor-gray rounded-xl border border-gray-800 w-full max-w-sm mx-4 p-6">
+            <p id="confirm-message" class="text-white mb-6"></p>
+            <div class="flex justify-end space-x-3">
+                <button onclick="closeConfirm()" class="px-4 py-2 text-gray-400 hover:text-white text-sm transition-colors">キャンセル</button>
+                <button id="confirm-ok-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2 rounded-lg text-sm transition-colors">削除</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ============================================================
+    // AUTH
+    // ============================================================
+    const auth = firebase.auth();
+    const storage = firebase.storage();
+
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('user-email').textContent = user.email;
+            lucide.createIcons();
+            loadCurrentTab();
+        } else {
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+        }
+    });
+
+    function handleLogin() {
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        const errorEl = document.getElementById('login-error');
+        errorEl.classList.add('hidden');
+
+        if (!email || !password) {
+            errorEl.textContent = 'メールアドレスとパスワードを入力してください。';
+            errorEl.classList.remove('hidden');
+            return;
+        }
+
+        auth.signInWithEmailAndPassword(email, password).catch(error => {
+            errorEl.textContent = 'ログインに失敗しました。メールアドレスまたはパスワードが間違っています。';
+            errorEl.classList.remove('hidden');
+        });
+    }
+
+    // Enter key でログイン
+    document.getElementById('login-password').addEventListener('keydown', e => {
+        if (e.key === 'Enter') handleLogin();
+    });
+
+    function handleLogout() {
+        auth.signOut();
+    }
+
+    // ============================================================
+    // TABS
+    // ============================================================
+    let currentTab = 'news';
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentTab = btn.dataset.tab;
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active', 'text-white');
+                b.classList.add('text-gray-400');
+            });
+            btn.classList.add('active', 'text-white');
+            btn.classList.remove('text-gray-400');
+
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById('tab-' + currentTab).classList.remove('hidden');
+
+            loadCurrentTab();
+        });
+    });
+
+    function loadCurrentTab() {
+        switch (currentTab) {
+            case 'news': loadNews(); break;
+            case 'schedule': loadSchedule(); break;
+            case 'men': loadMembers('members_men', 'men-list'); break;
+            case 'women': loadMembers('members_women', 'women-list'); break;
+            case 'gallery': loadGallery(); break;
+            case 'faq': loadFaq(); break;
+            case 'settings': loadSettings(); break;
+        }
+    }
+
+    // ============================================================
+    // MODAL
+    // ============================================================
+    let modalSaveCallback = null;
+
+    function openModal(title, bodyHtml, saveCallback) {
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-body').innerHTML = bodyHtml;
+        modalSaveCallback = saveCallback;
+        document.getElementById('modal-save-btn').onclick = () => {
+            if (modalSaveCallback) modalSaveCallback();
+        };
+        const modal = document.getElementById('modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        lucide.createIcons();
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    // ============================================================
+    // CONFIRM DIALOG
+    // ============================================================
+    function showConfirm(message, onConfirm) {
+        document.getElementById('confirm-message').textContent = message;
+        document.getElementById('confirm-ok-btn').onclick = () => {
+            closeConfirm();
+            onConfirm();
+        };
+        const dialog = document.getElementById('confirm-dialog');
+        dialog.classList.remove('hidden');
+        dialog.classList.add('flex');
+    }
+
+    function closeConfirm() {
+        const dialog = document.getElementById('confirm-dialog');
+        dialog.classList.add('hidden');
+        dialog.classList.remove('flex');
+    }
+
+    // ============================================================
+    // Utility: input HTML
+    // ============================================================
+    function inputField(id, label, value, type = 'text', placeholder = '') {
+        return `<div class="mb-4">
+            <label class="block text-sm font-medium text-gray-400 mb-1">${label}</label>
+            <input type="${type}" id="${id}" value="${escapeHtml(value || '')}" placeholder="${placeholder}"
+                   class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emperor-orange transition-colors">
+        </div>`;
+    }
+
+    function selectField(id, label, options, selected) {
+        const opts = options.map(o => `<option value="${o}" ${o === selected ? 'selected' : ''}>${o}</option>`).join('');
+        return `<div class="mb-4">
+            <label class="block text-sm font-medium text-gray-400 mb-1">${label}</label>
+            <select id="${id}" class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emperor-orange transition-colors">${opts}</select>
+        </div>`;
+    }
+
+    function textareaField(id, label, value, rows = 3) {
+        return `<div class="mb-4">
+            <label class="block text-sm font-medium text-gray-400 mb-1">${label}</label>
+            <textarea id="${id}" rows="${rows}"
+                      class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emperor-orange transition-colors">${escapeHtml(value || '')}</textarea>
+        </div>`;
+    }
+
+    function checkboxField(id, label, checked) {
+        return `<div class="mb-4 flex items-center">
+            <input type="checkbox" id="${id}" ${checked ? 'checked' : ''} class="mr-2 accent-emperor-orange w-4 h-4">
+            <label for="${id}" class="text-sm text-gray-400">${label}</label>
+        </div>`;
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function showToast(msg) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg text-sm font-bold z-[200] transition-opacity';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2000);
+    }
+
+    // ============================================================
+    // NEWS CRUD
+    // ============================================================
+    async function loadNews() {
+        const list = document.getElementById('news-list');
+        list.innerHTML = '<div class="skeleton h-16 rounded-lg"></div>';
+
+        try {
+            const snapshot = await db.collection('news').orderBy('date', 'desc').get();
+            if (snapshot.empty) {
+                list.innerHTML = '<p class="text-gray-500 text-center py-8">ニュースがありません。「新規追加」ボタンで追加してください。</p>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                const categoryColors = { '試合結果': 'bg-red-700', '募集': 'bg-green-700', 'イベント': 'bg-yellow-600', 'お知らせ': 'bg-blue-700' };
+                const badge = categoryColors[d.category] || 'bg-gray-600';
+                const publishIcon = d.published !== false ? '● 公開' : '○ 下書き';
+                const publishColor = d.published !== false ? 'text-green-400' : 'text-gray-500';
+
+                const item = document.createElement('div');
+                item.className = 'bg-emperor-gray rounded-lg border border-gray-800 p-4 flex items-center justify-between hover:border-gray-700 transition-colors';
+                item.innerHTML = `
+                    <div class="flex-1 min-w-0 mr-4">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <span class="${badge} text-white text-xs font-bold px-2 py-0.5 rounded-full">${escapeHtml(d.category)}</span>
+                            <span class="text-xs text-gray-500">${escapeHtml(d.date)}</span>
+                            <span class="text-xs ${publishColor}">${publishIcon}</span>
+                        </div>
+                        <p class="text-white font-bold text-sm truncate">${escapeHtml(d.title)}</p>
+                    </div>
+                    <div class="flex space-x-2 flex-shrink-0">
+                        <button onclick="editNews('${doc.id}')" class="text-gray-400 hover:text-emperor-orange transition-colors p-1" title="編集">
+                            <i data-lucide="pencil" class="h-4 w-4"></i>
+                        </button>
+                        <button onclick="deleteNews('${doc.id}')" class="text-gray-400 hover:text-red-400 transition-colors p-1" title="削除">
+                            <i data-lucide="trash-2" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        } catch (e) {
+            list.innerHTML = '<p class="text-red-400 text-center py-8">読み込みエラー: ' + escapeHtml(e.message) + '</p>';
+        }
+    }
+
+    function openNewsModal(editId = null, editData = null) {
+        const isEdit = !!editId;
+        const d = editData || { date: new Date().toISOString().slice(0, 10), category: 'お知らせ', title: '', summary: '', published: true };
+
+        const body = inputField('news-date', '日付', d.date, 'date')
+            + selectField('news-category', 'カテゴリ', ['お知らせ', '募集', 'イベント', '試合結果'], d.category)
+            + inputField('news-title', 'タイトル', d.title, 'text', 'ニュースのタイトル')
+            + textareaField('news-summary', '概要', d.summary)
+            + checkboxField('news-published', '公開する', d.published !== false);
+
+        openModal(isEdit ? 'ニュースを編集' : 'ニュースを追加', body, async () => {
+            const data = {
+                date: document.getElementById('news-date').value,
+                category: document.getElementById('news-category').value,
+                title: document.getElementById('news-title').value.trim(),
+                summary: document.getElementById('news-summary').value.trim(),
+                published: document.getElementById('news-published').checked,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+            if (!data.title) { alert('タイトルを入力してください。'); return; }
+
+            try {
+                if (isEdit) {
+                    await db.collection('news').doc(editId).update(data);
+                } else {
+                    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection('news').add(data);
+                }
+                closeModal();
+                showToast(isEdit ? '更新しました' : '追加しました');
+                loadNews();
+            } catch (e) { alert('保存エラー: ' + e.message); }
+        });
+    }
+
+    async function editNews(id) {
+        const doc = await db.collection('news').doc(id).get();
+        if (doc.exists) openNewsModal(id, doc.data());
+    }
+
+    function deleteNews(id) {
+        showConfirm('このニュースを削除しますか？', async () => {
+            await db.collection('news').doc(id).delete();
+            showToast('削除しました');
+            loadNews();
+        });
+    }
+
+    // ============================================================
+    // SCHEDULE CRUD
+    // ============================================================
+    async function loadSchedule() {
+        const list = document.getElementById('schedule-list');
+        list.innerHTML = '<div class="skeleton h-16 rounded-lg"></div>';
+
+        try {
+            const snapshot = await db.collection('schedule').orderBy('date', 'desc').get();
+            if (snapshot.empty) {
+                list.innerHTML = '<p class="text-gray-500 text-center py-8">スケジュールがありません。「予定追加」ボタンで追加してください。</p>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                const typeColors = { 'practice': 'bg-emperor-orange/20 text-emperor-orange border-emperor-orange/40', 'game': 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40', 'event': 'bg-blue-500/20 text-blue-300 border-blue-500/40' };
+                const typeLabels = { 'practice': '練習', 'game': '試合', 'event': 'イベント' };
+                const cls = typeColors[d.type] || 'bg-gray-700/20 text-gray-300 border-gray-700';
+
+                const item = document.createElement('div');
+                item.className = 'bg-emperor-gray rounded-lg border border-gray-800 p-4 flex items-center justify-between hover:border-gray-700 transition-colors';
+                item.innerHTML = `
+                    <div class="flex-1 min-w-0 mr-4">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <span class="${cls} text-xs font-bold px-2 py-0.5 rounded-full border">${typeLabels[d.type] || d.type}</span>
+                            <span class="text-white font-bold text-sm">${escapeHtml(d.date)}</span>
+                        </div>
+                        <p class="text-gray-400 text-sm">${escapeHtml(d.label || '')} ${d.time ? '| ' + escapeHtml(d.time) : ''} ${d.location ? '| ' + escapeHtml(d.location) : ''}</p>
+                    </div>
+                    <div class="flex space-x-2 flex-shrink-0">
+                        <button onclick="editSchedule('${doc.id}')" class="text-gray-400 hover:text-emperor-orange transition-colors p-1"><i data-lucide="pencil" class="h-4 w-4"></i></button>
+                        <button onclick="deleteSchedule('${doc.id}')" class="text-gray-400 hover:text-red-400 transition-colors p-1"><i data-lucide="trash-2" class="h-4 w-4"></i></button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        } catch (e) {
+            list.innerHTML = '<p class="text-red-400 text-center py-8">読み込みエラー: ' + escapeHtml(e.message) + '</p>';
+        }
+    }
+
+    function openScheduleModal(editId = null, editData = null) {
+        const isEdit = !!editId;
+        const d = editData || { date: new Date().toISOString().slice(0, 10), type: 'practice', time: '19:15-21:30', label: '通常練習', location: '', notes: '' };
+
+        const body = inputField('sched-date', '日付', d.date, 'date')
+            + selectField('sched-type', '種別', ['practice', 'game', 'event'], d.type)
+            + inputField('sched-time', '時間', d.time, 'text', '19:15-21:30')
+            + inputField('sched-label', 'ラベル', d.label, 'text', '通常練習')
+            + inputField('sched-location', '場所', d.location, 'text', '札苗中学校')
+            + textareaField('sched-notes', 'メモ', d.notes, 2);
+
+        openModal(isEdit ? 'スケジュールを編集' : 'スケジュールを追加', body, async () => {
+            const data = {
+                date: document.getElementById('sched-date').value,
+                type: document.getElementById('sched-type').value,
+                time: document.getElementById('sched-time').value.trim(),
+                label: document.getElementById('sched-label').value.trim(),
+                location: document.getElementById('sched-location').value.trim(),
+                notes: document.getElementById('sched-notes').value.trim(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+            if (!data.date) { alert('日付を入力してください。'); return; }
+
+            try {
+                if (isEdit) {
+                    await db.collection('schedule').doc(editId).update(data);
+                } else {
+                    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection('schedule').add(data);
+                }
+                closeModal();
+                showToast(isEdit ? '更新しました' : '追加しました');
+                loadSchedule();
+            } catch (e) { alert('保存エラー: ' + e.message); }
+        });
+    }
+
+    async function editSchedule(id) {
+        const doc = await db.collection('schedule').doc(id).get();
+        if (doc.exists) openScheduleModal(id, doc.data());
+    }
+
+    function deleteSchedule(id) {
+        showConfirm('このスケジュールを削除しますか？', async () => {
+            await db.collection('schedule').doc(id).delete();
+            showToast('削除しました');
+            loadSchedule();
+        });
+    }
+
+    // ============================================================
+    // MEMBERS CRUD (shared for men/women)
+    // ============================================================
+    async function loadMembers(collection, listId) {
+        const list = document.getElementById(listId);
+        list.innerHTML = '<div class="skeleton h-16 rounded-lg"></div>';
+
+        try {
+            const snapshot = await db.collection(collection).orderBy('order').get();
+            if (snapshot.empty) {
+                list.innerHTML = '<p class="text-gray-500 text-center py-8">メンバーがいません。「メンバー追加」ボタンで追加してください。</p>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                const numberPadded = String(d.number).padStart(2, '0');
+                const activeClass = d.isActive !== false ? '' : 'opacity-50';
+
+                const item = document.createElement('div');
+                item.className = `bg-emperor-gray rounded-lg border border-gray-800 p-4 flex items-center justify-between hover:border-gray-700 transition-colors ${activeClass}`;
+                item.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="font-oswald text-2xl font-bold text-emperor-orange w-10 text-center">${numberPadded}</span>
+                        <div>
+                            <p class="text-white font-bold">${escapeHtml(d.name)}</p>
+                            <span class="text-xs text-gray-500">${d.position ? escapeHtml(d.position) : ''} ${d.isActive === false ? '(非アクティブ)' : ''}</span>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2 flex-shrink-0">
+                        <button onclick="editMember('${collection}', '${doc.id}')" class="text-gray-400 hover:text-emperor-orange transition-colors p-1"><i data-lucide="pencil" class="h-4 w-4"></i></button>
+                        <button onclick="deleteMember('${collection}', '${doc.id}', '${listId}')" class="text-gray-400 hover:text-red-400 transition-colors p-1"><i data-lucide="trash-2" class="h-4 w-4"></i></button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        } catch (e) {
+            list.innerHTML = '<p class="text-red-400 text-center py-8">読み込みエラー: ' + escapeHtml(e.message) + '</p>';
+        }
+    }
+
+    function openMemberModal(collection, editId = null, editData = null) {
+        const isEdit = !!editId;
+        const d = editData || { number: 0, name: '', position: '', isActive: true, order: 99 };
+
+        const body = inputField('member-number', '背番号', String(d.number), 'number')
+            + inputField('member-name', '名前', d.name, 'text', 'ニックネーム')
+            + inputField('member-position', 'ポジション', d.position, 'text', 'PG, SG, SF, PF, C')
+            + inputField('member-order', '表示順', String(d.order || 0), 'number')
+            + checkboxField('member-active', 'アクティブ（サイトに表示する）', d.isActive !== false);
+
+        const listId = collection === 'members_men' ? 'men-list' : 'women-list';
+
+        openModal(isEdit ? 'メンバーを編集' : 'メンバーを追加', body, async () => {
+            const data = {
+                number: parseInt(document.getElementById('member-number').value) || 0,
+                name: document.getElementById('member-name').value.trim(),
+                position: document.getElementById('member-position').value.trim(),
+                order: parseInt(document.getElementById('member-order').value) || 0,
+                isActive: document.getElementById('member-active').checked,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+            if (!data.name) { alert('名前を入力してください。'); return; }
+
+            try {
+                if (isEdit) {
+                    await db.collection(collection).doc(editId).update(data);
+                } else {
+                    data.photoUrl = '';
+                    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection(collection).add(data);
+                }
+                closeModal();
+                showToast(isEdit ? '更新しました' : '追加しました');
+                loadMembers(collection, listId);
+            } catch (e) { alert('保存エラー: ' + e.message); }
+        });
+    }
+
+    async function editMember(collection, id) {
+        const doc = await db.collection(collection).doc(id).get();
+        if (doc.exists) openMemberModal(collection, id, doc.data());
+    }
+
+    function deleteMember(collection, id, listId) {
+        showConfirm('このメンバーを削除しますか？', async () => {
+            await db.collection(collection).doc(id).delete();
+            showToast('削除しました');
+            loadMembers(collection, listId);
+        });
+    }
+
+    // ============================================================
+    // GALLERY CRUD
+    // ============================================================
+    async function loadGallery() {
+        const list = document.getElementById('gallery-list');
+        list.innerHTML = '<div class="skeleton aspect-square rounded-lg"></div><div class="skeleton aspect-square rounded-lg"></div>';
+
+        try {
+            const snapshot = await db.collection('gallery').orderBy('order').get();
+            if (snapshot.empty) {
+                list.innerHTML = '<p class="text-gray-500 text-center py-8 col-span-full">写真がありません。「写真追加」ボタンで追加してください。</p>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                const item = document.createElement('div');
+                item.className = 'relative group aspect-square rounded-lg overflow-hidden border border-gray-800 bg-emperor-gray';
+                item.innerHTML = `
+                    <img src="${escapeHtml(d.src)}" alt="${escapeHtml(d.caption || '')}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-2">
+                        <button onclick="editGalleryItem('${doc.id}')" class="bg-emperor-orange hover:bg-orange-700 text-white p-2 rounded-lg transition-colors"><i data-lucide="pencil" class="h-4 w-4"></i></button>
+                        <button onclick="deleteGalleryItem('${doc.id}', '${escapeHtml(d.src)}')" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors"><i data-lucide="trash-2" class="h-4 w-4"></i></button>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-black/70 px-2 py-1">
+                        <p class="text-white text-xs truncate">${escapeHtml(d.caption || '')}</p>
+                        <span class="text-emperor-orange text-xs">${escapeHtml(d.category || '')}</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        } catch (e) {
+            list.innerHTML = '<p class="text-red-400 text-center py-8 col-span-full">読み込みエラー: ' + escapeHtml(e.message) + '</p>';
+        }
+    }
+
+    function openGalleryModal(editId = null, editData = null) {
+        const isEdit = !!editId;
+        const d = editData || { src: '', category: '思い出', caption: '', order: 99, published: true };
+
+        let body = '';
+        if (!isEdit) {
+            body += `<div class="mb-4">
+                <label class="block text-sm font-medium text-gray-400 mb-1">画像ファイル</label>
+                <input type="file" id="gallery-file" accept="image/*"
+                       class="w-full bg-emperor-dark border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emperor-orange transition-colors file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:font-bold file:bg-emperor-orange file:text-white hover:file:bg-orange-700">
+                <p class="text-xs text-gray-500 mt-1">※5MB以下の画像ファイル</p>
+            </div>`;
+            body += `<p class="text-gray-500 text-xs mb-4">または画像URLを直接入力:</p>`;
+        }
+        body += inputField('gallery-src', '画像URL', d.src, 'text', 'image/photo.jpg または https://...')
+            + selectField('gallery-category', 'カテゴリ', ['大会', '思い出', '練習'], d.category)
+            + inputField('gallery-caption', 'キャプション', d.caption, 'text', '写真の説明')
+            + inputField('gallery-order', '表示順', String(d.order || 0), 'number')
+            + checkboxField('gallery-published', '公開する', d.published !== false);
+
+        openModal(isEdit ? '写真を編集' : '写真を追加', body, async () => {
+            let src = document.getElementById('gallery-src').value.trim();
+
+            // ファイルアップロード処理
+            if (!isEdit) {
+                const fileInput = document.getElementById('gallery-file');
+                if (fileInput && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    if (file.size > 5 * 1024 * 1024) { alert('ファイルサイズは5MB以下にしてください。'); return; }
+
+                    try {
+                        const fileName = Date.now() + '_' + file.name;
+                        const storageRef = storage.ref('gallery/' + fileName);
+                        await storageRef.put(file);
+                        src = await storageRef.getDownloadURL();
+                    } catch (e) { alert('アップロードエラー: ' + e.message); return; }
+                }
+            }
+
+            if (!src) { alert('画像URLを入力するか、ファイルを選択してください。'); return; }
+
+            const data = {
+                src: src,
+                category: document.getElementById('gallery-category').value,
+                caption: document.getElementById('gallery-caption').value.trim(),
+                order: parseInt(document.getElementById('gallery-order').value) || 0,
+                published: document.getElementById('gallery-published').checked,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+
+            try {
+                if (isEdit) {
+                    await db.collection('gallery').doc(editId).update(data);
+                } else {
+                    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection('gallery').add(data);
+                }
+                closeModal();
+                showToast(isEdit ? '更新しました' : '追加しました');
+                loadGallery();
+            } catch (e) { alert('保存エラー: ' + e.message); }
+        });
+    }
+
+    async function editGalleryItem(id) {
+        const doc = await db.collection('gallery').doc(id).get();
+        if (doc.exists) openGalleryModal(id, doc.data());
+    }
+
+    function deleteGalleryItem(id, src) {
+        showConfirm('この写真を削除しますか？', async () => {
+            // Firebase Storageの画像の場合は削除を試みる
+            if (src && src.includes('firebasestorage.googleapis.com')) {
+                try {
+                    const storageRef = storage.refFromURL(src);
+                    await storageRef.delete();
+                } catch (e) { /* 画像削除失敗は無視 */ }
+            }
+            await db.collection('gallery').doc(id).delete();
+            showToast('削除しました');
+            loadGallery();
+        });
+    }
+
+    // ============================================================
+    // FAQ CRUD
+    // ============================================================
+    async function loadFaq() {
+        const list = document.getElementById('faq-list');
+        list.innerHTML = '<div class="skeleton h-16 rounded-lg"></div>';
+
+        try {
+            const snapshot = await db.collection('faq').orderBy('order').get();
+            if (snapshot.empty) {
+                list.innerHTML = '<p class="text-gray-500 text-center py-8">FAQがありません。「質問追加」ボタンで追加してください。</p>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                const publishColor = d.published !== false ? 'text-green-400' : 'text-gray-500';
+                const publishText = d.published !== false ? '公開' : '下書き';
+
+                const item = document.createElement('div');
+                item.className = 'bg-emperor-gray rounded-lg border border-gray-800 p-4 flex items-center justify-between hover:border-gray-700 transition-colors';
+                item.innerHTML = `
+                    <div class="flex-1 min-w-0 mr-4">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <span class="text-xs text-gray-500">Q${d.order + 1 || ''}.</span>
+                            <span class="text-xs ${publishColor}">${publishText}</span>
+                        </div>
+                        <p class="text-white font-bold text-sm truncate">${escapeHtml(d.question)}</p>
+                        <p class="text-gray-500 text-xs truncate mt-1">${escapeHtml(d.answer)}</p>
+                    </div>
+                    <div class="flex space-x-2 flex-shrink-0">
+                        <button onclick="editFaq('${doc.id}')" class="text-gray-400 hover:text-emperor-orange transition-colors p-1"><i data-lucide="pencil" class="h-4 w-4"></i></button>
+                        <button onclick="deleteFaq('${doc.id}')" class="text-gray-400 hover:text-red-400 transition-colors p-1"><i data-lucide="trash-2" class="h-4 w-4"></i></button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        } catch (e) {
+            list.innerHTML = '<p class="text-red-400 text-center py-8">読み込みエラー: ' + escapeHtml(e.message) + '</p>';
+        }
+    }
+
+    function openFaqModal(editId = null, editData = null) {
+        const isEdit = !!editId;
+        const d = editData || { question: '', answer: '', order: 0, published: true };
+
+        const body = inputField('faq-question', '質問', d.question, 'text', '初心者でも大丈夫ですか？')
+            + textareaField('faq-answer', '回答', d.answer, 4)
+            + inputField('faq-order', '表示順（0が一番上）', String(d.order || 0), 'number')
+            + checkboxField('faq-published', '公開する', d.published !== false);
+
+        openModal(isEdit ? 'FAQを編集' : 'FAQを追加', body, async () => {
+            const data = {
+                question: document.getElementById('faq-question').value.trim(),
+                answer: document.getElementById('faq-answer').value.trim(),
+                order: parseInt(document.getElementById('faq-order').value) || 0,
+                published: document.getElementById('faq-published').checked,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+            if (!data.question || !data.answer) { alert('質問と回答を入力してください。'); return; }
+
+            try {
+                if (isEdit) {
+                    await db.collection('faq').doc(editId).update(data);
+                } else {
+                    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection('faq').add(data);
+                }
+                closeModal();
+                showToast(isEdit ? '更新しました' : '追加しました');
+                loadFaq();
+            } catch (e) { alert('保存エラー: ' + e.message); }
+        });
+    }
+
+    async function editFaq(id) {
+        const doc = await db.collection('faq').doc(id).get();
+        if (doc.exists) openFaqModal(id, doc.data());
+    }
+
+    function deleteFaq(id) {
+        showConfirm('このFAQを削除しますか？', async () => {
+            await db.collection('faq').doc(id).delete();
+            showToast('削除しました');
+            loadFaq();
+        });
+    }
+
+    // ============================================================
+    // SETTINGS
+    // ============================================================
+    async function loadSettings() {
+        try {
+            const doc = await db.collection('site_settings').doc('main').get();
+            if (doc.exists) {
+                const d = doc.data();
+                document.getElementById('setting-memberCount').value = d.memberCount || '';
+                document.getElementById('setting-menCount').value = d.menCount || '';
+                document.getElementById('setting-womenCount').value = d.womenCount || '';
+            }
+        } catch (e) { /* ignore */ }
+    }
+
+    async function saveSettings() {
+        const data = {
+            memberCount: document.getElementById('setting-memberCount').value.trim(),
+            menCount: document.getElementById('setting-menCount').value.trim(),
+            womenCount: document.getElementById('setting-womenCount').value.trim(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        };
+        try {
+            await db.collection('site_settings').doc('main').set(data, { merge: true });
+            const el = document.getElementById('settings-saved');
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 2000);
+        } catch (e) { alert('保存エラー: ' + e.message); }
+    }
+
+    // ============================================================
+    // DATA MIGRATION
+    // ============================================================
+    async function migrateData() {
+        const btn = document.getElementById('migrate-btn');
+        const status = document.getElementById('migrate-status');
+        btn.disabled = true;
+        btn.textContent = '移行中...';
+        status.classList.remove('hidden');
+        status.className = 'text-sm mt-2 text-yellow-400';
+        status.textContent = 'データを移行しています...';
+
+        try {
+            // News
+            const newsItems = [
+                { date: '2026-01-01', category: '募集', title: '2026年度 新メンバー募集中！', summary: '男女ともに新しい仲間を募集しています。経験者の方、ぜひ一度練習に参加してみてください。', published: true, order: 2 },
+                { date: '2026-01-20', category: 'お知らせ', title: '第23回 石狩市協会長杯 男子参加決定', summary: '男子チームが3月に行われる大会に参加することとなりました。応援よろしくお願いいたします。', published: true, order: 0 },
+                { date: '2025-12-28', category: 'イベント', title: '忘年会を開催しました', summary: 'メンバーで集まり忘年会を行いました。今年もありがとうございました！2026年もよろしくお願いします！', published: true, order: 1 },
+            ];
+            for (const item of newsItems) {
+                await db.collection('news').add({ ...item, createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+            }
+            status.textContent = 'ニュース移行完了...';
+
+            // Schedule
+            const scheduleItems = [
+                { date: '2026-02-03', type: 'practice', time: '19:15-21:30', label: '通常練習', location: '', notes: '' },
+                { date: '2026-02-05', type: 'practice', time: '19:15-21:30', label: '通常練習', location: '', notes: '' },
+                { date: '2026-02-10', type: 'practice', time: '19:15-21:30', label: '通常練習', location: '', notes: '' },
+                { date: '2026-02-12', type: 'practice', time: '19:15-21:30', label: '通常練習', location: '', notes: '' },
+                { date: '2026-02-17', type: 'practice', time: '19:15-21:30', label: '通常練習', location: '', notes: '' },
+                { date: '2026-02-21', type: 'practice', time: '19:15-21:30', label: '通常練習', location: '', notes: '' },
+                { date: '2026-02-24', type: 'practice', time: '19:15-21:30', label: '通常練習', location: '', notes: '' },
+            ];
+            for (const item of scheduleItems) {
+                await db.collection('schedule').add({ ...item, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            }
+            status.textContent = 'スケジュール移行完了...';
+
+            // Men members
+            const menMembers = [
+                { number: 4, name: "キャプ" }, { number: 1, name: "むね" }, { number: 2, name: "かいと" },
+                { number: 3, name: "しん" }, { number: 5, name: "せい" }, { number: 6, name: "たむけん" },
+                { number: 7, name: "とよ" }, { number: 8, name: "大北" }, { number: 9, name: "深瀬" },
+                { number: 10, name: "みどー" }, { number: 11, name: "Jr" }, { number: 12, name: "はるき" },
+                { number: 13, name: "ただ" },
+            ];
+            for (let i = 0; i < menMembers.length; i++) {
+                await db.collection('members_men').add({ ...menMembers[i], photoUrl: '', position: '', isActive: true, order: i, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            }
+            status.textContent = '男子メンバー移行完了...';
+
+            // Women members
+            const womenMembers = [
+                { number: 0, name: "めぐみん" }, { number: 1, name: "ちづ" }, { number: 2, name: "もりちゃん" },
+                { number: 3, name: "あかり" }, { number: 4, name: "ここな" }, { number: 5, name: "ほのか" },
+                { number: 6, name: "ゆーり" }, { number: 7, name: "もえ" }, { number: 8, name: "わたや" },
+                { number: 9, name: "きら" }, { number: 10, name: "はる" }, { number: 11, name: "のあ" },
+            ];
+            for (let i = 0; i < womenMembers.length; i++) {
+                await db.collection('members_women').add({ ...womenMembers[i], photoUrl: '', position: '', isActive: true, order: i, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            }
+            status.textContent = '女子メンバー移行完了...';
+
+            // Gallery
+            const galleryItems = [
+                { src: 'image/emperors女子集合写真.jpg', category: '大会', caption: '女子チーム集合写真' },
+                { src: 'image/emperors男子エンジン.jpg', category: '大会', caption: 'エンジン（円陣）' },
+                { src: 'image/emperors男子集合写真.jpg', category: '大会', caption: '男子チーム集合写真' },
+                { src: "image/emperors-men's.jpg", category: '大会', caption: '男子チーム' },
+                { src: 'image/LINE_ALBUM_思い出_260212_1.jpg', category: '思い出', caption: '思い出 1' },
+                { src: 'image/LINE_ALBUM_思い出_260212_2.jpg', category: '思い出', caption: '思い出 2' },
+                { src: 'image/LINE_ALBUM_思い出_260212_3.jpg', category: '思い出', caption: '思い出 3' },
+                { src: 'image/LINE_ALBUM_思い出_260212_4.jpg', category: '思い出', caption: '思い出 4' },
+                { src: 'image/LINE_ALBUM_思い出_260212_5.jpg', category: '思い出', caption: '思い出 5' },
+                { src: 'image/LINE_ALBUM_思い出_260212_6.jpg', category: '思い出', caption: '思い出 6' },
+                { src: 'image/LINE_ALBUM_思い出_260212_7.jpg', category: '思い出', caption: '思い出 7' },
+                { src: 'image/LINE_ALBUM_思い出_260212_8.jpg', category: '思い出', caption: '思い出 8' },
+                { src: 'image/LINE_ALBUM_思い出_260212_9.jpg', category: '思い出', caption: '思い出 9' },
+                { src: 'image/LINE_ALBUM_思い出_260212_10.jpg', category: '思い出', caption: '思い出 10' },
+            ];
+            for (let i = 0; i < galleryItems.length; i++) {
+                await db.collection('gallery').add({ ...galleryItems[i], order: i, published: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            }
+            status.textContent = 'ギャラリー移行完了...';
+
+            // FAQ
+            const faqItems = [
+                { question: '初心者でも大丈夫ですか？', answer: '練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！' },
+                { question: '見学だけでもOKですか？', answer: 'もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。' },
+                { question: '必要な道具はありますか？', answer: 'バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。' },
+                { question: '年齢制限はありますか？', answer: '18歳以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。' },
+                { question: '掛け持ちは可能ですか？', answer: '原則として他チームとの掛け持ちは不可とさせていただいています。Emperor\'sに所属して一緒にバスケを楽しんでいただける方を募集しています。' },
+            ];
+            for (let i = 0; i < faqItems.length; i++) {
+                await db.collection('faq').add({ ...faqItems[i], order: i, published: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            }
+            status.textContent = 'FAQ移行完了...';
+
+            // Site settings
+            await db.collection('site_settings').doc('main').set({
+                memberCount: '27名',
+                menCount: '13名',
+                womenCount: '15名',
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+
+            status.className = 'text-sm mt-2 text-green-400';
+            status.textContent = '全データの移行が完了しました！';
+            btn.textContent = '移行完了';
+        } catch (e) {
+            status.className = 'text-sm mt-2 text-red-400';
+            status.textContent = '移行エラー: ' + e.message;
+            btn.disabled = false;
+            btn.textContent = 'データを移行する';
+        }
+    }
+
+    // Init Lucide icons
+    lucide.createIcons();
+    </script>
+</body>
+</html>

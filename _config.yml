@@ -11,6 +11,10 @@ lang: ja
 # Build Settings
 markdown: kramdown
 
+# Include in build (Jekyll ignores directories starting with _ or . by default)
+include:
+  - js
+
 # Exclude from build
 exclude:
   - .claude/

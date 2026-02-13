@@ -78,29 +78,20 @@ active_nav: "men-team"
     </section>
 
     <script>
-        // Member Data
-        const MEMBERS_DATA = [
-            { number: 4,  name: "キャプ" },
-            { number: 1,  name: "むね" },
-            { number: 2,  name: "かいと" },
-            { number: 3,  name: "しん" },
-            { number: 5,  name: "せい" },
-            { number: 6,  name: "たむけん" },
-            { number: 7,  name: "とよ" },
-            { number: 8,  name: "大北" },
-            { number: 9,  name: "深瀬" },
-            { number: 10,  name: "みどー" },
-            { number: 11, name: "Jr" },
-            { number: 12, name: "はるき" },
+        // Fallback Data
+        const FALLBACK_MEMBERS = [
+            { number: 4, name: "キャプ" }, { number: 1, name: "むね" }, { number: 2, name: "かいと" },
+            { number: 3, name: "しん" }, { number: 5, name: "せい" }, { number: 6, name: "たむけん" },
+            { number: 7, name: "とよ" }, { number: 8, name: "大北" }, { number: 9, name: "深瀬" },
+            { number: 10, name: "みどー" }, { number: 11, name: "Jr" }, { number: 12, name: "はるき" },
             { number: 13, name: "ただ" },
         ];
 
-        // Render member cards
-        function renderMembers() {
+        function renderMembers(data) {
             const grid = document.getElementById('members-grid');
             grid.innerHTML = '';
 
-            MEMBERS_DATA.forEach(member => {
+            data.forEach(member => {
                 const card = document.createElement('div');
                 card.className = 'group relative overflow-hidden rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-orange/50 transition-all duration-300 hover:shadow-lg hover:shadow-emperor-orange/10';
 
@@ -126,6 +117,26 @@ active_nav: "men-team"
             });
         }
 
-        // Initialize
-        renderMembers();
+        // Firestore連携
+        (async function() {
+            const cached = getCachedData('members_men');
+            if (cached) { renderMembers(cached); return; }
+
+            try {
+                const snapshot = await db.collection('members_men')
+                    .where('isActive', '==', true)
+                    .orderBy('order')
+                    .get();
+                const members = snapshot.docs.map(doc => doc.data());
+                if (members.length > 0) {
+                    setCachedData('members_men', members);
+                    renderMembers(members);
+                } else {
+                    renderMembers(FALLBACK_MEMBERS);
+                }
+            } catch (e) {
+                console.warn('Members fetch failed, using fallback:', e);
+                renderMembers(FALLBACK_MEMBERS);
+            }
+        })();
     </script>

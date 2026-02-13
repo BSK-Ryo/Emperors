@@ -391,81 +391,7 @@ active_nav: "home"
             </div>
 
             <div class="space-y-4" id="faq-accordion">
-                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
-                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
-                        <span class="flex items-center">
-                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-orange mr-3 flex-shrink-0"></i>
-                            <span class="text-white font-bold">初心者でも大丈夫ですか？</span>
-                        </span>
-                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
-                    </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
-                            練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
-                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
-                        <span class="flex items-center">
-                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-orange mr-3 flex-shrink-0"></i>
-                            <span class="text-white font-bold">見学だけでもOKですか？</span>
-                        </span>
-                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
-                    </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
-                            もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
-                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
-                        <span class="flex items-center">
-                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-orange mr-3 flex-shrink-0"></i>
-                            <span class="text-white font-bold">必要な道具はありますか？</span>
-                        </span>
-                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
-                    </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
-                            バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
-                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
-                        <span class="flex items-center">
-                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-orange mr-3 flex-shrink-0"></i>
-                            <span class="text-white font-bold">年齢制限はありますか？</span>
-                        </span>
-                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
-                    </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
-                            18歳以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
-                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
-                        <span class="flex items-center">
-                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-orange mr-3 flex-shrink-0"></i>
-                            <span class="text-white font-bold">掛け持ちは可能ですか？</span>
-                        </span>
-                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
-                    </button>
-                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">
-                            原則として他チームとの掛け持ちは不可とさせていただいています。Emperor'sに所属して一緒にバスケを楽しんでいただける方を募集しています。
-                        </div>
-                    </div>
-                </div>
-                
+                <!-- FAQ items will be rendered by JavaScript from Firestore -->
             </div>
         </div>
     </section>
@@ -575,28 +501,13 @@ active_nav: "home"
 
     <script>
         // ========================================
-        // News Section
+        // News Section - Firestore連携
         // ========================================
-        (function() {
-            const NEWS_DATA = [
-                {
-                    date: '2026-01-01',
-                    category: '募集',
-                    title: '2026年度 新メンバー募集中！',
-                    summary: '男女ともに新しい仲間を募集しています。経験者の方、ぜひ一度練習に参加してみてください。',
-                },
-                {
-                    date: '2026-01-20',
-                    category: 'お知らせ',
-                    title: '第23回 石狩市協会長杯 男子参加決定',
-                    summary: '男子チームが3月に行われる大会に参加することとなりました。応援よろしくお願いいたします。',
-                },
-                {
-                    date: '2025-12-28',
-                    category: 'イベント',
-                    title: '忘年会を開催しました',
-                    summary: 'メンバーで集まり忘年会を行いました。今年もありがとうございました！2026年もよろしくお願いします！',
-                },
+        (async function() {
+            const FALLBACK_NEWS = [
+                { date: '2026-01-01', category: '募集', title: '2026年度 新メンバー募集中！', summary: '男女ともに新しい仲間を募集しています。経験者の方、ぜひ一度練習に参加してみてください。' },
+                { date: '2026-01-20', category: 'お知らせ', title: '第23回 石狩市協会長杯 男子参加決定', summary: '男子チームが3月に行われる大会に参加することとなりました。応援よろしくお願いいたします。' },
+                { date: '2025-12-28', category: 'イベント', title: '忘年会を開催しました', summary: 'メンバーで集まり忘年会を行いました。今年もありがとうございました！2026年もよろしくお願いします！' },
             ];
 
             const categoryColors = {
@@ -606,70 +517,145 @@ active_nav: "home"
                 'お知らせ': 'bg-blue-700',
             };
 
-            const container = document.getElementById('news-container');
-            NEWS_DATA.slice(0, 3).forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-orange/50 transition-all duration-300 p-6 flex flex-col';
-                const badgeColor = categoryColors[item.category] || 'bg-gray-600';
-                card.innerHTML = `
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="${badgeColor} text-white text-xs font-bold px-3 py-1 rounded-full">${item.category}</span>
-                        <span class="text-xs text-gray-500">${item.date}</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2 leading-snug">${item.title}</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mt-auto">${item.summary}</p>
-                `;
-                container.appendChild(card);
-            });
+            function renderNews(items) {
+                const container = document.getElementById('news-container');
+                container.innerHTML = '';
+                items.slice(0, 3).forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'rounded-xl bg-emperor-dark border border-gray-800 hover:border-emperor-orange/50 transition-all duration-300 p-6 flex flex-col';
+                    const badgeColor = categoryColors[item.category] || 'bg-gray-600';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="${badgeColor} text-white text-xs font-bold px-3 py-1 rounded-full">${item.category}</span>
+                            <span class="text-xs text-gray-500">${item.date}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2 leading-snug">${item.title}</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mt-auto">${item.summary}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            // キャッシュ確認
+            const cached = getCachedData('news');
+            if (cached) { renderNews(cached); return; }
+
+            try {
+                const snapshot = await db.collection('news')
+                    .where('published', '==', true)
+                    .orderBy('date', 'desc')
+                    .limit(3)
+                    .get();
+                const newsData = snapshot.docs.map(doc => doc.data());
+                if (newsData.length > 0) {
+                    setCachedData('news', newsData);
+                    renderNews(newsData);
+                } else {
+                    renderNews(FALLBACK_NEWS);
+                }
+            } catch (e) {
+                console.warn('News fetch failed, using fallback:', e);
+                renderNews(FALLBACK_NEWS);
+            }
         })();
 
         // ========================================
-        // FAQ Accordion
+        // FAQ Section - Firestore連携
         // ========================================
-        (function() {
-            const faqItems = document.querySelectorAll('.faq-toggle');
+        (async function() {
+            const FALLBACK_FAQ = [
+                { question: '初心者でも大丈夫ですか？', answer: '練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！' },
+                { question: '見学だけでもOKですか？', answer: 'もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。' },
+                { question: '必要な道具はありますか？', answer: 'バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。' },
+                { question: '年齢制限はありますか？', answer: '18歳以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。' },
+                { question: '掛け持ちは可能ですか？', answer: '原則として他チームとの掛け持ちは不可とさせていただいています。Emperor\'sに所属して一緒にバスケを楽しんでいただける方を募集しています。' },
+            ];
 
-            faqItems.forEach(button => {
-                button.addEventListener('click', () => {
-                    const content = button.nextElementSibling;
-                    const icon = button.querySelector('.faq-icon');
-                    const isOpen = button.getAttribute('aria-expanded') === 'true';
+            function renderFaq(items) {
+                const accordion = document.getElementById('faq-accordion');
+                accordion.innerHTML = '';
+                items.forEach(faq => {
+                    const item = document.createElement('div');
+                    item.className = 'faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300';
+                    item.innerHTML = `
+                        <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
+                            <span class="flex items-center">
+                                <i data-lucide="help-circle" class="h-5 w-5 text-emperor-orange mr-3 flex-shrink-0"></i>
+                                <span class="text-white font-bold">${faq.question}</span>
+                            </span>
+                            <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                            <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">${faq.answer}</div>
+                        </div>
+                    `;
+                    accordion.appendChild(item);
+                });
+                bindFaqToggles();
+                lucide.createIcons();
+            }
 
-                    // Close all other items
-                    faqItems.forEach(otherButton => {
-                        if (otherButton !== button) {
-                            otherButton.setAttribute('aria-expanded', 'false');
-                            otherButton.nextElementSibling.style.maxHeight = null;
-                            otherButton.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
-                            otherButton.closest('.faq-item').classList.remove('border-emperor-orange/50');
-                            otherButton.closest('.faq-item').classList.add('border-gray-800');
+            function bindFaqToggles() {
+                const faqItems = document.querySelectorAll('.faq-toggle');
+                faqItems.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const content = button.nextElementSibling;
+                        const icon = button.querySelector('.faq-icon');
+                        const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+                        faqItems.forEach(otherButton => {
+                            if (otherButton !== button) {
+                                otherButton.setAttribute('aria-expanded', 'false');
+                                otherButton.nextElementSibling.style.maxHeight = null;
+                                otherButton.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                                otherButton.closest('.faq-item').classList.remove('border-emperor-orange/50');
+                                otherButton.closest('.faq-item').classList.add('border-gray-800');
+                            }
+                        });
+
+                        if (isOpen) {
+                            button.setAttribute('aria-expanded', 'false');
+                            content.style.maxHeight = null;
+                            icon.style.transform = 'rotate(0deg)';
+                            button.closest('.faq-item').classList.remove('border-emperor-orange/50');
+                            button.closest('.faq-item').classList.add('border-gray-800');
+                        } else {
+                            button.setAttribute('aria-expanded', 'true');
+                            content.style.maxHeight = content.scrollHeight + 'px';
+                            icon.style.transform = 'rotate(180deg)';
+                            button.closest('.faq-item').classList.remove('border-gray-800');
+                            button.closest('.faq-item').classList.add('border-emperor-orange/50');
                         }
                     });
-
-                    // Toggle current item
-                    if (isOpen) {
-                        button.setAttribute('aria-expanded', 'false');
-                        content.style.maxHeight = null;
-                        icon.style.transform = 'rotate(0deg)';
-                        button.closest('.faq-item').classList.remove('border-emperor-orange/50');
-                        button.closest('.faq-item').classList.add('border-gray-800');
-                    } else {
-                        button.setAttribute('aria-expanded', 'true');
-                        content.style.maxHeight = content.scrollHeight + 'px';
-                        icon.style.transform = 'rotate(180deg)';
-                        button.closest('.faq-item').classList.remove('border-gray-800');
-                        button.closest('.faq-item').classList.add('border-emperor-orange/50');
-                    }
                 });
-            });
+            }
+
+            const cached = getCachedData('faq');
+            if (cached) { renderFaq(cached); return; }
+
+            try {
+                const snapshot = await db.collection('faq')
+                    .where('published', '==', true)
+                    .orderBy('order')
+                    .get();
+                const faqData = snapshot.docs.map(doc => doc.data());
+                if (faqData.length > 0) {
+                    setCachedData('faq', faqData);
+                    renderFaq(faqData);
+                } else {
+                    renderFaq(FALLBACK_FAQ);
+                }
+            } catch (e) {
+                console.warn('FAQ fetch failed, using fallback:', e);
+                renderFaq(FALLBACK_FAQ);
+            }
         })();
 
         // ========================================
-        // Monthly Calendar
+        // Monthly Calendar - Firestore連携
         // ========================================
         (function() {
-            // Schedule Data - 月ごとの予定をここで管理
-            const SCHEDULE_DATA = {
+            const FALLBACK_SCHEDULE = {
                 '2026-02-03': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
                 '2026-02-05': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
                 '2026-02-10': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
@@ -679,13 +665,14 @@ active_nav: "home"
                 '2026-02-24': { type: 'practice', time: '19:15-21:30', label: '通常練習' },
             };
 
+            let scheduleCache = {};
             const calendarGrid = document.getElementById('calendar-grid');
             const monthTitle = document.getElementById('calendar-month-title');
             let currentDate = new Date();
 
             function pad(n) { return String(n).padStart(2, '0'); }
 
-            function renderCalendar(year, month) {
+            function renderCalendar(year, month, scheduleData) {
                 monthTitle.textContent = year + '年' + (month + 1) + '月';
                 calendarGrid.innerHTML = '';
 
@@ -693,17 +680,15 @@ active_nav: "home"
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
                 const today = new Date();
 
-                // Empty cells before 1st
                 for (let i = 0; i < firstDay; i++) {
                     const cell = document.createElement('div');
                     cell.className = 'h-10';
                     calendarGrid.appendChild(cell);
                 }
 
-                // Date cells
                 for (let day = 1; day <= daysInMonth; day++) {
                     const dateStr = year + '-' + pad(month + 1) + '-' + pad(day);
-                    const event = SCHEDULE_DATA[dateStr];
+                    const event = scheduleData[dateStr];
                     const cell = document.createElement('div');
                     const dayOfWeek = new Date(year, month, day).getDay();
 
@@ -725,7 +710,6 @@ active_nav: "home"
                         }
                     }
 
-                    // Today highlight
                     if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
                         classes += 'ring-2 ring-white/70 ';
                     }
@@ -740,23 +724,66 @@ active_nav: "home"
                     calendarGrid.appendChild(cell);
                 }
 
-                // Re-init Lucide icons for newly created elements
                 lucide.createIcons();
             }
 
-            // Month navigation
+            async function fetchAndRender(year, month) {
+                const cacheKey = year + '-' + pad(month + 1);
+
+                // メモリキャッシュ確認
+                if (scheduleCache[cacheKey]) {
+                    renderCalendar(year, month, scheduleCache[cacheKey]);
+                    return;
+                }
+
+                const startDate = year + '-' + pad(month + 1) + '-01';
+                const endDate = year + '-' + pad(month + 1) + '-' + new Date(year, month + 1, 0).getDate();
+
+                try {
+                    const snapshot = await db.collection('schedule')
+                        .where('date', '>=', startDate)
+                        .where('date', '<=', endDate)
+                        .get();
+
+                    const data = {};
+                    snapshot.docs.forEach(doc => {
+                        const d = doc.data();
+                        data[d.date] = { type: d.type, time: d.time, label: d.label };
+                    });
+
+                    scheduleCache[cacheKey] = data;
+
+                    if (Object.keys(data).length > 0) {
+                        renderCalendar(year, month, data);
+                    } else {
+                        // Firestoreにデータがない月はフォールバック確認
+                        const fb = {};
+                        Object.keys(FALLBACK_SCHEDULE).forEach(key => {
+                            if (key.startsWith(cacheKey)) fb[key] = FALLBACK_SCHEDULE[key];
+                        });
+                        renderCalendar(year, month, fb);
+                    }
+                } catch (e) {
+                    console.warn('Schedule fetch failed, using fallback:', e);
+                    const fb = {};
+                    Object.keys(FALLBACK_SCHEDULE).forEach(key => {
+                        if (key.startsWith(cacheKey)) fb[key] = FALLBACK_SCHEDULE[key];
+                    });
+                    renderCalendar(year, month, fb);
+                }
+            }
+
             document.getElementById('prev-month').addEventListener('click', function() {
                 currentDate.setMonth(currentDate.getMonth() - 1);
-                renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
+                fetchAndRender(currentDate.getFullYear(), currentDate.getMonth());
             });
 
             document.getElementById('next-month').addEventListener('click', function() {
                 currentDate.setMonth(currentDate.getMonth() + 1);
-                renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
+                fetchAndRender(currentDate.getFullYear(), currentDate.getMonth());
             });
 
-            // Initial render
-            renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
+            fetchAndRender(currentDate.getFullYear(), currentDate.getMonth());
         })();
 
         // ========================================

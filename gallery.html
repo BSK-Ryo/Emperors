@@ -69,11 +69,10 @@ active_nav: "gallery"
 
     <script>
         // ========================================
-        // Gallery
+        // Gallery - Firestore連携
         // ========================================
         (function() {
-            // Gallery Data
-            const GALLERY_DATA = [
+            const FALLBACK_GALLERY = [
                 { src: 'image/emperors女子集合写真.jpg', category: '大会', caption: '女子チーム集合写真' },
                 { src: 'image/emperors男子エンジン.jpg', category: '大会', caption: 'エンジン（円陣）' },
                 { src: 'image/emperors男子集合写真.jpg', category: '大会', caption: '男子チーム集合写真' },
@@ -90,17 +89,14 @@ active_nav: "gallery"
                 { src: 'image/LINE_ALBUM_思い出_260212_10.jpg', category: '思い出', caption: '思い出 10' },
             ];
 
-            // プレースホルダー（GALLERY_DATAが空の場合に表示）
-            const PLACEHOLDER_GALLERY = [];
-
+            let galleryData = [];
             let currentFilter = 'all';
             let currentLightboxIndex = 0;
             let filteredPhotos = [];
 
             function getActivePhotos() {
-                const data = GALLERY_DATA.length > 0 ? GALLERY_DATA : PLACEHOLDER_GALLERY;
-                if (currentFilter === 'all') return data;
-                return data.filter(p => p.category === currentFilter);
+                if (currentFilter === 'all') return galleryData;
+                return galleryData.filter(p => p.category === currentFilter);
             }
 
             function renderGallery() {
@@ -138,19 +134,39 @@ active_nav: "gallery"
                 lucide.createIcons();
             }
 
-            // Filter functionality
-            document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.gallery-filter-btn').forEach(b => {
-                        b.classList.remove('active', 'bg-emperor-orange', 'text-white');
-                        b.classList.add('bg-emperor-gray', 'border', 'border-gray-700', 'text-gray-400');
-                    });
-                    btn.classList.add('active', 'bg-emperor-orange', 'text-white');
-                    btn.classList.remove('bg-emperor-gray', 'border-gray-700', 'text-gray-400');
-                    currentFilter = btn.dataset.filter;
-                    renderGallery();
+            function buildFilterButtons(data) {
+                const categories = [...new Set(data.map(p => p.category))];
+                const container = document.getElementById('gallery-filters');
+                container.innerHTML = '';
+
+                // ALL button
+                const allBtn = document.createElement('button');
+                allBtn.className = 'gallery-filter-btn active bg-emperor-orange text-white text-sm font-bold px-5 py-2 rounded-full transition-all duration-300';
+                allBtn.dataset.filter = 'all';
+                allBtn.textContent = 'ALL';
+                container.appendChild(allBtn);
+
+                categories.forEach(cat => {
+                    const btn = document.createElement('button');
+                    btn.className = 'gallery-filter-btn bg-emperor-gray border border-gray-700 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-5 py-2 rounded-full transition-all duration-300';
+                    btn.dataset.filter = cat;
+                    btn.textContent = cat;
+                    container.appendChild(btn);
                 });
-            });
+
+                container.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        container.querySelectorAll('.gallery-filter-btn').forEach(b => {
+                            b.classList.remove('active', 'bg-emperor-orange', 'text-white');
+                            b.classList.add('bg-emperor-gray', 'border', 'border-gray-700', 'text-gray-400');
+                        });
+                        btn.classList.add('active', 'bg-emperor-orange', 'text-white');
+                        btn.classList.remove('bg-emperor-gray', 'border-gray-700', 'text-gray-400');
+                        currentFilter = btn.dataset.filter;
+                        renderGallery();
+                    });
+                });
+            }
 
             // Lightbox
             function openLightbox(index) {
@@ -186,11 +202,9 @@ active_nav: "gallery"
                 updateLightbox();
             });
 
-            // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 const lightbox = document.getElementById('lightbox');
                 if (lightbox.classList.contains('hidden')) return;
-
                 if (e.key === 'Escape') closeLightbox();
                 if (e.key === 'ArrowLeft') {
                     currentLightboxIndex = (currentLightboxIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
@@ -202,12 +216,38 @@ active_nav: "gallery"
                 }
             });
 
-            // Close lightbox on background click
             document.getElementById('lightbox').addEventListener('click', (e) => {
                 if (e.target === document.getElementById('lightbox')) closeLightbox();
             });
 
-            // Initialize
-            renderGallery();
+            // Firestore連携
+            (async function() {
+                const cached = getCachedData('gallery');
+                if (cached) {
+                    galleryData = cached;
+                    buildFilterButtons(galleryData);
+                    renderGallery();
+                    return;
+                }
+
+                try {
+                    const snapshot = await db.collection('gallery')
+                        .where('published', '==', true)
+                        .orderBy('order')
+                        .get();
+                    const data = snapshot.docs.map(doc => doc.data());
+                    if (data.length > 0) {
+                        galleryData = data;
+                        setCachedData('gallery', data);
+                    } else {
+                        galleryData = FALLBACK_GALLERY;
+                    }
+                } catch (e) {
+                    console.warn('Gallery fetch failed, using fallback:', e);
+                    galleryData = FALLBACK_GALLERY;
+                }
+                buildFilterButtons(galleryData);
+                renderGallery();
+            })();
         })();
     </script>
