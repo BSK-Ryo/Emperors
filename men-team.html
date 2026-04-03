@@ -124,10 +124,9 @@ active_nav: "men-team"
 
             try {
                 const snapshot = await db.collection('members_men')
-                    .where('isActive', '==', true)
                     .orderBy('order')
                     .get();
-                const members = snapshot.docs.map(doc => doc.data());
+                const members = snapshot.docs.map(doc => doc.data()).filter(m => m.isActive !== false);
                 if (members.length > 0) {
                     setCachedData('members_men', members);
                     renderMembers(members);
