@@ -542,11 +542,9 @@ active_nav: "home"
 
             try {
                 const snapshot = await db.collection('news')
-                    .where('published', '==', true)
                     .orderBy('date', 'desc')
-                    .limit(3)
                     .get();
-                const newsData = snapshot.docs.map(doc => doc.data());
+                const newsData = snapshot.docs.map(doc => doc.data()).filter(n => n.published !== false).slice(0, 3);
                 if (newsData.length > 0) {
                     setCachedData('news', newsData);
                     renderNews(newsData);
@@ -635,10 +633,9 @@ active_nav: "home"
 
             try {
                 const snapshot = await db.collection('faq')
-                    .where('published', '==', true)
                     .orderBy('order')
                     .get();
-                const faqData = snapshot.docs.map(doc => doc.data());
+                const faqData = snapshot.docs.map(doc => doc.data()).filter(f => f.published !== false);
                 if (faqData.length > 0) {
                     setCachedData('faq', faqData);
                     renderFaq(faqData);
@@ -741,14 +738,14 @@ active_nav: "home"
 
                 try {
                     const snapshot = await db.collection('schedule')
-                        .where('date', '>=', startDate)
-                        .where('date', '<=', endDate)
                         .get();
 
                     const data = {};
                     snapshot.docs.forEach(doc => {
                         const d = doc.data();
-                        data[d.date] = { type: d.type, time: d.time, label: d.label };
+                        if (d.date >= startDate && d.date <= endDate) {
+                            data[d.date] = { type: d.type, time: d.time, label: d.label };
+                        }
                     });
 
                     scheduleCache[cacheKey] = data;
