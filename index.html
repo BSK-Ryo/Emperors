@@ -575,6 +575,56 @@ active_nav: "home"
         // 静的HTML（_data/faq.yml ビルド時注入）が初期表示。CMSデータがあれば上書き。
         // ========================================
         (async function() {
+            // HTMLエスケープ + URL自動リンク化（XSS対策込み）
+            function escapeHtml(s) {
+                if (s == null) return '';
+                return String(s)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function autoLink(text) {
+                if (!text) return '';
+                const urlRegex = /(https?:\/\/[A-Za-z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]+)/g;
+                const trailingPunct = /[.,;!?)]+$/;
+                const out = [];
+                let lastIndex = 0;
+                let match;
+                while ((match = urlRegex.exec(text)) !== null) {
+                    if (match.index > lastIndex) {
+                        out.push(escapeHtml(text.slice(lastIndex, match.index)));
+                    }
+                    let url = match[0];
+                    const trail = url.match(trailingPunct);
+                    let trailingStr = '';
+                    if (trail) {
+                        trailingStr = trail[0];
+                        url = url.slice(0, -trail[0].length);
+                    }
+                    const escHref = url.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+                    const escText = escapeHtml(url);
+                    out.push('<a href="' + escHref + '" target="_blank" rel="noopener noreferrer" class="text-emperor-orange hover:underline break-all">' + escText + '</a>');
+                    if (trailingStr) out.push(escapeHtml(trailingStr));
+                    lastIndex = match.index + match[0].length;
+                }
+                if (lastIndex < text.length) {
+                    out.push(escapeHtml(text.slice(lastIndex)));
+                }
+                return out.join('');
+            }
+
+            function linkifyStaticAnswers() {
+                document.querySelectorAll('#faq-accordion .faq-content > div').forEach(div => {
+                    const text = div.textContent;
+                    if (text && /https?:\/\//.test(text)) {
+                        div.innerHTML = autoLink(text);
+                    }
+                });
+            }
+
             function renderFaq(items) {
                 const accordion = document.getElementById('faq-accordion');
                 accordion.innerHTML = '';
@@ -590,7 +640,7 @@ active_nav: "home"
                             <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
                         </button>
                         <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
-                            <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed whitespace-pre-line">${faq.answer}</div>
+                            <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed whitespace-pre-line">${autoLink(faq.answer)}</div>
                         </div>
                     `;
                     accordion.appendChild(item);
@@ -634,7 +684,8 @@ active_nav: "home"
                 });
             }
 
-            // 静的HTMLにイベントを先にバインド（CMS取得前でも開閉可能）
+            // 静的HTMLにURL自動リンク化を適用 + イベントをバインド
+            linkifyStaticAnswers();
             bindFaqToggles();
 
             const cached = getCachedData('faq');

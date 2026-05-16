@@ -149,6 +149,58 @@ active_nav: "faq"
             let faqItems = normalizeFaq(STATIC_FAQ);
             let activeFilter = 'all';
 
+            // HTMLエスケープ + URL自動リンク化（XSS対策込み）
+            function escapeHtml(s) {
+                if (s == null) return '';
+                return String(s)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function autoLink(text) {
+                if (!text) return '';
+                // URL文字: RFC 3986 の予約文字 + 非予約文字。日本語文字は含まない（含まれていれば手前で切れる）
+                const urlRegex = /(https?:\/\/[A-Za-z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]+)/g;
+                const trailingPunct = /[.,;!?)]+$/; // 末尾に付きがちな句読点はリンクから外す
+                const out = [];
+                let lastIndex = 0;
+                let match;
+                while ((match = urlRegex.exec(text)) !== null) {
+                    if (match.index > lastIndex) {
+                        out.push(escapeHtml(text.slice(lastIndex, match.index)));
+                    }
+                    let url = match[0];
+                    const trail = url.match(trailingPunct);
+                    let trailingStr = '';
+                    if (trail) {
+                        trailingStr = trail[0];
+                        url = url.slice(0, -trail[0].length);
+                    }
+                    const escHref = url.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+                    const escText = escapeHtml(url);
+                    out.push('<a href="' + escHref + '" target="_blank" rel="noopener noreferrer" class="text-emperor-orange hover:underline break-all">' + escText + '</a>');
+                    if (trailingStr) out.push(escapeHtml(trailingStr));
+                    lastIndex = match.index + match[0].length;
+                }
+                if (lastIndex < text.length) {
+                    out.push(escapeHtml(text.slice(lastIndex)));
+                }
+                return out.join('');
+            }
+
+            // Liquidが描画した静的HTMLの回答テキストにもURL自動リンク化を適用
+            function linkifyStaticAnswers() {
+                document.querySelectorAll('#faq-list .faq-content > div').forEach(div => {
+                    const text = div.textContent;
+                    if (text && /https?:\/\//.test(text)) {
+                        div.innerHTML = autoLink(text);
+                    }
+                });
+            }
+
             function inferCategory(item) {
                 if (item.category) return item.category;
                 const question = item.question || '';
@@ -204,7 +256,7 @@ active_nav: "faq"
                             <i data-lucide="chevron-down" class="faq-icon h-5 w-5 text-gray-500 transition-transform mt-1 ${isOpen ? 'rotate-180' : ''}"></i>
                         </button>
                         <div class="faq-content overflow-hidden transition-all duration-300" style="max-height: ${isOpen ? '600px' : '0'};">
-                            <div class="px-5 md:px-6 pb-6 md:pl-[76px] text-gray-400 leading-relaxed whitespace-pre-line">${item.answer}</div>
+                            <div class="px-5 md:px-6 pb-6 md:pl-[76px] text-gray-400 leading-relaxed whitespace-pre-line">${autoLink(item.answer)}</div>
                         </div>
                     `;
                     list.appendChild(faq);
@@ -261,7 +313,8 @@ active_nav: "faq"
                 });
             });
 
-            // 静的レンダリング済みのHTMLにトグルイベントをバインド（CMSデータ取得前でも開閉可能）
+            // 静的レンダリング済みのHTMLにURL自動リンク化を適用 + トグルイベントをバインド
+            linkifyStaticAnswers();
             bindFaq();
 
             (async function() {
