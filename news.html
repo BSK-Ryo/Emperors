@@ -127,6 +127,45 @@ active_nav: "news"
                 return escapeHtml(item.result || 'RESULT');
             }
 
+            // YouTube URL から動画IDを抽出（watch / youtu.be / shorts / embed すべて対応）
+            function extractYouTubeId(url) {
+                if (!url) return '';
+                const patterns = [
+                    /[?&]v=([A-Za-z0-9_-]{11})/,
+                    /youtu\.be\/([A-Za-z0-9_-]{11})/,
+                    /youtube\.com\/embed\/([A-Za-z0-9_-]{11})/,
+                    /youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/,
+                ];
+                for (const pattern of patterns) {
+                    const m = String(url).match(pattern);
+                    if (m) return m[1];
+                }
+                return '';
+            }
+
+            function renderVideoThumbnail(item) {
+                const videoId = extractYouTubeId(item.youtubeUrl);
+                if (!videoId) return '';
+                const safeUrl = escapeHtml(item.youtubeUrl);
+                // maxresdefault が無い動画もあるので onerror で hqdefault にフォールバック
+                return `
+                    <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="ハイライト動画をYouTubeで見る" class="block relative mt-4 overflow-hidden rounded-md bg-black aspect-video group/video">
+                        <img src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg"
+                             onerror="this.onerror=null;this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';"
+                             alt="ハイライト動画サムネイル" loading="lazy"
+                             class="w-full h-full object-cover transition-transform duration-300 group-hover/video:scale-105">
+                        <div class="absolute inset-0 bg-black/30 group-hover/video:bg-black/20 transition-colors flex items-center justify-center">
+                            <span class="inline-flex w-12 h-12 rounded-full bg-emperor-orange/95 items-center justify-center shadow-lg">
+                                <svg viewBox="0 0 24 24" fill="white" class="w-5 h-5 ml-0.5" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                            </span>
+                        </div>
+                        <span class="absolute bottom-2 right-2 inline-flex items-center gap-1 bg-black/70 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                            YouTube
+                        </span>
+                    </a>
+                `;
+            }
+
             function renderMatchResults(items) {
                 const panel = document.getElementById('match-results-panel');
                 const visibleItems = items.filter(item => item.published !== false && item.featured !== false).slice(0, 3);
@@ -153,7 +192,7 @@ active_nav: "news"
                     </div>
                     <div class="grid md:grid-cols-3 gap-4">
                         ${results.map(item => `
-                            <article class="bg-emperor-dark border border-gray-800 rounded-lg p-5">
+                            <article class="bg-emperor-dark border border-gray-800 rounded-lg p-5 flex flex-col">
                                 <div class="flex items-center justify-between gap-3 mb-4">
                                     <p class="text-xs text-gray-500">${escapeHtml(item.team || 'チーム')}</p>
                                     <span class="${typeClasses[item.matchType] || 'bg-gray-800 text-gray-300 border-gray-700'} border text-[11px] font-bold px-2 py-0.5 rounded-full">${escapeHtml(item.matchType || '試合')}</span>
@@ -162,6 +201,7 @@ active_nav: "news"
                                 <p class="text-sm text-white font-bold mt-4 leading-snug">vs ${escapeHtml(item.opponent || '対戦相手')}</p>
                                 <p class="text-xs text-gray-500 mt-2">${escapeHtml(normalizeDate(item.date))}${item.competition ? ' / ' + escapeHtml(item.competition) : ''}</p>
                                 ${item.summary ? `<p class="text-sm text-gray-400 mt-3 leading-relaxed">${escapeHtml(item.summary)}</p>` : ''}
+                                ${renderVideoThumbnail(item)}
                             </article>
                         `).join('')}
                     </div>

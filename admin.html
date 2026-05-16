@@ -632,6 +632,7 @@
                             <span class="text-xs text-gray-500">${escapeHtml(d.date || '')}</span>
                             <span class="text-xs ${publishColor}">${publishIcon}</span>
                             ${d.featured !== false ? '<span class="text-xs text-emperor-orange">直近表示</span>' : ''}
+                            ${d.youtubeUrl ? '<span class="text-xs text-red-400">▶ 動画あり</span>' : ''}
                         </div>
                         <p class="text-white font-bold text-sm truncate">${escapeHtml(d.team || '')} vs ${escapeHtml(d.opponent || '対戦相手未入力')}</p>
                         <p class="text-gray-500 text-xs truncate mt-1">
@@ -670,6 +671,7 @@
             result: '結果なし',
             venue: '',
             summary: '',
+            youtubeUrl: '',
             featured: true,
             published: true,
         };
@@ -686,6 +688,7 @@
             + selectField('result-status', '結果', ['勝利', '敗戦', '引き分け', '結果なし'], d.result)
             + inputField('result-venue', '会場', d.venue, 'text', '札幌市内 体育館')
             + textareaField('result-summary', 'メモ・試合内容', d.summary, 3)
+            + inputField('result-youtube-url', 'YouTube動画URL（任意）', d.youtubeUrl, 'url', 'https://youtu.be/XXXXXXXXXXX')
             + checkboxField('result-featured', '直近の試合結果パネルに表示する', d.featured !== false)
             + checkboxField('result-published', '公開する', d.published !== false);
 
@@ -701,6 +704,7 @@
                 result: document.getElementById('result-status').value,
                 venue: document.getElementById('result-venue').value.trim(),
                 summary: document.getElementById('result-summary').value.trim(),
+                youtubeUrl: document.getElementById('result-youtube-url').value.trim(),
                 featured: document.getElementById('result-featured').checked,
                 published: document.getElementById('result-published').checked,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1067,12 +1071,14 @@
 
                 const item = document.createElement('div');
                 item.className = 'bg-emperor-gray rounded-lg border border-gray-800 p-4 flex items-center justify-between hover:border-gray-700 transition-colors';
+                const featuredBadge = d.featured === true ? '<span class="text-xs text-yellow-400">★ TOP表示</span>' : '';
                 item.innerHTML = `
                     <div class="flex-1 min-w-0 mr-4">
                         <div class="flex items-center space-x-2 mb-1">
                             <span class="text-xs text-gray-500">Q${d.order + 1 || ''}.</span>
                             <span class="text-xs text-emperor-orange">${escapeHtml(d.category || '体験参加')}</span>
                             <span class="text-xs ${publishColor}">${publishText}</span>
+                            ${featuredBadge}
                         </div>
                         <p class="text-white font-bold text-sm truncate">${escapeHtml(d.question)}</p>
                         <p class="text-gray-500 text-xs truncate mt-1">${escapeHtml(d.answer)}</p>
@@ -1098,6 +1104,7 @@
             + selectField('faq-category', 'カテゴリ', ['体験参加', '練習', 'チーム', '費用'], d.category || '体験参加')
             + textareaField('faq-answer', '回答', d.answer, 4)
             + inputField('faq-order', '表示順（0が一番上）', String(d.order || 0), 'number')
+            + checkboxField('faq-featured', 'TOPページに表示（最大5件）', d.featured === true)
             + checkboxField('faq-published', '公開する', d.published !== false);
 
         openModal(isEdit ? 'FAQを編集' : 'FAQを追加', body, async () => {
@@ -1106,6 +1113,7 @@
                 category: document.getElementById('faq-category').value,
                 answer: document.getElementById('faq-answer').value.trim(),
                 order: parseInt(document.getElementById('faq-order').value) || 0,
+                featured: document.getElementById('faq-featured').checked,
                 published: document.getElementById('faq-published').checked,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
             };
@@ -1269,13 +1277,13 @@
 
             // FAQ - _data/faq.yml と同期。本番では_data/faq.ymlを single source of truth として扱う。
             const faqItems = [
-                { category: '体験参加', question: '初心者でも大丈夫ですか？', answer: '練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！' },
-                { category: '体験参加', question: '見学だけでもOKですか？', answer: 'もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。' },
-                { category: '練習', question: '必要な道具はありますか？', answer: 'バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。' },
-                { category: '練習', question: '練習場所はどこですか？', answer: '札幌市東区・北区の小中学校体育館を中心に活動しています。詳細な会場はお問い合わせ時にお伝えしています。' },
-                { category: 'チーム', question: '年齢制限はありますか？', answer: '18歳以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。' },
-                { category: 'チーム', question: '掛け持ちは可能ですか？', answer: '原則として他チームとの掛け持ちは不可とさせていただいています。Emperor\'sに所属して一緒にバスケを楽しんでいただける方を募集しています。' },
-                { category: '費用', question: '参加費はいくらですか？', answer: '1回あたり200〜300円です。冬季は暖房使用の有無によって金額が変動する場合があります。' },
+                { category: '体験参加', featured: true,  question: '初心者でも大丈夫ですか？', answer: '練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！' },
+                { category: '体験参加', featured: false, question: '見学だけでもOKですか？', answer: 'もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。' },
+                { category: '練習',   featured: true,  question: '必要な道具はありますか？', answer: 'バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。' },
+                { category: '練習',   featured: false, question: '練習場所はどこですか？', answer: '札幌市東区・北区の小中学校体育館を中心に活動しています。詳細な会場はお問い合わせ時にお伝えしています。' },
+                { category: 'チーム', featured: true,  question: '年齢制限はありますか？', answer: '18歳以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。' },
+                { category: 'チーム', featured: false, question: '掛け持ちは可能ですか？', answer: '原則として他チームとの掛け持ちは不可とさせていただいています。Emperor\'sに所属して一緒にバスケを楽しんでいただける方を募集しています。' },
+                { category: '費用',   featured: true,  question: '参加費はいくらですか？', answer: '1回あたり200〜300円です。冬季は暖房使用の有無によって金額が変動する場合があります。' },
             ];
             for (let i = 0; i < faqItems.length; i++) {
                 await db.collection('faq').add({ ...faqItems[i], order: i, published: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
