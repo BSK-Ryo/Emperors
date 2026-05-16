@@ -120,6 +120,9 @@
                 <button class="tab-btn active px-4 py-3 text-sm font-bold border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="news">
                     <i data-lucide="newspaper" class="h-4 w-4 inline mr-1"></i> ニュース
                 </button>
+                <button class="tab-btn px-4 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="results">
+                    <i data-lucide="trophy" class="h-4 w-4 inline mr-1"></i> 試合結果
+                </button>
                 <button class="tab-btn px-4 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-colors hover:text-emperor-orange" data-tab="schedule">
                     <i data-lucide="calendar" class="h-4 w-4 inline mr-1"></i> スケジュール
                 </button>
@@ -154,6 +157,22 @@
                 </div>
                 <div id="news-list" class="space-y-3">
                     <div class="skeleton h-16 rounded-lg"></div>
+                    <div class="skeleton h-16 rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- ========== MATCH RESULTS TAB ========== -->
+            <div id="tab-results" class="tab-content hidden">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">試合結果管理</h2>
+                        <p class="text-gray-500 text-sm mt-1">ニュース・試合結果ページの「直近の試合結果」に表示されます。</p>
+                    </div>
+                    <button onclick="openMatchResultModal()" class="bg-emperor-orange hover:bg-orange-700 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i data-lucide="plus" class="h-4 w-4 inline mr-1"></i> 結果追加
+                    </button>
+                </div>
+                <div id="results-list" class="space-y-3">
                     <div class="skeleton h-16 rounded-lg"></div>
                 </div>
             </div>
@@ -364,6 +383,7 @@
     function loadCurrentTab() {
         switch (currentTab) {
             case 'news': loadNews(); break;
+            case 'results': loadMatchResults(); break;
             case 'schedule': loadSchedule(); break;
             case 'men': loadMembers('members_men', 'men-list'); break;
             case 'women': loadMembers('members_women', 'women-list'); break;
@@ -465,6 +485,15 @@
         setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2000);
     }
 
+    function clearPublicCache(keys) {
+        try {
+            keys.forEach(key => {
+                localStorage.removeItem('emperors_' + key);
+                localStorage.removeItem('emperors_' + key + '_time');
+            });
+        } catch (e) { /* localStorage が使えない環境では無視 */ }
+    }
+
     // ============================================================
     // NEWS CRUD
     // ============================================================
@@ -544,6 +573,7 @@
                 }
                 closeModal();
                 showToast(isEdit ? '更新しました' : '追加しました');
+                clearPublicCache(['news', 'news_page']);
                 loadNews();
             } catch (e) { alert('保存エラー: ' + e.message); }
         });
@@ -558,7 +588,154 @@
         showConfirm('このニュースを削除しますか？', async () => {
             await db.collection('news').doc(id).delete();
             showToast('削除しました');
+            clearPublicCache(['news', 'news_page']);
             loadNews();
+        });
+    }
+
+    // ============================================================
+    // MATCH RESULTS CRUD
+    // ============================================================
+    async function loadMatchResults() {
+        const list = document.getElementById('results-list');
+        list.innerHTML = '<div class="skeleton h-16 rounded-lg"></div>';
+
+        try {
+            const snapshot = await db.collection('match_results').orderBy('date', 'desc').get();
+            if (snapshot.empty) {
+                list.innerHTML = '<p class="text-gray-500 text-center py-8">試合結果がありません。「結果追加」ボタンで追加してください。</p>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                const resultColors = {
+                    '勝利': 'text-green-400',
+                    '敗戦': 'text-red-400',
+                    '引き分け': 'text-yellow-300',
+                    '結果なし': 'text-gray-400',
+                };
+                const matchTypeColors = {
+                    '公式戦': 'bg-red-900/40 text-red-200 border-red-700/50',
+                    '練習試合': 'bg-emperor-orange/20 text-orange-200 border-emperor-orange/50',
+                };
+                const publishIcon = d.published !== false ? '● 公開' : '○ 下書き';
+                const publishColor = d.published !== false ? 'text-green-400' : 'text-gray-500';
+                const score = d.scoreFor || d.scoreAgainst ? `${escapeHtml(d.scoreFor || '-')}-${escapeHtml(d.scoreAgainst || '-')}` : 'スコア未入力';
+
+                const item = document.createElement('div');
+                item.className = 'bg-emperor-gray rounded-lg border border-gray-800 p-4 flex items-center justify-between hover:border-gray-700 transition-colors';
+                item.innerHTML = `
+                    <div class="flex-1 min-w-0 mr-4">
+                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                            <span class="${matchTypeColors[d.matchType] || 'bg-gray-700/30 text-gray-300 border-gray-700'} text-xs font-bold px-2 py-0.5 rounded-full border">${escapeHtml(d.matchType || '試合')}</span>
+                            <span class="text-xs text-gray-500">${escapeHtml(d.date || '')}</span>
+                            <span class="text-xs ${publishColor}">${publishIcon}</span>
+                            ${d.featured !== false ? '<span class="text-xs text-emperor-orange">直近表示</span>' : ''}
+                        </div>
+                        <p class="text-white font-bold text-sm truncate">${escapeHtml(d.team || '')} vs ${escapeHtml(d.opponent || '対戦相手未入力')}</p>
+                        <p class="text-gray-500 text-xs truncate mt-1">
+                            <span class="${resultColors[d.result] || 'text-gray-400'}">${escapeHtml(d.result || '結果なし')}</span>
+                            <span class="mx-1">|</span>${score}
+                            ${d.competition ? '<span class="mx-1">|</span>' + escapeHtml(d.competition) : ''}
+                        </p>
+                    </div>
+                    <div class="flex space-x-2 flex-shrink-0">
+                        <button onclick="editMatchResult('${doc.id}')" class="text-gray-400 hover:text-emperor-orange transition-colors p-1" title="編集">
+                            <i data-lucide="pencil" class="h-4 w-4"></i>
+                        </button>
+                        <button onclick="deleteMatchResult('${doc.id}')" class="text-gray-400 hover:text-red-400 transition-colors p-1" title="削除">
+                            <i data-lucide="trash-2" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+            lucide.createIcons();
+        } catch (e) {
+            list.innerHTML = '<p class="text-red-400 text-center py-8">読み込みエラー: ' + escapeHtml(e.message) + '</p>';
+        }
+    }
+
+    function openMatchResultModal(editId = null, editData = null) {
+        const isEdit = !!editId;
+        const d = editData || {
+            date: new Date().toISOString().slice(0, 10),
+            matchType: '公式戦',
+            team: '男子',
+            opponent: '',
+            competition: '',
+            scoreFor: '',
+            scoreAgainst: '',
+            result: '結果なし',
+            venue: '',
+            summary: '',
+            featured: true,
+            published: true,
+        };
+
+        const body = inputField('result-date', '日付', d.date, 'date')
+            + selectField('result-match-type', '試合種別', ['公式戦', '練習試合'], d.matchType)
+            + selectField('result-team', '対象チーム', ['男子', '女子', '混合'], d.team)
+            + inputField('result-opponent', '対戦相手', d.opponent, 'text', '対戦相手チーム名')
+            + inputField('result-competition', '大会名・試合名', d.competition, 'text', '札幌市民大会 / 練習試合 など')
+            + '<div class="grid grid-cols-2 gap-3">'
+            + inputField('result-score-for', 'Emperor\'s 得点', d.scoreFor, 'number', '68')
+            + inputField('result-score-against', '相手得点', d.scoreAgainst, 'number', '62')
+            + '</div>'
+            + selectField('result-status', '結果', ['勝利', '敗戦', '引き分け', '結果なし'], d.result)
+            + inputField('result-venue', '会場', d.venue, 'text', '札幌市内 体育館')
+            + textareaField('result-summary', 'メモ・試合内容', d.summary, 3)
+            + checkboxField('result-featured', '直近の試合結果パネルに表示する', d.featured !== false)
+            + checkboxField('result-published', '公開する', d.published !== false);
+
+        openModal(isEdit ? '試合結果を編集' : '試合結果を追加', body, async () => {
+            const data = {
+                date: document.getElementById('result-date').value,
+                matchType: document.getElementById('result-match-type').value,
+                team: document.getElementById('result-team').value,
+                opponent: document.getElementById('result-opponent').value.trim(),
+                competition: document.getElementById('result-competition').value.trim(),
+                scoreFor: document.getElementById('result-score-for').value.trim(),
+                scoreAgainst: document.getElementById('result-score-against').value.trim(),
+                result: document.getElementById('result-status').value,
+                venue: document.getElementById('result-venue').value.trim(),
+                summary: document.getElementById('result-summary').value.trim(),
+                featured: document.getElementById('result-featured').checked,
+                published: document.getElementById('result-published').checked,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            };
+            if (!data.date || !data.team || !data.opponent) {
+                alert('日付、対象チーム、対戦相手を入力してください。');
+                return;
+            }
+
+            try {
+                if (isEdit) {
+                    await db.collection('match_results').doc(editId).update(data);
+                } else {
+                    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection('match_results').add(data);
+                }
+                closeModal();
+                showToast(isEdit ? '更新しました' : '追加しました');
+                clearPublicCache(['match_results']);
+                loadMatchResults();
+            } catch (e) { alert('保存エラー: ' + e.message); }
+        });
+    }
+
+    async function editMatchResult(id) {
+        const doc = await db.collection('match_results').doc(id).get();
+        if (doc.exists) openMatchResultModal(id, doc.data());
+    }
+
+    function deleteMatchResult(id) {
+        showConfirm('この試合結果を削除しますか？', async () => {
+            await db.collection('match_results').doc(id).delete();
+            showToast('削除しました');
+            clearPublicCache(['match_results']);
+            loadMatchResults();
         });
     }
 
@@ -894,6 +1071,7 @@
                     <div class="flex-1 min-w-0 mr-4">
                         <div class="flex items-center space-x-2 mb-1">
                             <span class="text-xs text-gray-500">Q${d.order + 1 || ''}.</span>
+                            <span class="text-xs text-emperor-orange">${escapeHtml(d.category || '体験参加')}</span>
                             <span class="text-xs ${publishColor}">${publishText}</span>
                         </div>
                         <p class="text-white font-bold text-sm truncate">${escapeHtml(d.question)}</p>
@@ -917,6 +1095,7 @@
         const d = editData || { question: '', answer: '', order: 0, published: true };
 
         const body = inputField('faq-question', '質問', d.question, 'text', '初心者でも大丈夫ですか？')
+            + selectField('faq-category', 'カテゴリ', ['体験参加', '練習', 'チーム', '費用'], d.category || '体験参加')
             + textareaField('faq-answer', '回答', d.answer, 4)
             + inputField('faq-order', '表示順（0が一番上）', String(d.order || 0), 'number')
             + checkboxField('faq-published', '公開する', d.published !== false);
@@ -924,6 +1103,7 @@
         openModal(isEdit ? 'FAQを編集' : 'FAQを追加', body, async () => {
             const data = {
                 question: document.getElementById('faq-question').value.trim(),
+                category: document.getElementById('faq-category').value,
                 answer: document.getElementById('faq-answer').value.trim(),
                 order: parseInt(document.getElementById('faq-order').value) || 0,
                 published: document.getElementById('faq-published').checked,
@@ -940,6 +1120,7 @@
                 }
                 closeModal();
                 showToast(isEdit ? '更新しました' : '追加しました');
+                clearPublicCache(['faq', 'faq_page']);
                 loadFaq();
             } catch (e) { alert('保存エラー: ' + e.message); }
         });
@@ -954,6 +1135,7 @@
         showConfirm('このFAQを削除しますか？', async () => {
             await db.collection('faq').doc(id).delete();
             showToast('削除しました');
+            clearPublicCache(['faq', 'faq_page']);
             loadFaq();
         });
     }
@@ -1011,6 +1193,17 @@
                 await db.collection('news').add({ ...item, createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
             }
             status.textContent = 'ニュース移行完了...';
+
+            // Match results
+            const matchResultItems = [
+                { date: '2025-11-16', matchType: '公式戦', team: '男子', opponent: '市民大会 Cクラス', competition: '札幌市民大会', scoreFor: '', scoreAgainst: '', result: '結果なし', venue: '', summary: 'Cクラス ベスト4。最後まで走り切り、次につながる大会になりました。', featured: true, published: true },
+                { date: '2025-10-05', matchType: '公式戦', team: '女子', opponent: 'Aクラス出場チーム', competition: '公式戦', scoreFor: '', scoreAgainst: '', result: '結果なし', venue: '', summary: 'Aクラス公式戦に出場。課題も収穫も多い試合となりました。', featured: true, published: true },
+                { date: '2025-09-21', matchType: '練習試合', team: '混合', opponent: '札幌市内チーム', competition: '練習試合', scoreFor: '', scoreAgainst: '', result: '結果なし', venue: '札幌市内体育館', summary: '男女ともに実戦形式で調整。練習試合は随時募集しています。', featured: true, published: true },
+            ];
+            for (const item of matchResultItems) {
+                await db.collection('match_results').add({ ...item, createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+            }
+            status.textContent = '試合結果移行完了...';
 
             // Schedule
             const scheduleItems = [
@@ -1076,11 +1269,11 @@
 
             // FAQ
             const faqItems = [
-                { question: '初心者でも大丈夫ですか？', answer: '練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！' },
-                { question: '見学だけでもOKですか？', answer: 'もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。' },
-                { question: '必要な道具はありますか？', answer: 'バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。' },
-                { question: '年齢制限はありますか？', answer: '18歳以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。' },
-                { question: '掛け持ちは可能ですか？', answer: '原則として他チームとの掛け持ちは不可とさせていただいています。Emperor\'sに所属して一緒にバスケを楽しんでいただける方を募集しています。' },
+                { category: '体験参加', question: '初心者でも大丈夫ですか？', answer: '練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！' },
+                { category: '体験参加', question: '見学だけでもOKですか？', answer: 'もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。' },
+                { category: '練習', question: '必要な道具はありますか？', answer: 'バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。' },
+                { category: 'チーム', question: '年齢制限はありますか？', answer: '18歳以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。' },
+                { category: 'チーム', question: '掛け持ちは可能ですか？', answer: '原則として他チームとの掛け持ちは不可とさせていただいています。Emperor\'sに所属して一緒にバスケを楽しんでいただける方を募集しています。' },
             ];
             for (let i = 0; i < faqItems.length; i++) {
                 await db.collection('faq').add({ ...faqItems[i], order: i, published: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() });

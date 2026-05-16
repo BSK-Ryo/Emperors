@@ -1,0 +1,282 @@
+---
+layout: default
+title: "ニュース・試合結果"
+title_suffix: "Emperor's Basketball Team"
+description: "Emperor'sバスケットボールチームのニュース、試合結果、メンバー募集、イベント情報を掲載しています。"
+og_image: "image/emperors-fv.png"
+active_nav: "news"
+---
+
+    <!-- Page Hero -->
+    <section class="relative min-h-[56vh] flex items-center overflow-hidden bg-emperor-dark">
+        <div class="absolute inset-0">
+            <img src="image/emperors-fv.png" alt="Emperor's Basketball Team" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-emperor-dark"></div>
+        </div>
+        <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+            <div class="max-w-3xl">
+                <p class="font-oswald text-sm md:text-base text-emperor-orange tracking-[0.35em] mb-5 font-bold">
+                    NEWS & RESULTS
+                </p>
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight text-shadow">
+                    ニュース・試合結果
+                </h1>
+                <p class="mt-6 text-gray-300 leading-relaxed max-w-2xl">
+                    大会参加、試合結果、メンバー募集、チームイベントなど、Emperor'sの最新情報をお知らせします。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Content -->
+    <section class="py-20 bg-emperor-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-[260px_1fr] gap-8">
+                <!-- Filters -->
+                <aside class="lg:sticky lg:top-28 lg:self-start">
+                    <div class="bg-emperor-gray border border-gray-800 rounded-lg p-5">
+                        <p class="font-oswald text-xs text-emperor-orange tracking-[0.25em] mb-4">CATEGORY</p>
+                        <div id="news-filters" class="grid grid-cols-2 sm:flex sm:flex-wrap lg:grid lg:grid-cols-1 gap-2">
+                            <button class="news-filter active bg-emperor-orange text-white text-sm font-bold px-4 py-3 rounded-md transition-colors" data-filter="all">すべて</button>
+                            <button class="news-filter bg-emperor-dark border border-gray-800 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-4 py-3 rounded-md transition-colors" data-filter="試合結果">試合結果</button>
+                            <button class="news-filter bg-emperor-dark border border-gray-800 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-4 py-3 rounded-md transition-colors" data-filter="募集">募集</button>
+                            <button class="news-filter bg-emperor-dark border border-gray-800 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-4 py-3 rounded-md transition-colors" data-filter="イベント">イベント</button>
+                            <button class="news-filter bg-emperor-dark border border-gray-800 text-gray-400 hover:text-white hover:border-emperor-orange/50 text-sm font-bold px-4 py-3 rounded-md transition-colors" data-filter="お知らせ">お知らせ</button>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 bg-gradient-to-br from-emperor-orange/15 to-transparent border border-emperor-orange/30 rounded-lg p-5">
+                        <p class="font-oswald text-xs text-emperor-orange tracking-[0.25em] mb-3">PRACTICE MATCH</p>
+                        <h2 class="text-white font-bold text-lg mb-3">練習試合募集中</h2>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-5">
+                            男女ともに練習試合を募集しています。札幌市内・近郊のチーム様はお気軽にご連絡ください。
+                        </p>
+                        <a href="{{ '/' | relative_url }}#contact" class="inline-flex items-center text-emperor-orange font-bold text-sm hover:text-orange-400 transition-colors">
+                            お問い合わせ
+                            <i data-lucide="arrow-right" class="h-4 w-4 ml-2"></i>
+                        </a>
+                    </div>
+                </aside>
+
+                <div>
+                    <!-- Featured -->
+                    <div id="featured-news" class="mb-8">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+
+                    <!-- Result Panel -->
+                    <div id="match-results-panel" class="mb-8 bg-emperor-gray border border-gray-800 rounded-lg p-6 md:p-8">
+                        <div class="skeleton h-32 rounded-lg bg-emperor-dark/60"></div>
+                    </div>
+
+                    <!-- News Grid -->
+                    <div id="news-list" class="grid md:grid-cols-2 gap-5">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+                    <div id="news-empty" class="hidden text-center py-20 bg-emperor-gray border border-gray-800 rounded-lg">
+                        <i data-lucide="newspaper" class="h-14 w-14 text-gray-700 mx-auto mb-4"></i>
+                        <p class="text-gray-400 font-bold">該当するニュースはありません</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        (function() {
+            const FALLBACK_NEWS = [
+                { date: '2026.01.20', category: 'お知らせ', title: '第23回 石狩市協会長杯 男子参加決定', summary: '男子チームが3月に行われる大会に参加することとなりました。応援よろしくお願いいたします。' },
+                { date: '2026.01.01', category: '募集', title: '2026年度 新メンバー募集中', summary: '男女ともに新しい仲間を募集しています。経験者の方、ぜひ一度練習に参加してみてください。' },
+                { date: '2025.12.28', category: 'イベント', title: '忘年会を開催しました', summary: 'メンバーで集まり忘年会を行いました。2026年もよろしくお願いします。' },
+                { date: '2025.11.16', category: '試合結果', title: '男子 市民大会Cクラス ベスト4', summary: '最後まで走り切り、チームとして次につながる大会になりました。' },
+                { date: '2025.10.05', category: '試合結果', title: '女子 Aクラス公式戦に出場', summary: '課題も収穫も多い試合となりました。引き続き練習試合も募集しています。' },
+                { date: '2025.09.01', category: 'お知らせ', title: '練習会場について', summary: '練習会場はお問い合わせ時に個別でご案内しています。東区・北区の体育館が中心です。' },
+            ];
+
+            const FALLBACK_MATCH_RESULTS = [
+                { date: '2025.11.16', matchType: '公式戦', team: '男子', opponent: '市民大会 Cクラス', competition: '札幌市民大会', scoreFor: '', scoreAgainst: '', result: '結果なし', venue: '', summary: 'Cクラス ベスト4。最後まで走り切り、次につながる大会になりました。', featured: true, published: true },
+                { date: '2025.10.05', matchType: '公式戦', team: '女子', opponent: 'Aクラス出場チーム', competition: '公式戦', scoreFor: '', scoreAgainst: '', result: '結果なし', venue: '', summary: 'Aクラス公式戦に出場。課題も収穫も多い試合となりました。', featured: true, published: true },
+                { date: '2025.09.21', matchType: '練習試合', team: '混合', opponent: '札幌市内チーム', competition: '練習試合', scoreFor: '', scoreAgainst: '', result: '結果なし', venue: '札幌市内体育館', summary: '男女ともに実戦形式で調整。練習試合は随時募集しています。', featured: true, published: true },
+            ];
+
+            const badgeClasses = {
+                '試合結果': 'bg-red-900/40 text-red-200 border-red-700/50',
+                '募集': 'bg-emperor-orange/20 text-orange-200 border-emperor-orange/50',
+                'イベント': 'bg-amber-900/30 text-amber-200 border-amber-600/50',
+                'お知らせ': 'bg-blue-900/30 text-blue-200 border-blue-700/50',
+            };
+
+            let newsItems = [];
+            let activeFilter = 'all';
+
+            function normalizeDate(date) {
+                return String(date || '').replaceAll('-', '.');
+            }
+
+            function escapeHtml(value) {
+                const div = document.createElement('div');
+                div.textContent = value || '';
+                return div.innerHTML;
+            }
+
+            function resultText(item) {
+                if (item.scoreFor || item.scoreAgainst) {
+                    return `${escapeHtml(item.scoreFor || '-')}-${escapeHtml(item.scoreAgainst || '-')}`;
+                }
+                return escapeHtml(item.result || 'RESULT');
+            }
+
+            function renderMatchResults(items) {
+                const panel = document.getElementById('match-results-panel');
+                const visibleItems = items.filter(item => item.published !== false && item.featured !== false).slice(0, 3);
+                const results = visibleItems.length > 0 ? visibleItems : FALLBACK_MATCH_RESULTS;
+                const seasonLabel = results[0]?.date ? `${String(results[0].date).slice(0, 4)} SEASON` : 'RECENT GAMES';
+                const resultColors = {
+                    '勝利': 'text-green-400',
+                    '敗戦': 'text-red-400',
+                    '引き分け': 'text-yellow-300',
+                    '結果なし': 'text-white',
+                };
+                const typeClasses = {
+                    '公式戦': 'bg-red-900/30 text-red-200 border-red-700/50',
+                    '練習試合': 'bg-emperor-orange/20 text-orange-200 border-emperor-orange/50',
+                };
+
+                panel.innerHTML = `
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+                        <div>
+                            <p class="font-oswald text-xs text-emperor-orange tracking-[0.25em] mb-3">MATCH RESULT</p>
+                            <h2 class="text-2xl md:text-3xl font-bold text-white">直近の試合結果</h2>
+                        </div>
+                        <span class="text-xs text-gray-500">${escapeHtml(seasonLabel)}</span>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        ${results.map(item => `
+                            <article class="bg-emperor-dark border border-gray-800 rounded-lg p-5">
+                                <div class="flex items-center justify-between gap-3 mb-4">
+                                    <p class="text-xs text-gray-500">${escapeHtml(item.team || 'チーム')}</p>
+                                    <span class="${typeClasses[item.matchType] || 'bg-gray-800 text-gray-300 border-gray-700'} border text-[11px] font-bold px-2 py-0.5 rounded-full">${escapeHtml(item.matchType || '試合')}</span>
+                                </div>
+                                <p class="font-oswald text-3xl ${resultColors[item.result] || 'text-white'} font-bold leading-none">${resultText(item)}</p>
+                                <p class="text-sm text-white font-bold mt-4 leading-snug">vs ${escapeHtml(item.opponent || '対戦相手')}</p>
+                                <p class="text-xs text-gray-500 mt-2">${escapeHtml(normalizeDate(item.date))}${item.competition ? ' / ' + escapeHtml(item.competition) : ''}</p>
+                                ${item.summary ? `<p class="text-sm text-gray-400 mt-3 leading-relaxed">${escapeHtml(item.summary)}</p>` : ''}
+                            </article>
+                        `).join('')}
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+
+            function getFilteredNews() {
+                if (activeFilter === 'all') return newsItems;
+                return newsItems.filter(item => item.category === activeFilter);
+            }
+
+            function renderFeatured(item) {
+                const featured = document.getElementById('featured-news');
+                if (!item) {
+                    featured.innerHTML = '';
+                    return;
+                }
+                const badge = badgeClasses[item.category] || 'bg-gray-800 text-gray-200 border-gray-700';
+                featured.innerHTML = `
+                    <article class="relative overflow-hidden bg-emperor-gray border border-emperor-orange/30 rounded-lg p-6 md:p-8">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-emperor-orange/10 blur-3xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex flex-wrap items-center gap-3 mb-5">
+                                <span class="${badge} border text-xs font-bold px-3 py-1 rounded-full">${item.category}</span>
+                                <span class="font-oswald text-xs text-gray-500 tracking-[0.2em]">${normalizeDate(item.date)}</span>
+                            </div>
+                            <p class="font-oswald text-xs text-emperor-orange tracking-[0.25em] mb-3">FEATURED NEWS</p>
+                            <h2 class="text-2xl md:text-4xl font-bold text-white leading-tight mb-4">${item.title}</h2>
+                            <p class="text-gray-400 leading-relaxed max-w-3xl">${item.summary}</p>
+                        </div>
+                    </article>
+                `;
+            }
+
+            function renderNews() {
+                const list = document.getElementById('news-list');
+                const empty = document.getElementById('news-empty');
+                const filtered = getFilteredNews();
+                list.innerHTML = '';
+
+                if (filtered.length === 0) {
+                    empty.classList.remove('hidden');
+                    return;
+                }
+                empty.classList.add('hidden');
+                renderFeatured(filtered[0]);
+
+                filtered.forEach(item => {
+                    const badge = badgeClasses[item.category] || 'bg-gray-800 text-gray-200 border-gray-700';
+                    const card = document.createElement('article');
+                    card.className = 'group bg-emperor-gray border border-gray-800 hover:border-emperor-orange/50 rounded-lg p-6 transition-colors';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between gap-4 mb-5">
+                            <span class="${badge} border text-xs font-bold px-3 py-1 rounded-full">${item.category}</span>
+                            <span class="font-oswald text-xs text-gray-500 tracking-[0.15em]">${normalizeDate(item.date)}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3 leading-snug group-hover:text-emperor-orange transition-colors">${item.title}</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">${item.summary}</p>
+                    `;
+                    list.appendChild(card);
+                });
+                lucide.createIcons();
+            }
+
+            document.querySelectorAll('.news-filter').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.news-filter').forEach(btn => {
+                        btn.classList.remove('active', 'bg-emperor-orange', 'text-white');
+                        btn.classList.add('bg-emperor-dark', 'border', 'border-gray-800', 'text-gray-400');
+                    });
+                    button.classList.add('active', 'bg-emperor-orange', 'text-white');
+                    button.classList.remove('bg-emperor-dark', 'border-gray-800', 'text-gray-400');
+                    activeFilter = button.dataset.filter;
+                    renderNews();
+                });
+            });
+
+            (async function() {
+                const cachedResults = getCachedData('match_results');
+                if (cachedResults) {
+                    renderMatchResults(cachedResults);
+                } else {
+                    try {
+                        const resultSnapshot = await db.collection('match_results').orderBy('date', 'desc').get();
+                        const resultData = resultSnapshot.docs.map(doc => doc.data()).filter(item => item.published !== false);
+                        if (resultData.length > 0) {
+                            setCachedData('match_results', resultData);
+                            renderMatchResults(resultData);
+                        } else {
+                            renderMatchResults(FALLBACK_MATCH_RESULTS);
+                        }
+                    } catch (e) {
+                        console.warn('Match results fetch failed, using fallback:', e);
+                        renderMatchResults(FALLBACK_MATCH_RESULTS);
+                    }
+                }
+
+                const cached = getCachedData('news_page');
+                if (cached) {
+                    newsItems = cached;
+                    renderNews();
+                    return;
+                }
+
+                try {
+                    const snapshot = await db.collection('news').orderBy('date', 'desc').get();
+                    const data = snapshot.docs.map(doc => doc.data()).filter(item => item.published !== false);
+                    newsItems = data.length > 0 ? data : FALLBACK_NEWS;
+                    if (data.length > 0) setCachedData('news_page', data);
+                } catch (e) {
+                    console.warn('News page fetch failed, using fallback:', e);
+                    newsItems = FALLBACK_NEWS;
+                }
+                renderNews();
+            })();
+        })();
+    </script>
