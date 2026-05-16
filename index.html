@@ -391,7 +391,20 @@ active_nav: "home"
             </div>
 
             <div class="space-y-4" id="faq-accordion">
-                <!-- FAQ items will be rendered by JavaScript from Firestore -->
+                {%- for faq in site.data.faq -%}
+                <div class="faq-item rounded-xl bg-emperor-gray border border-gray-800 overflow-hidden transition-colors duration-300">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left focus:outline-none group" aria-expanded="false">
+                        <span class="flex items-center">
+                            <i data-lucide="help-circle" class="h-5 w-5 text-emperor-orange mr-3 flex-shrink-0"></i>
+                            <span class="text-white font-bold">{{ faq.question }}</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="h-5 w-5 text-gray-500 group-hover:text-emperor-orange transition-all duration-300 faq-icon"></i>
+                    </button>
+                    <div class="faq-content max-h-0 overflow-hidden transition-all duration-300">
+                        <div class="px-6 pb-6 pl-14 text-gray-400 leading-relaxed">{{ faq.answer }}</div>
+                    </div>
+                </div>
+                {%- endfor -%}
             </div>
         </div>
     </section>
@@ -559,16 +572,9 @@ active_nav: "home"
 
         // ========================================
         // FAQ Section - Firestore連携
+        // 静的HTML（_data/faq.yml ビルド時注入）が初期表示。CMSデータがあれば上書き。
         // ========================================
         (async function() {
-            const FALLBACK_FAQ = [
-                { question: '初心者でも大丈夫ですか？', answer: '練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ただし、ブランクがある方は大歓迎です！まずは気軽にご連絡ください！' },
-                { question: '見学だけでもOKですか？', answer: 'もちろんOKです！事前にお問い合わせフォームまたはLINE・Instagramからご連絡いただければ、練習日時と場所をお伝えいたします。' },
-                { question: '必要な道具はありますか？', answer: 'バスケットシューズ（室内用）、ウェア、ボールをご持参ください。タオルや飲み物と参加費(200〜300円)もお忘れなく。※試合時に使うビブスはこちらでご用意いたします。' },
-                { question: '年齢制限はありますか？', answer: '18歳以上の方が対象です。上限はありません。幅広い年齢層のメンバーが在籍しています。現在は10代数名と20代〜30代が同じくらいの割合で在籍しています。' },
-                { question: '掛け持ちは可能ですか？', answer: '原則として他チームとの掛け持ちは不可とさせていただいています。Emperor\'sに所属して一緒にバスケを楽しんでいただける方を募集しています。' },
-            ];
-
             function renderFaq(items) {
                 const accordion = document.getElementById('faq-accordion');
                 accordion.innerHTML = '';
@@ -628,8 +634,11 @@ active_nav: "home"
                 });
             }
 
+            // 静的HTMLにイベントを先にバインド（CMS取得前でも開閉可能）
+            bindFaqToggles();
+
             const cached = getCachedData('faq');
-            if (cached) { renderFaq(cached); return; }
+            if (cached && cached.length > 0) { renderFaq(cached); return; }
 
             try {
                 const snapshot = await db.collection('faq')
@@ -639,12 +648,10 @@ active_nav: "home"
                 if (faqData.length > 0) {
                     setCachedData('faq', faqData);
                     renderFaq(faqData);
-                } else {
-                    renderFaq(FALLBACK_FAQ);
                 }
+                // CMSにデータが無ければ静的HTMLをそのまま表示
             } catch (e) {
-                console.warn('FAQ fetch failed, using fallback:', e);
-                renderFaq(FALLBACK_FAQ);
+                console.warn('FAQ fetch failed, keeping static fallback:', e);
             }
         })();
 

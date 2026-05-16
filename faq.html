@@ -45,7 +45,26 @@ active_nav: "faq"
                     </div>
 
                     <div id="faq-list" class="space-y-4">
-                        <!-- Rendered by JavaScript -->
+                        {%- for faq in site.data.faq -%}
+                        {%- assign is_first = forloop.first -%}
+                        <div class="faq-item bg-emperor-gray border {% if is_first %}border-emperor-orange/50{% else %}border-gray-800{% endif %} rounded-lg overflow-hidden transition-colors" data-category="{{ faq.category }}">
+                            <button class="faq-toggle w-full flex items-start justify-between gap-5 p-5 md:p-6 text-left" aria-expanded="{% if is_first %}true{% else %}false{% endif %}">
+                                <span class="flex items-start gap-4">
+                                    <span class="mt-1 inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-emperor-orange/15 border border-emperor-orange/30">
+                                        <i data-lucide="circle-help" class="h-4 w-4 text-emperor-orange"></i>
+                                    </span>
+                                    <span>
+                                        <span class="inline-block text-xs text-emperor-orange font-bold mb-2">{{ faq.category }}</span>
+                                        <span class="block text-white font-bold text-lg leading-snug">{{ faq.question }}</span>
+                                    </span>
+                                </span>
+                                <i data-lucide="chevron-down" class="faq-icon h-5 w-5 text-gray-500 transition-transform mt-1 {% if is_first %}rotate-180{% endif %}"></i>
+                            </button>
+                            <div class="faq-content overflow-hidden transition-all duration-300" style="max-height: {% if is_first %}600px{% else %}0{% endif %};">
+                                <div class="px-5 md:px-6 pb-6 md:pl-[76px] text-gray-400 leading-relaxed">{{ faq.answer }}</div>
+                            </div>
+                        </div>
+                        {%- endfor -%}
                     </div>
                     <div id="faq-empty" class="hidden text-center py-20 bg-emperor-gray border border-gray-800 rounded-lg">
                         <i data-lucide="circle-help" class="h-14 w-14 text-gray-700 mx-auto mb-4"></i>
@@ -102,19 +121,32 @@ active_nav: "faq"
         </div>
     </section>
 
+    <!-- FAQPage JSON-LD (SEO/LLMO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for faq in site.data.faq -%}
+        {
+          "@type": "Question",
+          "name": {{ faq.question | jsonify }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ faq.answer | jsonify }}
+          }
+        }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor %}
+      ]
+    }
+    </script>
+
     <script>
         (function() {
-            const FALLBACK_FAQ = [
-                { category: '体験参加', question: '初心者でも大丈夫ですか？', answer: '練習は試合形式がメインのため、ある程度のバスケ経験がある方を対象としています。ブランクがある方は大歓迎です。まずは気軽にご連絡ください。' },
-                { category: '体験参加', question: '見学だけでもOKですか？', answer: 'もちろんOKです。事前にお問い合わせフォームまたはInstagramからご連絡いただければ、練習日時と場所をお伝えいたします。' },
-                { category: '練習', question: '必要な持ち物はありますか？', answer: 'バスケットシューズ、ウェア、ボール、タオル、飲み物、参加費をご持参ください。試合時に使うビブスはこちらで用意します。' },
-                { category: 'チーム', question: '年齢制限はありますか？', answer: '18歳以上の方が対象です。上限はありません。現在は10代後半から30代を中心に活動しています。' },
-                { category: 'チーム', question: '掛け持ちは可能ですか？', answer: "原則として他チームとの掛け持ちは不可としています。Emperor'sに所属して継続的に活動できる方を募集しています。" },
-                { category: '費用', question: '参加費はいくらですか？', answer: '1回あたり200円〜300円です。冬季は暖房の有無によって金額が変動する場合があります。' },
-                { category: '練習', question: '練習場所はどこですか？', answer: '札幌市東区・北区の小中学校体育館を中心に活動しています。詳細な会場はお問い合わせ時にお伝えしています。' },
-            ];
+            // _data/faq.yml がビルド時に注入される single source of truth
+            const STATIC_FAQ = {{ site.data.faq | jsonify }};
 
-            let faqItems = [];
+            let faqItems = normalizeFaq(STATIC_FAQ);
             let activeFilter = 'all';
 
             function inferCategory(item) {
@@ -157,6 +189,7 @@ active_nav: "faq"
                     const isOpen = index === 0;
                     const faq = document.createElement('div');
                     faq.className = `faq-item bg-emperor-gray border ${isOpen ? 'border-emperor-orange/50' : 'border-gray-800'} rounded-lg overflow-hidden transition-colors`;
+                    faq.setAttribute('data-category', item.category);
                     faq.innerHTML = `
                         <button class="faq-toggle w-full flex items-start justify-between gap-5 p-5 md:p-6 text-left" aria-expanded="${isOpen ? 'true' : 'false'}">
                             <span class="flex items-start gap-4">
@@ -170,7 +203,7 @@ active_nav: "faq"
                             </span>
                             <i data-lucide="chevron-down" class="faq-icon h-5 w-5 text-gray-500 transition-transform mt-1 ${isOpen ? 'rotate-180' : ''}"></i>
                         </button>
-                        <div class="faq-content overflow-hidden transition-all duration-300" style="max-height: ${isOpen ? '240px' : '0'};">
+                        <div class="faq-content overflow-hidden transition-all duration-300" style="max-height: ${isOpen ? '600px' : '0'};">
                             <div class="px-5 md:px-6 pb-6 md:pl-[76px] text-gray-400 leading-relaxed">${item.answer}</div>
                         </div>
                     `;
@@ -228,11 +261,14 @@ active_nav: "faq"
                 });
             });
 
+            // 静的レンダリング済みのHTMLにトグルイベントをバインド（CMSデータ取得前でも開閉可能）
+            bindFaq();
+
             (async function() {
+                // 1. キャッシュ → 2. Firestore の順で確認。どれもなければ静的HTMLをそのまま使う
                 const cached = getCachedData('faq_page');
-                if (cached) {
-                    const mergedCached = cached.concat(FALLBACK_FAQ.filter(fallback => !cached.some(item => item.question === fallback.question)));
-                    faqItems = normalizeFaq(mergedCached);
+                if (cached && cached.length > 0) {
+                    faqItems = normalizeFaq(cached);
                     renderFaq();
                     return;
                 }
@@ -240,16 +276,15 @@ active_nav: "faq"
                 try {
                     const snapshot = await db.collection('faq').orderBy('order').get();
                     const data = snapshot.docs.map(doc => doc.data()).filter(item => item.published !== false);
-                    const mergedData = data.length > 0
-                        ? data.concat(FALLBACK_FAQ.filter(fallback => !data.some(item => item.question === fallback.question)))
-                        : FALLBACK_FAQ;
-                    faqItems = normalizeFaq(mergedData);
-                    if (data.length > 0) setCachedData('faq_page', data);
+                    if (data.length > 0) {
+                        faqItems = normalizeFaq(data);
+                        setCachedData('faq_page', data);
+                        renderFaq();
+                    }
+                    // CMSにデータが無ければ静的HTMLをそのまま表示
                 } catch (e) {
-                    console.warn('FAQ page fetch failed, using fallback:', e);
-                    faqItems = FALLBACK_FAQ;
+                    console.warn('FAQ page fetch failed, keeping static fallback:', e);
                 }
-                renderFaq();
             })();
         })();
     </script>
