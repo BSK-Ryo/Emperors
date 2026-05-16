@@ -181,6 +181,17 @@ active_nav: "news"
                     '公式戦': 'bg-red-900/30 text-red-200 border-red-700/50',
                     '練習試合': 'bg-emperor-orange/20 text-orange-200 border-emperor-orange/50',
                 };
+                // 勝敗バッジ + カード上辺ストライプ（結果なしは空表示=ニュートラル）
+                const resultBadgeMap = {
+                    '勝利':   { label: 'WIN',  classes: 'bg-green-500/15 text-green-400 border-green-500/50' },
+                    '敗戦':   { label: 'LOSS', classes: 'bg-red-500/15 text-red-400 border-red-500/50' },
+                    '引き分け': { label: 'DRAW', classes: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/50' },
+                };
+                const stripeColorMap = {
+                    '勝利':   'bg-green-500',
+                    '敗戦':   'bg-red-500',
+                    '引き分け': 'bg-yellow-500',
+                };
 
                 panel.innerHTML = `
                     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
@@ -191,19 +202,26 @@ active_nav: "news"
                         <span class="text-xs text-gray-500">${escapeHtml(seasonLabel)}</span>
                     </div>
                     <div class="grid md:grid-cols-3 gap-4">
-                        ${results.map(item => `
-                            <article class="bg-emperor-dark border border-gray-800 rounded-lg p-5 flex flex-col">
+                        ${results.map(item => {
+                            const badge = resultBadgeMap[item.result];
+                            const stripe = stripeColorMap[item.result] || '';
+                            return `
+                            <article class="relative overflow-hidden bg-emperor-dark border border-gray-800 rounded-lg p-5 flex flex-col">
+                                ${stripe ? `<span class="absolute top-0 left-0 right-0 h-1 ${stripe}" aria-hidden="true"></span>` : ''}
                                 <div class="flex items-center justify-between gap-3 mb-4">
                                     <p class="text-xs text-gray-500">${escapeHtml(item.team || 'チーム')}</p>
                                     <span class="${typeClasses[item.matchType] || 'bg-gray-800 text-gray-300 border-gray-700'} border text-[11px] font-bold px-2 py-0.5 rounded-full">${escapeHtml(item.matchType || '試合')}</span>
                                 </div>
-                                <p class="font-oswald text-3xl ${resultColors[item.result] || 'text-white'} font-bold leading-none">${resultText(item)}</p>
+                                <div class="flex items-center justify-between gap-3">
+                                    <p class="font-oswald text-3xl ${resultColors[item.result] || 'text-white'} font-bold leading-none">${resultText(item)}</p>
+                                    ${badge ? `<span class="font-oswald inline-flex items-center justify-center px-3 py-1 rounded text-sm font-bold border tracking-[0.15em] ${badge.classes}">${badge.label}</span>` : ''}
+                                </div>
                                 <p class="text-sm text-white font-bold mt-4 leading-snug">vs ${escapeHtml(item.opponent || '対戦相手')}</p>
                                 <p class="text-xs text-gray-500 mt-2">${escapeHtml(normalizeDate(item.date))}${item.competition ? ' / ' + escapeHtml(item.competition) : ''}</p>
                                 ${item.summary ? `<p class="text-sm text-gray-400 mt-3 leading-relaxed">${escapeHtml(item.summary)}</p>` : ''}
                                 ${renderVideoThumbnail(item)}
                             </article>
-                        `).join('')}
+                        `;}).join('')}
                     </div>
                 `;
                 lucide.createIcons();
