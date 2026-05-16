@@ -61,7 +61,7 @@ active_nav: "faq"
                                 <i data-lucide="chevron-down" class="faq-icon h-5 w-5 text-gray-500 transition-transform mt-1 {% if is_first %}rotate-180{% endif %}"></i>
                             </button>
                             <div class="faq-content overflow-hidden transition-all duration-300" style="max-height: {% if is_first %}600px{% else %}0{% endif %};">
-                                <div class="px-5 md:px-6 pb-6 md:pl-[76px] text-gray-400 leading-relaxed">{{ faq.answer }}</div>
+                                <div class="px-5 md:px-6 pb-6 md:pl-[76px] text-gray-400 leading-relaxed whitespace-pre-line">{{ faq.answer }}</div>
                             </div>
                         </div>
                         {%- endfor -%}
@@ -204,7 +204,7 @@ active_nav: "faq"
                             <i data-lucide="chevron-down" class="faq-icon h-5 w-5 text-gray-500 transition-transform mt-1 ${isOpen ? 'rotate-180' : ''}"></i>
                         </button>
                         <div class="faq-content overflow-hidden transition-all duration-300" style="max-height: ${isOpen ? '600px' : '0'};">
-                            <div class="px-5 md:px-6 pb-6 md:pl-[76px] text-gray-400 leading-relaxed">${item.answer}</div>
+                            <div class="px-5 md:px-6 pb-6 md:pl-[76px] text-gray-400 leading-relaxed whitespace-pre-line">${item.answer}</div>
                         </div>
                     `;
                     list.appendChild(faq);
