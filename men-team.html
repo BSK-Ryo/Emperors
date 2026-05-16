@@ -77,6 +77,27 @@ active_nav: "men-team"
         </div>
     </section>
 
+    <!-- Game Results - 男子チームの試合結果（混合含む） -->
+    <section id="match-results-section" class="hidden py-20 bg-emperor-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold text-white mb-4">GAME RESULTS</h2>
+                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-6"></div>
+                <p class="text-gray-400">男子チームの試合結果</p>
+            </div>
+            <div id="match-cards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Rendered by JavaScript -->
+            </div>
+            <div class="mt-12 text-center">
+                <a href="{{ '/news.html' | relative_url }}" class="inline-flex items-center text-gray-400 hover:text-emperor-orange font-bold text-sm transition-colors">
+                    ニュースページですべての試合結果を見る
+                    <i data-lucide="arrow-right" class="h-4 w-4 ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ '/js/match-card.js' | relative_url }}"></script>
     <script>
         // Fallback Data
         const FALLBACK_MEMBERS = [
@@ -117,7 +138,7 @@ active_nav: "men-team"
             });
         }
 
-        // Firestore連携
+        // Firestore連携 - メンバー
         (async function() {
             const cached = getCachedData('members_men');
             if (cached) { renderMembers(cached); return; }
@@ -137,5 +158,26 @@ active_nav: "men-team"
                 console.warn('Members fetch failed, using fallback:', e);
                 renderMembers(FALLBACK_MEMBERS);
             }
+        })();
+
+        // Firestore連携 - 試合結果（男子 + 混合）
+        (async function() {
+            let data = getCachedData('match_results');
+            if (!data) {
+                try {
+                    const snapshot = await db.collection('match_results').orderBy('date', 'desc').get();
+                    data = snapshot.docs.map(doc => doc.data()).filter(item => item.published !== false);
+                    if (data.length > 0) setCachedData('match_results', data);
+                } catch (e) {
+                    console.warn('Match results fetch failed:', e);
+                    data = [];
+                }
+            }
+            const filtered = (data || []).filter(item => item.team === '男子' || item.team === '混合');
+            if (filtered.length === 0) return; // セクションごと非表示のまま
+
+            document.getElementById('match-cards').innerHTML = filtered.map(item => window.renderMatchCardHtml(item)).join('');
+            document.getElementById('match-results-section').classList.remove('hidden');
+            lucide.createIcons();
         })();
     </script>

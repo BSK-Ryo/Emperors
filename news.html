@@ -83,6 +83,7 @@ active_nav: "news"
         </div>
     </section>
 
+    <script src="{{ '/js/match-card.js' | relative_url }}"></script>
     <script>
         (function() {
             const FALLBACK_NEWS = [
@@ -108,6 +109,7 @@ active_nav: "news"
             };
 
             let newsItems = [];
+            let matchResultsData = [];
             let activeFilter = 'all';
 
             function normalizeDate(date) {
@@ -120,78 +122,11 @@ active_nav: "news"
                 return div.innerHTML;
             }
 
-            function resultText(item) {
-                if (item.scoreFor || item.scoreAgainst) {
-                    return `${escapeHtml(item.scoreFor || '-')}-${escapeHtml(item.scoreAgainst || '-')}`;
-                }
-                return escapeHtml(item.result || 'RESULT');
-            }
-
-            // YouTube URL から動画IDを抽出（watch / youtu.be / shorts / embed すべて対応）
-            function extractYouTubeId(url) {
-                if (!url) return '';
-                const patterns = [
-                    /[?&]v=([A-Za-z0-9_-]{11})/,
-                    /youtu\.be\/([A-Za-z0-9_-]{11})/,
-                    /youtube\.com\/embed\/([A-Za-z0-9_-]{11})/,
-                    /youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/,
-                ];
-                for (const pattern of patterns) {
-                    const m = String(url).match(pattern);
-                    if (m) return m[1];
-                }
-                return '';
-            }
-
-            function renderVideoThumbnail(item) {
-                const videoId = extractYouTubeId(item.youtubeUrl);
-                if (!videoId) return '';
-                const safeUrl = escapeHtml(item.youtubeUrl);
-                // maxresdefault が無い動画もあるので onerror で hqdefault にフォールバック
-                return `
-                    <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="ハイライト動画をYouTubeで見る" class="block relative mt-4 overflow-hidden rounded-md bg-black aspect-video group/video">
-                        <img src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg"
-                             onerror="this.onerror=null;this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg';"
-                             alt="ハイライト動画サムネイル" loading="lazy"
-                             class="w-full h-full object-cover transition-transform duration-300 group-hover/video:scale-105">
-                        <div class="absolute inset-0 bg-black/30 group-hover/video:bg-black/20 transition-colors flex items-center justify-center">
-                            <span class="inline-flex w-12 h-12 rounded-full bg-emperor-orange/95 items-center justify-center shadow-lg">
-                                <svg viewBox="0 0 24 24" fill="white" class="w-5 h-5 ml-0.5" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-                            </span>
-                        </div>
-                        <span class="absolute bottom-2 right-2 inline-flex items-center gap-1 bg-black/70 text-white text-[10px] font-bold px-2 py-0.5 rounded">
-                            YouTube
-                        </span>
-                    </a>
-                `;
-            }
-
             function renderMatchResults(items) {
                 const panel = document.getElementById('match-results-panel');
                 const visibleItems = items.filter(item => item.published !== false && item.featured !== false).slice(0, 3);
                 const results = visibleItems.length > 0 ? visibleItems : FALLBACK_MATCH_RESULTS;
                 const seasonLabel = results[0]?.date ? `${String(results[0].date).slice(0, 4)} SEASON` : 'RECENT GAMES';
-                const resultColors = {
-                    '勝利': 'text-green-400',
-                    '敗戦': 'text-red-400',
-                    '引き分け': 'text-yellow-300',
-                    '結果なし': 'text-white',
-                };
-                const typeClasses = {
-                    '公式戦': 'bg-red-900/30 text-red-200 border-red-700/50',
-                    '練習試合': 'bg-emperor-orange/20 text-orange-200 border-emperor-orange/50',
-                };
-                // 勝敗バッジ + カード上辺ストライプ（結果なしは空表示=ニュートラル）
-                const resultBadgeMap = {
-                    '勝利':   { label: 'WIN',  classes: 'bg-green-500/15 text-green-400 border-green-500/50' },
-                    '敗戦':   { label: 'LOSS', classes: 'bg-red-500/15 text-red-400 border-red-500/50' },
-                    '引き分け': { label: 'DRAW', classes: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/50' },
-                };
-                const stripeColorMap = {
-                    '勝利':   'bg-green-500',
-                    '敗戦':   'bg-red-500',
-                    '引き分け': 'bg-yellow-500',
-                };
 
                 panel.innerHTML = `
                     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
@@ -202,26 +137,7 @@ active_nav: "news"
                         <span class="text-xs text-gray-500">${escapeHtml(seasonLabel)}</span>
                     </div>
                     <div class="grid md:grid-cols-3 gap-4">
-                        ${results.map(item => {
-                            const badge = resultBadgeMap[item.result];
-                            const stripe = stripeColorMap[item.result] || '';
-                            return `
-                            <article class="relative overflow-hidden bg-emperor-dark border border-gray-800 rounded-lg p-5 flex flex-col">
-                                ${stripe ? `<span class="absolute top-0 left-0 right-0 h-1 ${stripe}" aria-hidden="true"></span>` : ''}
-                                <div class="flex items-center justify-between gap-3 mb-4">
-                                    <p class="text-xs text-gray-500">${escapeHtml(item.team || 'チーム')}</p>
-                                    <span class="${typeClasses[item.matchType] || 'bg-gray-800 text-gray-300 border-gray-700'} border text-[11px] font-bold px-2 py-0.5 rounded-full">${escapeHtml(item.matchType || '試合')}</span>
-                                </div>
-                                <div class="flex items-center justify-between gap-3">
-                                    <p class="font-oswald text-3xl ${resultColors[item.result] || 'text-white'} font-bold leading-none">${resultText(item)}</p>
-                                    ${badge ? `<span class="font-oswald inline-flex items-center justify-center px-3 py-1 rounded text-sm font-bold border tracking-[0.15em] ${badge.classes}">${badge.label}</span>` : ''}
-                                </div>
-                                <p class="text-sm text-white font-bold mt-4 leading-snug">vs ${escapeHtml(item.opponent || '対戦相手')}</p>
-                                <p class="text-xs text-gray-500 mt-2">${escapeHtml(normalizeDate(item.date))}${item.competition ? ' / ' + escapeHtml(item.competition) : ''}</p>
-                                ${item.summary ? `<p class="text-sm text-gray-400 mt-3 leading-relaxed">${escapeHtml(item.summary)}</p>` : ''}
-                                ${renderVideoThumbnail(item)}
-                            </article>
-                        `;}).join('')}
+                        ${results.map(item => window.renderMatchCardHtml(item)).join('')}
                     </div>
                 `;
                 lucide.createIcons();
@@ -258,10 +174,34 @@ active_nav: "news"
             function renderNews() {
                 const list = document.getElementById('news-list');
                 const empty = document.getElementById('news-empty');
-                const filtered = getFilteredNews();
+                const panel = document.getElementById('match-results-panel');
+                const featured = document.getElementById('featured-news');
                 list.innerHTML = '';
 
+                // 「試合結果」フィルター時 → match_results 全件をカード表示
+                if (activeFilter === '試合結果') {
+                    panel.classList.add('hidden');
+                    featured.innerHTML = '';
+                    const visible = matchResultsData.filter(item => item.published !== false);
+                    if (visible.length === 0) {
+                        list.className = 'grid md:grid-cols-2 gap-5';
+                        empty.classList.remove('hidden');
+                        return;
+                    }
+                    empty.classList.add('hidden');
+                    list.className = 'grid md:grid-cols-2 lg:grid-cols-3 gap-4';
+                    list.innerHTML = visible.map(item => window.renderMatchCardHtml(item)).join('');
+                    lucide.createIcons();
+                    return;
+                }
+
+                // 通常のニュース表示
+                panel.classList.remove('hidden');
+                list.className = 'grid md:grid-cols-2 gap-5';
+                const filtered = getFilteredNews();
+
                 if (filtered.length === 0) {
+                    featured.innerHTML = '';
                     empty.classList.remove('hidden');
                     return;
                 }
@@ -301,6 +241,7 @@ active_nav: "news"
             (async function() {
                 const cachedResults = getCachedData('match_results');
                 if (cachedResults) {
+                    matchResultsData = cachedResults;
                     renderMatchResults(cachedResults);
                 } else {
                     try {
@@ -308,15 +249,20 @@ active_nav: "news"
                         const resultData = resultSnapshot.docs.map(doc => doc.data()).filter(item => item.published !== false);
                         if (resultData.length > 0) {
                             setCachedData('match_results', resultData);
+                            matchResultsData = resultData;
                             renderMatchResults(resultData);
                         } else {
+                            matchResultsData = FALLBACK_MATCH_RESULTS;
                             renderMatchResults(FALLBACK_MATCH_RESULTS);
                         }
                     } catch (e) {
                         console.warn('Match results fetch failed, using fallback:', e);
+                        matchResultsData = FALLBACK_MATCH_RESULTS;
                         renderMatchResults(FALLBACK_MATCH_RESULTS);
                     }
                 }
+                // ユーザーが先に '試合結果' フィルターを押していた場合に備えて再描画
+                if (activeFilter === '試合結果') renderNews();
 
                 const cached = getCachedData('news_page');
                 if (cached) {
