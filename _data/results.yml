@@ -27,9 +27,9 @@ men:
   headline_note: "男子 2025 札幌市民大会 Cクラス"
   seasons:
     - season: 2026
-      competition: ""    # ← 要記入（例: 札幌市民大会）
-      class: ""          # ← 要記入（例: Cクラス）
-      result: ""         # ← 要記入（例: ベスト8）
+      competition: "石狩春季大会"    # ← 要記入（例: 札幌市民大会）
+      class: "-"          # ← 要記入（例: Cクラス）
+      result: "優勝"         # ← 要記入（例: ベスト8）
       note: ""
     - season: 2025
       competition: "札幌市民大会"
