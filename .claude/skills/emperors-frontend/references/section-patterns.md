@@ -22,7 +22,13 @@
 ## Hero Section
 
 ```html
-<section id="home" class="hero-bg h-screen flex items-center justify-center relative">
+<section id="home" class="h-screen flex items-center justify-center relative overflow-hidden">
+    <!-- 背景スライド (5秒ごとに自動クロスフェード) -->
+    <div id="hero-slides" class="absolute inset-0" aria-hidden="true">
+        <div class="hero-slide is-active"></div><!-- 1枚目はCSSで背景指定 -->
+        <div class="hero-slide" data-bg="image/xxx.jpg"></div><!-- 2枚目以降はJSが遅延読み込み -->
+    </div>
+    <div class="hero-overlay absolute inset-0"></div><!-- 暗色グラデーション -->
     <div class="absolute inset-0 bg-gradient-to-b from-transparent to-emperor-dark"></div>
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <!-- サブタイトル、メインタイトル、説明文、CTAボタン -->
@@ -30,6 +36,8 @@
     <!-- スクロールインジケーター (absolute bottom) -->
 </section>
 ```
+
+レイヤーはDOM順で重なる (`z-index` 指定なし)。スライドを追加するときは `data-bg` 付きの `div.hero-slide` を足すだけでよく、JSの変更は不要。1枚目だけは `.hero-slide:first-child` のCSSで背景を指定して初期表示を遅らせない。切り替えロジックは index.html 末尾の `<script>` 内のIIFEにある。
 
 ## Standard Content Section
 

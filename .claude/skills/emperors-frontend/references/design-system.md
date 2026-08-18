@@ -24,11 +24,22 @@ tailwind.config = {
 ## Custom CSS Classes
 
 ```css
-.hero-bg {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(139, 0, 0, 0.4)), url('emperors-fv.png');
+/* ヒーロー背景スライド (クロスフェード) */
+.hero-slide {
+    position: absolute;
+    inset: 0;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+.hero-slide.is-active {
+    opacity: 1;
+}
+/* 写真の上に重ねる暗色グラデーション (旧 .hero-bg から分離) */
+.hero-overlay {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(139, 0, 0, 0.4));
 }
 .text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -106,8 +117,9 @@ w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white fo
 
 | ファイル名 | 用途 |
 |-----------|------|
-| emperors-fv.png | ヒーローセクション背景 |
+| emperors-fv.png | ヒーロースライド1枚目 |
 | emperors-logo.png | ナビ・フッターロゴ |
-| emperors-men's.jpg | 男子チームカード |
-| emperors女子集合写真.jpg | 女子チームカード |
-| emperors男子エンジン.jpg | Aboutセクション |
+| emperors-men's.jpg | 男子チームカード / ヒーロースライド5枚目 |
+| emperors女子集合写真.jpg | 女子チームカード / ヒーロースライド3枚目 |
+| emperors男子エンジン.jpg | Aboutセクション / ヒーロースライド2枚目 |
+| emperors男子集合写真.jpg | ヒーロースライド4枚目 |

@@ -1,0 +1,55 @@
+# Emperor's Basketball Team - シーズン戦績 Source of Truth
+# このYAMLファイルがシーズン戦績の単一ソースです。
+#   - Jekyllビルド時に index.html / men-team.html / women-team.html へ静的レンダリングされる（SEO/LLMO向け）
+#   - 同じ内容が SportsOrganization / SportsTeam JSON-LD としても出力される
+#   - Firestore は使いません。JSを実行しないAIクローラー（GPTBot / ClaudeBot / PerplexityBot 等）に
+#     確実に読ませるため、ビルド時に静的HTMLへ焼き込む方式にしています。
+#
+# seasons: 新しいシーズンを上に追加してください。
+#   competition が空の項目はページにもJSON-LDにも出力されません（記入待ちの枠として置いておけます）。
+
+# 設立・規模（TOPの統計ブロックで使用）
+founded: "2008年"
+member_count: "27名"
+member_count_note: "※2026年2月時点"
+
+# クラス体系の注記。男女でクラス区分が別体系であることを明示しないと
+# 「男子C・女子A」が同一スケールとして誤読されるため必ず出力する。
+class_note: "札幌市民大会のクラス区分は男女で別体系です。女子のAクラスは女子区分の最上位、男子のCクラスは男子区分の中位カテゴリにあたります。"
+level_note: "メンバーの8割程度が高校までの経験者です。"
+
+men:
+  label: "男子チーム"
+  page: "/men-team.html"
+  # TOPおよび各チームページの統計ブロックに出す最新の代表成績。
+  # headline は狭い画面でも折り返さないよう短く保つこと（目安6文字以内）。詳細は headline_note へ。
+  headline: "ベスト4"
+  headline_note: "男子 2025 札幌市民大会 Cクラス"
+  seasons:
+    - season: 2026
+      competition: ""    # ← 要記入（例: 札幌市民大会）
+      class: ""          # ← 要記入（例: Cクラス）
+      result: ""         # ← 要記入（例: ベスト8）
+      note: ""
+    - season: 2025
+      competition: "札幌市民大会"
+      class: "Cクラス"
+      result: "ベスト4"
+      note: ""
+
+women:
+  label: "女子チーム"
+  page: "/women-team.html"
+  headline: "Aクラス"
+  headline_note: "女子 2025 札幌市民大会 出場"
+  seasons:
+    - season: 2026
+      competition: ""    # ← 要記入
+      class: ""          # ← 要記入
+      result: ""         # ← 要記入
+      note: ""
+    - season: 2025
+      competition: "札幌市民大会"
+      class: "Aクラス"
+      result: "1回戦敗退"
+      note: ""

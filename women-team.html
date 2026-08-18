@@ -44,12 +44,12 @@ active_nav: "women-team"
                     </p>
                     <div class="grid grid-cols-2 gap-6 mt-8">
                         <div class="border-l-4 border-emperor-orange pl-4">
-                            <span class="block text-3xl font-oswald font-bold text-white">15名</span>
+                            <span class="block text-2xl md:text-3xl font-oswald font-bold text-white">15名</span>
                             <span class="text-xs text-gray-500">MEMBERS</span>
                         </div>
                         <div class="border-l-4 border-emperor-orange pl-4">
-                            <span class="block text-3xl font-oswald font-bold text-white">練習試合</span>
-                            <span class="text-xs text-gray-500">募集中</span>
+                            <span class="block text-2xl md:text-3xl font-oswald font-bold text-white">{{ site.data.results.women.headline }}</span>
+                            <span class="text-xs text-gray-500">{{ site.data.results.women.headline_note }}</span>
                         </div>
                     </div>
                 </div>
@@ -57,8 +57,50 @@ active_nav: "women-team"
         </div>
     </section>
 
+    <!-- Season Results - 年度別のシーズン戦績（_data/results.yml からビルド時に静的出力） -->
+    {%- assign women_seasons = site.data.results.women.seasons | where_exp: "s", "s.competition != ''" -%}
+    {%- if women_seasons.size > 0 -%}
+    <section id="season-results" class="py-20 bg-emperor-gray relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-0 -ml-20 -mt-20 w-96 h-96 bg-emperor-orange/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 -mr-20 -mb-20 w-96 h-96 bg-emperor-orange/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold text-white mb-4">SEASON RESULTS</h2>
+                <div class="w-24 h-1 bg-emperor-orange mx-auto mb-6"></div>
+                <p class="text-gray-400">女子チームのシーズンごとの戦績</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-4">
+                {%- for s in women_seasons %}
+                <div class="rounded-xl bg-emperor-dark border border-gray-800 p-6 hover:border-emperor-orange/50 transition-colors duration-300">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                        <div class="flex-shrink-0 sm:w-28">
+                            <span class="font-oswald text-3xl font-bold text-emperor-orange">{{ s.season }}</span>
+                            <span class="block text-xs text-gray-500">SEASON</span>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-white font-bold text-lg">{{ s.competition }}{% if s.class %} {{ s.class }}{% endif %}</p>
+                            {%- if s.note != '' %}
+                            <p class="text-gray-400 text-sm mt-1">{{ s.note }}</p>
+                            {%- endif %}
+                        </div>
+                        <div class="flex-shrink-0">
+                            <span class="inline-block bg-emperor-orange/15 border border-emperor-orange/30 text-emperor-orange font-bold text-sm px-4 py-2 rounded-md">{{ s.result }}</span>
+                        </div>
+                    </div>
+                </div>
+                {%- endfor %}
+            </div>
+
+            <p class="max-w-4xl mx-auto mt-6 text-gray-500 text-xs leading-relaxed">{{ site.data.results.class_note }}{{ site.data.results.level_note }}</p>
+        </div>
+    </section>
+    {%- endif %}
+
     <!-- Members Roster -->
-    <section class="py-20 bg-emperor-gray relative overflow-hidden">
+    <section class="py-20 bg-emperor-dark relative overflow-hidden">
         <!-- Background Elements -->
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-emperor-orange/5 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-emperor-orange/5 rounded-full blur-3xl"></div>
@@ -78,7 +120,7 @@ active_nav: "women-team"
     </section>
 
     <!-- Game Results - 女子チームの試合結果（混合含む） -->
-    <section id="match-results-section" class="hidden py-20 bg-emperor-dark">
+    <section id="match-results-section" class="hidden py-20 bg-emperor-gray">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="font-oswald text-4xl font-bold text-white mb-4">GAME RESULTS</h2>
@@ -179,4 +221,41 @@ active_nav: "women-team"
             document.getElementById('match-results-section').classList.remove('hidden');
             lucide.createIcons();
         })();
+    </script>
+
+    <!-- SportsTeam JSON-LD (SEO/LLMO) -->
+    {%- capture women_award_raw -%}
+    {%- for s in women_seasons %}{{ s.season }}年 {{ s.competition }} {{ s.class }} {{ s.result }}|{% endfor -%}
+    {%- endcapture -%}
+    {%- assign women_award_list = women_award_raw | split: "|" -%}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsTeam",
+      "@id": {{ page.url | absolute_url | append: '#team' | jsonify }},
+      "name": {{ site.title | append: " " | append: site.data.results.women.label | jsonify }},
+      "alternateName": "Emperor's 女子",
+      "sport": "バスケットボール",
+      "gender": "Female",
+      "url": {{ page.url | absolute_url | jsonify }},
+      "logo": {{ '/image/logo.png' | absolute_url | jsonify }},
+      "image": {{ page.og_image | absolute_url | jsonify }},
+      "description": {{ page.description | jsonify }},
+      "parentOrganization": {
+        "@type": "SportsOrganization",
+        "@id": {{ '/#organization' | absolute_url | jsonify }},
+        "name": {{ site.title | jsonify }},
+        "url": {{ site.url | jsonify }}
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "札幌市"
+      },
+      "award": [
+        {%- for a in women_award_list -%}
+        {{ a | strip | jsonify }}{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor %}
+      ],
+      "disambiguatingDescription": {{ site.data.results.class_note | append: " " | append: site.data.results.level_note | jsonify }}
+    }
     </script>
