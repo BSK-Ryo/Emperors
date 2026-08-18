@@ -102,10 +102,12 @@ active_nav: "home"
                     <p class="text-gray-400 leading-relaxed">
                         夫婦で参加している仲間も多く、切磋琢磨し支え合いながら日々練習しています。
                     </p>
-                    {%- assign men_latest = site.data.results.men.seasons | where_exp: "s", "s.competition != ''" | first -%}
-                    {%- assign women_latest = site.data.results.women.seasons | where_exp: "s", "s.competition != ''" | first -%}
+                    {%- assign men_all = site.data.results.men.seasons | where_exp: "s", "s.competition != ''" -%}
+                    {%- assign women_all = site.data.results.women.seasons | where_exp: "s", "s.competition != ''" -%}
+                    {%- assign men_latest = men_all | where: "season", men_all.first.season -%}
+                    {%- assign women_latest = women_all | where: "season", women_all.first.season -%}
                     <p class="text-gray-400 leading-relaxed">
-                        競技レベルは、{% if men_latest %}{{ men_latest.season }}年の男子が{{ men_latest.competition }}{{ men_latest.class }}で{{ men_latest.result }}{% endif %}{% if men_latest and women_latest %}、{% endif %}{% if women_latest %}女子が同大会{{ women_latest.class }}で{{ women_latest.result }}{% endif %}という位置づけです。{{ site.data.results.level_note }}チームとしては勝ちにいくことを目標に、試合形式中心の練習に取り組んでいます。
+                        競技レベルの目安として、男子は{{ men_all.first.season }}年シーズンに{% for s in men_latest %}{{ s.competition }}{% if s.class != '' %}{{ s.class }}{% endif %}で{{ s.result }}{% unless forloop.last %}、{% endunless %}{% endfor %}。女子は{{ women_all.first.season }}年シーズンに{% for s in women_latest %}{{ s.competition }}{% if s.class != '' %}{{ s.class }}{% endif %}で{{ s.result }}{% unless forloop.last %}、{% endunless %}{% endfor %}という戦績です。{{ site.data.results.level_note }}チームとしては勝ちにいくことを目標に、試合形式中心の練習に取り組んでいます。
                     </p>
                     <p class="text-gray-500 text-xs leading-relaxed">{{ site.data.results.class_note }}</p>
                     <div class="grid grid-cols-2 gap-6 mt-8">
@@ -320,23 +322,35 @@ active_nav: "home"
                         <div class="flex items-start">
                             <i data-lucide="trophy" class="h-5 w-5 text-emperor-orange mr-3 mt-0.5 flex-shrink-0"></i>
                             <div>
-                                {%- assign men_join = site.data.results.men.seasons | where_exp: "s", "s.competition != ''" | first -%}
-                                {%- assign women_join = site.data.results.women.seasons | where_exp: "s", "s.competition != ''" | first -%}
-                                <p class="text-white font-bold">レベル</p>
-                                <ul class="text-gray-400 text-sm space-y-1 mt-1">
-                                    {%- if men_join %}
-                                    <li class="flex items-center">
-                                        <i data-lucide="check" class="h-4 w-4 text-emperor-orange mr-2 flex-shrink-0"></i>
-                                        男子：{{ men_join.season }}年 {{ men_join.competition }}{{ men_join.class }} {{ men_join.result }}
-                                    </li>
-                                    {%- endif %}
-                                    {%- if women_join %}
-                                    <li class="flex items-center">
-                                        <i data-lucide="check" class="h-4 w-4 text-emperor-orange mr-2 flex-shrink-0"></i>
-                                        女子：{{ women_join.season }}年 {{ women_join.competition }}{{ women_join.class }} {{ women_join.result }}
-                                    </li>
-                                    {%- endif %}
-                                </ul>
+                                {%- assign men_j = site.data.results.men.seasons | where_exp: "s", "s.competition != ''" -%}
+                                {%- assign women_j = site.data.results.women.seasons | where_exp: "s", "s.competition != ''" -%}
+                                {%- assign men_join = men_j | where: "season", men_j.first.season -%}
+                                {%- assign women_join = women_j | where: "season", women_j.first.season -%}
+                                <p class="text-white font-bold">レベル（{{ men_j.first.season }}年シーズン）</p>
+                                <div class="mt-2 space-y-3">
+                                    <div>
+                                        <p class="text-white text-xs font-bold mb-1">男子</p>
+                                        <ul class="text-gray-400 text-sm space-y-1">
+                                            {%- for s in men_join %}
+                                            <li class="flex items-start">
+                                                <i data-lucide="check" class="h-4 w-4 text-emperor-orange mr-2 mt-0.5 flex-shrink-0"></i>
+                                                {{ s.competition }}{% if s.class != '' %} {{ s.class }}{% endif %} {{ s.result }}
+                                            </li>
+                                            {%- endfor %}
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="text-white text-xs font-bold mb-1">女子</p>
+                                        <ul class="text-gray-400 text-sm space-y-1">
+                                            {%- for s in women_join %}
+                                            <li class="flex items-start">
+                                                <i data-lucide="check" class="h-4 w-4 text-emperor-orange mr-2 mt-0.5 flex-shrink-0"></i>
+                                                {{ s.competition }}{% if s.class != '' %} {{ s.class }}{% endif %} {{ s.result }}
+                                            </li>
+                                            {%- endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
                                 <p class="text-gray-500 text-xs mt-1">※{{ site.data.results.level_note }}</p>
                                 <p class="text-gray-500 text-xs mt-1">※{{ site.data.results.class_note }}</p>
                             </div>
@@ -1011,8 +1025,8 @@ active_nav: "home"
     {%- assign men_seasons = results.men.seasons | where_exp: "s", "s.competition != ''" -%}
     {%- assign women_seasons = results.women.seasons | where_exp: "s", "s.competition != ''" -%}
     {%- capture award_raw -%}
-    {%- for s in men_seasons %}{{ s.season }}年 {{ s.competition }} {{ s.class }} {{ s.result }}（男子）|{% endfor -%}
-    {%- for s in women_seasons %}{{ s.season }}年 {{ s.competition }} {{ s.class }} {{ s.result }}（女子）|{% endfor -%}
+    {%- for s in men_seasons %}{{ s.season }}年 {{ s.competition }}{% if s.class != '' %} {{ s.class }}{% endif %} {{ s.result }}（男子）|{% endfor -%}
+    {%- for s in women_seasons %}{{ s.season }}年 {{ s.competition }}{% if s.class != '' %} {{ s.class }}{% endif %} {{ s.result }}（女子）|{% endfor -%}
     {%- endcapture -%}
     {%- assign award_list = award_raw | split: "|" -%}
     <script type="application/ld+json">

@@ -5,17 +5,21 @@
 #   - Firestore は使いません。JSを実行しないAIクローラー（GPTBot / ClaudeBot / PerplexityBot 等）に
 #     確実に読ませるため、ビルド時に静的HTMLへ焼き込む方式にしています。
 #
-# seasons: 新しいシーズンを上に追加してください。
-#   competition が空の項目はページにもJSON-LDにも出力されません（記入待ちの枠として置いておけます）。
+# seasons: 1シーズンに複数大会を並べられます。新しいものを上に追加してください。
+#   ページ上は season ごとに自動でグルーピングされます（同じ年をまとめて表示）。
+#   competition: 大会名。空の項目はページにもJSON-LDにも出力されません（記入待ちの枠として使えます）
+#   class:       クラス区分。クラス分けのない大会は空文字にしてください
+#   result:      成績
+#   note:        補足（大会形式、暫定結果である旨など）
 
 # 設立・規模（TOPの統計ブロックで使用）
 founded: "2008年"
 member_count: "27名"
 member_count_note: "※2026年2月時点"
 
-# クラス体系の注記。男女でクラス区分が別体系であることを明示しないと
-# 「男子C・女子A」が同一スケールとして誤読されるため必ず出力する。
-class_note: "札幌市民大会のクラス区分は男女で別体系です。女子のAクラスは女子区分の最上位、男子のCクラスは男子区分の中位カテゴリにあたります。"
+# クラス体系の注記。男女でクラス区分が別体系であること、およびクラス分けのない大会があることを
+# 明示しないと「男子C・女子A」が同一スケールとして誤読されるため必ず出力する。
+class_note: "札幌市民大会のクラス区分は男女で別体系です。女子のAクラスは女子区分の最上位、男子のCクラスは男子区分の中位カテゴリにあたります。石狩春季大会・千歳春季大会はクラス分けがなく、A・B・Cクラスのチームが混合で対戦します。"
 level_note: "メンバーの8割程度が高校までの経験者です。"
 
 men:
@@ -23,14 +27,24 @@ men:
   page: "/men-team.html"
   # TOPおよび各チームページの統計ブロックに出す最新の代表成績。
   # headline は狭い画面でも折り返さないよう短く保つこと（目安6文字以内）。詳細は headline_note へ。
-  headline: "ベスト4"
-  headline_note: "男子 2025 札幌市民大会 Cクラス"
+  headline: "優勝"
+  headline_note: "男子 2026 石狩春季大会"
   seasons:
     - season: 2026
-      competition: "石狩春季大会"    # ← 要記入（例: 札幌市民大会）
-      class: "-"          # ← 要記入（例: Cクラス）
-      result: "優勝"         # ← 要記入（例: ベスト8）
-      note: ""
+      competition: "石狩春季大会"
+      class: ""
+      result: "優勝"
+      note: "クラス分けはなく、A・B・Cクラスのチームが混合で行う大会"
+    - season: 2026
+      competition: "千歳春季大会"
+      class: ""
+      result: "2回戦敗退"
+      note: "クラス分けはなく、A・B・Cクラスのチームが混合で行う大会"
+    - season: 2026
+      competition: "札幌市民大会"
+      class: "Cクラス"
+      result: "ベスト4以上確定"
+      note: "2026年8月18日時点。準決勝はこれから"
     - season: 2025
       competition: "札幌市民大会"
       class: "Cクラス"
@@ -40,13 +54,18 @@ men:
 women:
   label: "女子チーム"
   page: "/women-team.html"
-  headline: "Aクラス"
-  headline_note: "女子 2025 札幌市民大会 出場"
+  headline: "準優勝"
+  headline_note: "女子 2026 石狩春季大会"
   seasons:
     - season: 2026
-      competition: ""    # ← 要記入
-      class: ""          # ← 要記入
-      result: ""         # ← 要記入
+      competition: "石狩春季大会"
+      class: ""
+      result: "準優勝"
+      note: ""
+    - season: 2026
+      competition: "札幌市民大会"
+      class: ""          # ← 要確認（2025年は Aクラス。2026年の出場クラスが分かれば記入）
+      result: "2回戦敗退"
       note: ""
     - season: 2025
       competition: "札幌市民大会"

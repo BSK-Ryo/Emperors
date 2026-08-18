@@ -72,23 +72,30 @@ active_nav: "women-team"
                 <p class="text-gray-400">女子チームのシーズンごとの戦績</p>
             </div>
 
-            <div class="max-w-4xl mx-auto space-y-4">
-                {%- for s in women_seasons %}
-                <div class="rounded-xl bg-emperor-dark border border-gray-800 p-6 hover:border-emperor-orange/50 transition-colors duration-300">
-                    <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-                        <div class="flex-shrink-0 sm:w-28">
-                            <span class="font-oswald text-3xl font-bold text-emperor-orange">{{ s.season }}</span>
-                            <span class="block text-xs text-gray-500">SEASON</span>
+            {%- assign women_groups = women_seasons | group_by: "season" | sort: "name" | reverse -%}
+            <div class="max-w-4xl mx-auto space-y-10">
+                {%- for g in women_groups %}
+                <div>
+                    <div class="flex items-baseline gap-3 mb-4 border-b border-gray-800 pb-3">
+                        <span class="font-oswald text-3xl font-bold text-emperor-orange">{{ g.name }}</span>
+                        <span class="font-oswald text-xs text-gray-500 tracking-widest">SEASON</span>
+                    </div>
+                    <div class="space-y-3">
+                        {%- for s in g.items %}
+                        <div class="rounded-xl bg-emperor-dark border border-gray-800 p-5 hover:border-emperor-orange/50 transition-colors duration-300">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-white font-bold text-lg">{{ s.competition }}{% if s.class != '' %} {{ s.class }}{% endif %}</p>
+                                    {%- if s.note != '' %}
+                                    <p class="text-gray-500 text-sm mt-1">{{ s.note }}</p>
+                                    {%- endif %}
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <span class="inline-block bg-emperor-orange/15 border border-emperor-orange/30 text-emperor-orange font-bold text-sm px-4 py-2 rounded-md">{{ s.result }}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="min-w-0 flex-1">
-                            <p class="text-white font-bold text-lg">{{ s.competition }}{% if s.class %} {{ s.class }}{% endif %}</p>
-                            {%- if s.note != '' %}
-                            <p class="text-gray-400 text-sm mt-1">{{ s.note }}</p>
-                            {%- endif %}
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="inline-block bg-emperor-orange/15 border border-emperor-orange/30 text-emperor-orange font-bold text-sm px-4 py-2 rounded-md">{{ s.result }}</span>
-                        </div>
+                        {%- endfor %}
                     </div>
                 </div>
                 {%- endfor %}
@@ -225,7 +232,7 @@ active_nav: "women-team"
 
     <!-- SportsTeam JSON-LD (SEO/LLMO) -->
     {%- capture women_award_raw -%}
-    {%- for s in women_seasons %}{{ s.season }}年 {{ s.competition }} {{ s.class }} {{ s.result }}|{% endfor -%}
+    {%- for s in women_seasons %}{{ s.season }}年 {{ s.competition }}{% if s.class != '' %} {{ s.class }}{% endif %} {{ s.result }}|{% endfor -%}
     {%- endcapture -%}
     {%- assign women_award_list = women_award_raw | split: "|" -%}
     <script type="application/ld+json">
