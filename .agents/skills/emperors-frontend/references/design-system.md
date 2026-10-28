@@ -117,8 +117,10 @@ w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white fo
 
 | ファイル名 | 用途 |
 |-----------|------|
-| 759675_0.jpg | ヒーロースライド1枚目 / TOP About・男子チームカード / 男子ページFV・About |
-| 759676_0.jpg | ヒーロースライド2枚目 / TOP About・女子チームカード / 女子ページFV・About |
+| 759675_0.jpg | ヒーロースライド1枚目 / TOP 男子チームカード / 男子ページFV・About |
+| LINE_ALBUM_2026 千歳_261029_2.jpg | TOP Aboutセクション（男子） ※srcではスペースを%20で記述 |
+| 759676_0.jpg | ヒーロースライド2枚目 / TOP 女子チームカード / 女子ページFV・About |
+| LINE_ALBUM_2026石狩_261029_1.jpg | TOP Aboutセクション（女子） |
 | emperors-fv.png | OGP画像 / Newsページヒーロー |
 | emperors-logo.png | ナビ・フッターロゴ |
 | emperors-men's.jpg | 男子ページOGP / ギャラリー |
