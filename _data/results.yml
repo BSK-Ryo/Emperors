@@ -31,6 +31,16 @@ men:
   headline_note: "男子 2026 石狩春季大会"
   seasons:
     - season: 2026
+      competition: "石狩秋季大会"
+      class: "Aクラス"
+      result: "優勝"
+      note: ""
+    - season: 2026
+      competition: "千歳秋季大会"
+      class: "Bクラス"
+      result: "優勝"
+      note: ""
+    - season: 2026
       competition: "石狩春季大会"
       class: ""
       result: "優勝"
@@ -57,6 +67,11 @@ women:
   headline: "準優勝"
   headline_note: "女子 2026 石狩春季大会"
   seasons:
+    - season: 2026
+      competition: "石狩秋季大会"
+      class: ""
+      result: "準優勝"
+      note: ""
     - season: 2026
       competition: "石狩春季大会"
       class: ""
