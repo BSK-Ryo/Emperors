@@ -117,11 +117,11 @@ w-full bg-emperor-gray border border-gray-700 rounded-lg px-4 py-3 text-white fo
 
 | ファイル名 | 用途 |
 |-----------|------|
-| 759675_0.jpg | ヒーロースライド1枚目 / 男子ページFV・About |
-| 759676_0.jpg | ヒーロースライド2枚目 / 女子ページFV・About |
+| 759675_0.jpg | ヒーロースライド1枚目 / TOP Aboutセクション / 男子ページFV・About |
+| 759676_0.jpg | ヒーロースライド2枚目 / TOP Aboutセクション / 女子ページFV・About |
 | emperors-fv.png | OGP画像 / Newsページヒーロー |
 | emperors-logo.png | ナビ・フッターロゴ |
 | emperors-men's.jpg | 男子チームカード |
 | emperors女子集合写真.jpg | 女子チームカード / ヒーロースライド4枚目 |
-| emperors男子エンジン.jpg | Aboutセクション / ヒーロースライド3枚目 |
+| emperors男子エンジン.jpg | ヒーロースライド3枚目 |
 | emperors男子集合写真.jpg | ギャラリー |

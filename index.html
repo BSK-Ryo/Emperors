@@ -90,8 +90,18 @@ active_nav: "home"
             </div>
 
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="rounded-lg overflow-hidden shadow-2xl border border-gray-800">
-                    <img src="image/emperors男子エンジン.jpg" alt="Basketball Hoop" class="w-full h-full object-cover">
+                <!-- 男子・女子の集合写真を互い違いに配置 -->
+                <div class="space-y-4">
+                    <a href="{{ site.data.results.men.page | relative_url }}" class="group relative block w-[92%] aspect-[16/10] rounded-lg overflow-hidden shadow-2xl border border-gray-800">
+                        <img src="image/759675_0.jpg" alt="Emperor's 男子チームの集合写真" loading="lazy"
+                            class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        <span class="absolute bottom-3 left-3 font-oswald text-xs font-bold tracking-widest text-white bg-emperor-orange px-3 py-1 rounded">MEN'S TEAM</span>
+                    </a>
+                    <a href="{{ site.data.results.women.page | relative_url }}" class="group relative block w-[92%] ml-auto aspect-[16/10] rounded-lg overflow-hidden shadow-2xl border border-gray-800">
+                        <img src="image/759676_0.jpg" alt="Emperor's 女子チームの集合写真" loading="lazy"
+                            class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        <span class="absolute bottom-3 right-3 font-oswald text-xs font-bold tracking-widest text-white bg-emperor-orange px-3 py-1 rounded">WOMEN'S TEAM</span>
+                    </a>
                 </div>
                 <div class="space-y-6">
                     <h3 class="text-2xl font-bold text-white">札幌市東区・北区を中心に活動中</h3>
